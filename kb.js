@@ -66,9 +66,34 @@ export const EVENING = [
     l: [['both', '¿Qué funcionó hoy? ¿Qué ajustamos mañana?', 'What worked today? What do we adjust tomorrow?']] },
 ];
 
+// Tarde: quien NO llevó a los niños por la mañana (pickup = stay) los recoge a las 4:30.
+// 20 min de camino + 30–40 min de juego y snack a la salida del colegio.
+export const AFTERNOON = [
+  { id: 'a1610', t: '16:10', ti: L('Sale a recoger', 'Time to leave for pick-up'),
+    l: [['pickup', 'Sale de casa hacia el colegio (20 min). Lleva agua y el snack.', 'Leaves for school (20 min). Brings water and the snack.'], ['dinner', 'Sigue con lo suyo. La cena empieza a las 6:00.', 'Carries on with their own things. Dinner starts at 6:00.']] },
+  { id: 'a1630', t: '16:30', anchor: true, ti: L('Recogida en el colegio', 'School pick-up'),
+    l: [['pickup', 'Recoge a Sophia e Isaac. Saludo tranquilo, sin preguntas de examen.', 'Picks up Sophia and Isaac. A calm hello, no quiz questions.'], ['kids', 'Juegan y comen su snack unos 30–40 minutos.', 'Play and eat their snack for about 30–40 minutes.']],
+    say: L('Qué gusto verte. Tenemos un rato para jugar antes de ir a casa.', 'So good to see you. We have a little while to play before we go home.') },
+  { id: 'a1710', t: '17:10', ti: L('Rumbo a casa', 'Heading home'),
+    l: [['pickup', 'Aviso de cinco minutos antes; luego, al coche. Camino de 20 minutos.', 'A five-minute heads-up first, then to the car. A 20-minute ride.']],
+    say: L('Cinco minutos más y el parque se despide hasta mañana.', 'Five more minutes and the park says goodbye until tomorrow.'),
+    stuck: L('Si no quieren irse, no negocies: describe lo que pasa. «El coche nos está esperando.» Ofrece dos opciones: «¿Vamos saltando o de puntillas?»', "If they don't want to leave, don't negotiate: describe what's happening. “The car is waiting for us.” Offer two choices: “Shall we hop or tiptoe?”") },
+  { id: 'a1730', t: '17:30', anchor: true, ti: L('Llegamos a casa', 'Home again'),
+    l: [['kids', 'Mochilas en su sitio, loncheras al fregadero, manos lavadas.', 'Backpacks in their place, lunchboxes to the sink, hands washed.'], ['pickup', 'Juego tranquilo y conexión hasta las 6:00.', 'Quiet play and connection until 6:00.'], ['dinner', 'Termina lo suyo; a las 6:00 empieza la cena.', 'Wraps up; dinner starts at 6:00.']] },
+];
+
+// Lunes y miércoles: recogida con merienda fuerte y directo a la actividad.
+export const AFTERNOON_MW = [
+  { id: 'p1610', t: '16:10', ti: L('Sale a recoger', 'Time to leave for pick-up'),
+    l: [['pickup', 'Sale hacia el colegio (20 min) con la merienda fuerte y la ropa de la actividad.', 'Leaves for school (20 min) with the proper snack and the activity clothes.']] },
+  { id: 'p1630', t: '16:30', anchor: true, ti: L('Recogida · merienda fuerte', 'Pick-up · proper snack'),
+    l: [['pickup', 'Recoge a los niños y les da una merienda fuerte antes de la actividad.', 'Picks up the kids and gives them a real snack before the activity.'], ['kids', 'Comen y juegan un rato.', 'Eat and play for a while.']],
+    say: L('Qué gusto verte. Primero comemos, luego nos vamos.', 'So good to see you. First we eat, then we go.') },
+  { id: 'p1710', t: '17:10', ti: L('Rumbo a la actividad', 'Off to the activity'),
+    l: [['pickup', 'Aviso de cinco minutos y en marcha. Todo va en la mochila desde la mañana.', 'Five-minute heads-up and off we go. Everything has been in the bag since morning.']] },
+];
+
 export const EVENING_MW = [
-  { id: 'w1630', t: '16:30', ti: L('Merienda fuerte', 'A proper snack'),
-    l: [['all', 'Quien los recoja les da una merienda fuerte antes de la actividad.', 'Whoever picks them up gives a real snack before the activity.']] },
   { id: 'w1830', t: '18:30', ti: L('Isaac: baño y pijama', 'Isaac: bath and pajamas'),
     l: [['bath', 'Lunes: Isaac llega de judo y va directo al baño. Miércoles: baño a la misma hora.', 'Monday: Isaac comes home from judo, straight to the bath. Wednesday: bath at the same time.'], ['dinner', 'Calienta la cena que se dejó preparada.', 'Warms up the dinner prepared in advance.']] },
   { id: 'w1900', t: '19:00', ti: L('Llega Sophia del ballet', 'Sophia home from ballet'), l: [] },

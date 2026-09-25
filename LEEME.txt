@@ -1,20 +1,31 @@
-ARCHIVOS MODIFICADOS (últimas actualizaciones)
+ACTUALIZACIÓN v6 — The Gentle Stoic Parent
 
-Cambios incluidos:
-- Tutoriales
-- Iniciar sesión con correo o con Google
-- Enlazar Google y Google Calendar desde Cuenta
+Qué trae:
+- Face ID real (llave de acceso del dispositivo). Se activa desde Cuenta o desde la tarjeta en «Hoy».
+- Acceso de desarrollo oculto: en la pantalla de entrada, toca 5 veces seguidas el texto «GENTLE STOIC PARENTING». Entra con Juan o Christine de prueba (datos solo en ese dispositivo). Para salir: Cuenta → Cerrar sesión.
+- Icono nuevo (favicon, iPhone/iPad y app instalable).
+- Menú nuevo: barra lateral en iPad horizontal y ordenador; barra inferior con botón «Preguntar» en el centro en teléfono y iPad vertical.
+- «¿Qué sigue?» muestra la siguiente actividad según la hora de la familia (por defecto España). La zona horaria se cambia en Cuenta (solo quien creó la familia).
+- Tarde nueva: quien no llevó a los niños sale 4:10, recoge 4:30, juego y snack, rumbo a casa 5:10, en casa 5:30 (lunes y miércoles: recogida con merienda fuerte y a la actividad). También en recordatorios y en Google Calendar.
+- «Preguntar» responde la pregunta exacta y da una estrategia paso a paso según la filosofía.
+- Equipo: cada nota se convierte en fichas de la Biblioteca (acuerdos, rutinas, situaciones, frases) — «Repositorio de ideas».
 
-1) GitHub (raíz del repositorio): reemplaza estos 2 archivos
+1) GitHub (raíz del repositorio): sube o reemplaza
    - index.html
-   - google.js
+   - kb.js
+   - manifest.webmanifest   (nuevo)
+   - la carpeta icons/      (nueva, con todos sus archivos)
+   (google.js y config.js no cambian)
 
-2) Apps Script: reemplaza el código
-   - apps-script/Code.gs
-   Luego ve a Implementar → Gestionar implementaciones → ✏️ → Versión: Nueva → Implementar.
-   Abre la URL /exec: debe decir "version":4
+2) Apps Script: reemplaza el código con apps-script/Code.gs
+   Implementar → Gestionar implementaciones → ✏️ → Versión: Nueva → Implementar.
+   Abre la URL /exec: debe decir "version":5
+   La hoja crea sola la pestaña «Ideas» y las columnas nuevas (zona, idea).
 
-3) Google Cloud → Credenciales → tu Client ID (solo si aún no lo hiciste)
-   En "URIs de redireccionamiento autorizados", agrega estas dos direcciones:
-   https://thegentlestoicparent.com/
-   https://www.thegentlestoicparent.com/
+3) IMPORTANTE para que «Preguntar» y el repositorio de ideas funcionen con IA:
+   Apps Script → ⚙️ Configuración del proyecto → Propiedades del script → Agregar:
+     ANTHROPIC_KEY = tu clave de API de Anthropic (console.anthropic.com)
+   Sin la clave, la app responde igualmente con la biblioteca (sin IA).
+
+4) Face ID: funciona en thegentlestoicparent.com con Safari (iPhone/iPad). La llave queda en cada dispositivo;
+   si entras por www.thegentlestoicparent.com y por thegentlestoicparent.com, actívalo en la dirección que uses.

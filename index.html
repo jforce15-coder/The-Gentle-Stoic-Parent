@@ -10,9 +10,15 @@
 <helmet>
   <script src="config.js"></script>
   <title>The Gentle Stoic Parent</title>
-  <link rel="icon" href="logos/svg/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="logos/png/apple-touch-icon-180.png">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#F8F3EA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Gentle Stoic">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;0,7..72,700;1,7..72,400;1,7..72,500&amp;family=Figtree:wght@400;500;600&amp;family=Gochi+Hand&amp;family=Roboto:wght@500&amp;display=swap">
@@ -42,17 +48,17 @@
 
   <sc-if value="{{ notAuthed }}" hint-placeholder-val="{{ true }}">
     <div data-screen-label="Acceso" style="min-height: 100vh; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr));">
-      <div style="position: relative; overflow: hidden; background: rgba(247,230,211,0.42); padding: 48px 40px; display: flex; flex-direction: column; justify-content: center; gap: 28px; min-height: 340px;">
+      <div style="position: relative; overflow: hidden; background: rgba(247,230,211,0.42); padding: clamp(28px, 6vw, 48px) clamp(20px, 5vw, 40px); display: flex; flex-direction: column; justify-content: center; gap: 28px; min-height: 340px;">
         <img src="img/blob-peach.png" alt="" style="position: absolute; top: -120px; right: -160px; width: 520px; opacity: 0.8; pointer-events: none;">
         <div style="position: relative; display: flex; flex-direction: column; gap: 6px; max-width: 520px; animation: gspRise 480ms cubic-bezier(0.23, 1, 0.32, 1) both;">
-                    <span style="font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: #A45F22;">Gentle Stoic Parenting</span>
+                    <span style="font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase; color: #A45F22; cursor: default; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;" onClick="{{ au.devTap }}">Gentle Stoic Parenting</span>
           <h1 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: clamp(40px, 5.4vw, 64px); line-height: 1.02; letter-spacing: -0.02em;">The Gentle Stoic <em style="font-weight: 400; color: #557552;">Parent</em></h1>
           <p style="margin: 10px 0 0; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; line-height: 1.5; color: #4A4A45; max-width: 440px;">{{ at.tag }}</p>
         </div>
-        <img src="img/hero.png" alt="" style="position: relative; width: 100%; max-width: 560px; border-radius: 28px; box-shadow: 0 18px 40px rgba(120,80,40,0.12); animation: gspRise 620ms 80ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+        <img src="img/hero.png" alt="" style="display: {{ heroImg }}; position: relative; width: 100%; max-width: 560px; border-radius: 28px; box-shadow: 0 18px 40px rgba(120,80,40,0.12); animation: gspRise 620ms 80ms cubic-bezier(0.23, 1, 0.32, 1) both;">
       </div>
 
-      <div style="display: flex; align-items: center; justify-content: center; padding: 40px 24px 56px;">
+      <div style="display: flex; align-items: center; justify-content: center; padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 24px) 56px;">
         <div style="width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 22px;">
           <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;">
             <sc-if value="{{ au.hasBack }}" hint-placeholder-val="{{ false }}">
@@ -97,6 +103,12 @@
 
               <sc-if value="{{ au.wSignin }}" hint-placeholder-val="{{ true }}">
                 <div style="display: flex; flex-direction: column; gap: 16px; animation: gspFade 240ms ease both;">
+                  <sc-if value="{{ au.hasFace }}" hint-placeholder-val="{{ false }}">
+                    <button type="button" onClick="{{ au.faceId }}" style="min-height: 58px; width: 100%; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; display: flex; align-items: center; gap: 14px; padding: 0 18px; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; color: #2A2F2B; box-shadow: 0 6px 18px rgba(90,60,30,0.08); transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.98);">
+                      <span style="width: 38px; height: 38px; flex: none; border-radius: 50%; background: {{ au.faceBg }}; color: {{ au.faceFg }}; display: grid; place-items: center;"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2 M9 9v1 M15 9v1 M12 9v4h-1 M9.5 15.5c1.4 1 3.6 1 5 0"></path></svg></span>
+                      <span style="flex: 1;">{{ au.faceLbl }}</span><span style="color: #8C877C;">→</span>
+                    </button>
+                  </sc-if>
                   <form onSubmit="{{ au.submitLogin }}" style="display: flex; flex-direction: column; gap: 10px;">
                     <input type="email" value="{{ au.loginEmail }}" onChange="{{ au.onLoginEmail }}" placeholder="{{ at.emailLbl }}" autocomplete="username" style="min-height: 52px; border: 1px solid #E6DFD2; border-radius: 14px; background: #FFFDF8; padding: 0 16px; font-family: 'Figtree', sans-serif; font-size: 16px; color: #2A2F2B; width: 100%;">
                     <input type="password" value="{{ au.loginPass }}" onChange="{{ au.onLoginPass }}" placeholder="{{ at.password }}" autocomplete="current-password" style="min-height: 52px; border: 1px solid #E6DFD2; border-radius: 14px; background: #FFFDF8; padding: 0 16px; font-family: 'Figtree', sans-serif; font-size: 16px; color: #2A2F2B; width: 100%;">
@@ -113,9 +125,7 @@
                   <sc-if value="{{ au.hasErr }}" hint-placeholder-val="{{ false }}">
                     <span style="font-size: 14px; line-height: 1.5; color: #A6402A; animation: gspFade 200ms ease both;">{{ au.err }}</span>
                   </sc-if>
-                  <span style="display: flex; justify-content: center; align-items: center; gap: 8px; font-size: 12.5px; color: #8C877C;">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"></path><path d="M9 9v1M15 9v1M12 9v4h-1M9.5 15.5c1.4 1 3.6 1 5 0"></path></svg>{{ at.faceSoonLine }}
-                  </span>
+                  
                 </div>
               </sc-if>
 
@@ -275,10 +285,10 @@
                   </button>
                 </sc-for>
               </div>
-              <button type="button" onClick="{{ au.toggleFace }}" disabled="{{ true }}" aria-disabled="true" style="opacity: 0.6; cursor: not-allowed; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; color: #2A2F2B;">
+              <button type="button" onClick="{{ au.toggleFace }}" style="opacity: {{ au.faceRowOp }}; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; color: #2A2F2B;">
                 <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
                   <span style="font-size: 15px; font-weight: 600;">{{ at.useFace }}</span>
-                  <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #5E5D57;">{{ at.faceSoonSub }}<span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; background: #EFE8DB; color: #6B6A63;">{{ at.soon }}</span></span>
+                  <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #5E5D57;">{{ au.faceSub }}</span>
                 </span>
                 <span style="width: 48px; height: 28px; flex: none; border-radius: 999px; padding: 3px; background: {{ au.faceTrk }}; display: flex; transition: background 200ms ease;">
                   <span style="width: 22px; height: 22px; border-radius: 50%; background: #FFFDF8; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transform: translateX({{ au.faceX }}); transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1);"></span>
@@ -448,12 +458,36 @@
         <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 26px; color: #2A2F2B;">{{ au.scanText }}</span>
       </div>
     </sc-if>
+
+    <sc-if value="{{ au.devOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ au.devClose }}" style="position: fixed; inset: 0; z-index: 720; background: rgba(42,47,43,0.32); display: flex; align-items: flex-end; justify-content: center; animation: gspFade 200ms ease both;">
+        <div onClick="{{ stop }}" role="dialog" aria-label="{{ at.devTitle }}" style="width: 100%; max-width: 480px; background: #FBF8F2; border-radius: 28px 28px 0 0; padding: 26px 22px calc(26px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 14px; animation: gspSheet 320ms cubic-bezier(0.32, 0.72, 0, 1) both;">
+          <div style="display: flex; align-items: flex-start; gap: 12px;">
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+              <span style="align-self: flex-start; font-size: 10.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: #2A2F2B; color: #FAF6EE;">{{ at.devKicker }}</span>
+              <h2 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: 26px; line-height: 1.2;">{{ at.devTitle }}</h2>
+              <p style="margin: 0; font-size: 14px; line-height: 1.55; color: #5E5D57;">{{ at.devSub }}</p>
+            </div>
+            <button type="button" onClick="{{ au.devClose }}" aria-label="Cerrar" style="width: 44px; height: 44px; flex: none; border-radius: 50%; border: 1px solid #E6DFD2; background: transparent; cursor: pointer; font-size: 18px; color: #2A2F2B;">×</button>
+          </div>
+          <sc-for list="{{ au.devUsers }}" as="u" hint-placeholder-count="2">
+            <button type="button" onClick="{{ u.go }}" style="display: flex; align-items: center; gap: 14px; min-height: 66px; padding: 10px 16px; border: 1px solid #E6DFD2; border-radius: 18px; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; color: #2A2F2B; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.98);">
+              <span style="width: 42px; height: 42px; flex: none; border-radius: 50%; background: {{ u.color }}; color: #FFFDF8; display: grid; place-items: center; font-family: 'Literata', Georgia, serif; font-size: 18px; font-weight: 700;">{{ u.initial }}</span>
+              <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 16px; font-weight: 600;">{{ u.name }}</span><span style="font-size: 13px; color: #5E5D57;">{{ u.role }}</span></span>
+              <span style="font-size: 13px; font-weight: 600; color: #A45F22;">{{ at.devEnter }} →</span>
+            </button>
+          </sc-for>
+          <p style="margin: 0; font-size: 12.5px; line-height: 1.5; color: #6B6A63;">{{ at.devNote }}</p>
+        </div>
+      </div>
+    </sc-if>
   </sc-if>
 
   <sc-if value="{{ authed }}" hint-placeholder-val="{{ false }}">
     
     
 
+    <div style="padding-left: {{ shellPad }};">
     <sc-if value="{{ showReviewBar }}" hint-placeholder-val="{{ false }}">
       <div data-screen-label="Simular" style="position: relative; z-index: 2; background: #F1EDE4; border-bottom: 1px solid #E6DFD2;">
         <div style="max-width: 1120px; margin: 0 auto; padding: 6px 24px; display: flex; align-items: center; gap: 8px; overflow-x: auto;">
@@ -472,52 +506,79 @@
       </div>
     </sc-if>
 
-    <header style="position: sticky; top: 0; z-index: 40; background: rgba(247,241,230,0.86); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(42,47,43,0.08);">
-      <div style="max-width: 1120px; margin: 0 auto; padding: 12px 24px; display: flex; align-items: center; gap: 24px;">
-        <button type="button" onClick="{{ goHome }}" style="flex: none; white-space: nowrap; display: flex; flex-direction: column; align-items: flex-start; background: none; border: none; padding: 0; cursor: pointer; color: #2A2F2B; min-height: 44px; justify-content: center;">
-          <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 14px; line-height: 1; color: #A45F22;">Gentle Stoic Parenting</span>
-          <span style="font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 20px; line-height: 1.15; letter-spacing: -0.01em;">{{ brandA }} <em style="font-weight: 400; font-style: italic; color: #557552;">Parent</em></span>
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <aside data-screen-label="Menú" aria-label="{{ t.menuLbl }}" style="position: fixed; top: 0; left: 0; bottom: 0; z-index: 40; width: 248px; padding: 22px 14px 16px; display: flex; flex-direction: column; gap: 18px; background: rgba(250,246,238,0.82); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); border-right: 1px solid rgba(42,47,43,0.08); overflow-y: auto;">
+        <button type="button" onClick="{{ goHome }}" style="display: flex; align-items: center; gap: 12px; padding: 4px 6px; background: none; border: none; cursor: pointer; text-align: left; color: #2A2F2B;">
+          <img src="icons/favicon.svg" alt="" style="width: 40px; height: 40px; flex: none; border-radius: 11px;">
+          <span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+            <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 12.5px; line-height: 1; color: #A45F22;">Gentle Stoic Parenting</span>
+            <span style="font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 17px; line-height: 1.15; letter-spacing: -0.01em;">The Gentle Stoic <em style="font-weight: 400; color: #557552;">Parent</em></span>
+          </span>
         </button>
-        <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
-          <nav style="display: flex; gap: 2px;">
-            <sc-for list="{{ deskNav }}" as="n" hint-placeholder-count="5">
-              <button type="button" onClick="{{ n.go }}" style="display: inline-flex; align-items: center; gap: 8px; background: {{ n.bg }}; border: none; cursor: pointer; padding: 9px 14px 9px 12px; border-radius: 999px; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 500; color: {{ n.fg }}; transition: background 200ms ease, color 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.96);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ n.d }}"></path></svg>{{ n.label }}</button>
-            </sc-for>
-          </nav>
-        </sc-if>
-        <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
-          <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
-            <button type="button" onClick="{{ goReminders }}" aria-label="{{ t.nav.reminders }}" style="position: relative; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #E6DFD2; background: #FFFDF8; display: grid; place-items: center; cursor: pointer; color: #2A2F2B;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none;"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
-              <sc-if value="{{ gConnected }}" hint-placeholder-val="{{ false }}">
-                <span style="position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: #557552; border: 2px solid #FFFDF8;"></span>
-              </sc-if>
+        <button type="button" onClick="{{ goAsk }}" style="display: flex; align-items: center; gap: 12px; min-height: 58px; padding: 0 16px; border-radius: 18px; border: none; background: {{ askBtnBg }}; color: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; box-shadow: 0 8px 20px rgba(164,95,34,0.22); transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background 200ms ease;" style-active="transform: scale(0.97);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3 M12 17h.01"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 15px; font-weight: 600;">{{ t.nav.ask }}</span><span style="font-size: 12.5px; opacity: 0.9;">{{ t.askHint }}</span></span>
+        </button>
+        <nav style="display: flex; flex-direction: column; gap: 2px;">
+          <sc-for list="{{ sideNav }}" as="n" hint-placeholder-count="5">
+            <button type="button" onClick="{{ n.go }}" aria-current="{{ n.cur }}" style="display: flex; align-items: center; gap: 12px; min-height: 48px; padding: 0 10px; border-radius: 14px; border: none; background: {{ n.bg }}; box-shadow: {{ n.sh }}; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: {{ n.weight }}; color: {{ n.fg }}; transition: background 200ms ease, color 200ms ease, box-shadow 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.97);">
+              <span style="width: 32px; height: 32px; flex: none; border-radius: 10px; background: {{ n.icBg }}; color: {{ n.icFg }}; display: grid; place-items: center; transition: background 200ms ease, color 200ms ease;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ n.d }}"></path></svg></span>
+              <span style="flex: 1;">{{ n.label }}</span>
+              <sc-if value="{{ n.hasDot }}" hint-placeholder-val="{{ false }}"><span style="width: 7px; height: 7px; border-radius: 50%; background: #557552;"></span></sc-if>
             </button>
-          </sc-if>
-          <div title="{{ t.viewAs }}" style="display: inline-flex; align-items: center; gap: 2px; padding: 3px; background: #F1EDE4; border-radius: 999px;">
-            <sc-for list="{{ personSeg }}" as="o" hint-placeholder-count="2">
-              <button type="button" onClick="{{ o.go }}" aria-label="{{ o.aria }}" style="border: none; cursor: pointer; border-radius: 999px; padding: 8px 12px; min-width: 38px; min-height: 38px; font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; background: {{ o.bg }}; color: {{ o.fg }}; transition: background 220ms ease, color 220ms ease;">{{ o.label }}</button>
-            </sc-for>
+          </sc-for>
+        </nav>
+        <sc-if value="{{ nx.has }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ goAhora }}" style="text-align: left; border: none; cursor: pointer; background: {{ nx.panel }}; border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.98);">
+            <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px;"><span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 16px; color: {{ nx.tone }};">{{ t.whatNow }}</span><span style="font-size: 11.5px; font-weight: 600; color: {{ nx.tone }}; white-space: nowrap;">{{ nx.inLbl }}</span></span>
+            <span style="font-family: 'Literata', Georgia, serif; font-size: 16px; line-height: 1.3;">{{ nx.line }}</span>
+          </button>
+        </sc-if>
+        <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px; padding-top: 14px; border-top: 1px solid rgba(42,47,43,0.08);">
+          <sc-if value="{{ isDev }}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 10.5px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: #2A2F2B; color: #FAF6EE;">{{ t.devBadge }}</span></sc-if>
+          <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 14px; color: #6B6A63; padding: 0 4px;">{{ t.viewAs }}</span>
+          <div style="display: flex; gap: 2px; padding: 3px; background: #F1EDE4; border-radius: 999px;">
+              <sc-for list="{{ personFull }}" as="o" hint-placeholder-count="2">
+                <button type="button" onClick="{{ o.go }}" style="flex: 1; border: none; cursor: pointer; border-radius: 999px; padding: 8px 14px; min-height: 36px; font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; background: {{ o.bg }}; color: {{ o.fg }}; transition: background 220ms ease, color 220ms ease;">{{ o.label }}</button>
+              </sc-for>
           </div>
-          <div style="display: inline-flex; gap: 2px; padding: 3px; background: #F1EDE4; border-radius: 999px;">
-            <sc-for list="{{ langSeg }}" as="o" hint-placeholder-count="2">
-              <button type="button" onClick="{{ o.go }}" style="border: none; cursor: pointer; border-radius: 999px; padding: 8px 10px; min-height: 38px; font-family: 'Figtree', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; background: {{ o.bg }}; color: {{ o.fg }}; box-shadow: {{ o.sh }}; transition: background 200ms ease;">{{ o.label }}</button>
-            </sc-for>
+          <button type="button" onClick="{{ openAcct }}" style="display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 16px; border: none; background: transparent; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; color: #2A2F2B; transition: background 200ms ease;" style-hover="background: rgba(241,237,228,0.9);">
+            <span style="width: 40px; height: 40px; flex: none; border-radius: 50%; background: {{ userColor }}; color: #FFFDF8; display: grid; place-items: center; font-family: 'Literata', Georgia, serif; font-size: 17px; font-weight: 700;">{{ userInitial }}</span>
+            <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px;"><span style="font-size: 14.5px; font-weight: 600;">{{ acctNick }}</span><span style="font-size: 12px; color: #6B6A63; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ famLine }}</span></span>
+            <span style="color: #8C877C;">⋯</span>
+          </button>
+        </div>
+      </aside>
+    </sc-if>
+
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <header style="position: sticky; top: 0; z-index: 40; padding-top: env(safe-area-inset-top); background: rgba(248,243,234,0.84); backdrop-filter: blur(16px) saturate(160%); -webkit-backdrop-filter: blur(16px) saturate(160%); border-bottom: 1px solid rgba(42,47,43,0.06);">
+        <div style="max-width: 1120px; margin: 0 auto; padding: 8px 16px; display: flex; align-items: center; gap: 10px;">
+          <button type="button" onClick="{{ goHome }}" style="display: flex; align-items: center; gap: 10px; min-height: 44px; background: none; border: none; padding: 0; cursor: pointer; color: #2A2F2B;">
+            <img src="icons/favicon.svg" alt="" style="width: 34px; height: 34px; flex: none; border-radius: 9px;">
+            <span style="font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 17px; line-height: 1.1; letter-spacing: -0.01em; white-space: nowrap;">{{ brandA }} <em style="font-weight: 400; color: #557552;">Parent</em></span>
+          </button>
+          <sc-if value="{{ isDev }}" hint-placeholder-val="{{ false }}"><span style="font-size: 10px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; background: #2A2F2B; color: #FAF6EE;">DEV</span></sc-if>
+          <div style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+            <button type="button" onClick="{{ goReminders }}" aria-label="{{ t.nav.reminders }}" style="position: relative; width: 44px; height: 44px; border-radius: 999px; border: 1px solid #E6DFD2; background: #FFFDF8; display: grid; place-items: center; cursor: pointer; color: #2A2F2B;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0"></path></svg>
+              <sc-if value="{{ gConnected }}" hint-placeholder-val="{{ false }}"><span style="position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: #557552; border: 2px solid #FFFDF8;"></span></sc-if>
+            </button>
+            <button type="button" onClick="{{ openAcct }}" aria-label="{{ t.account }}" style="width: 44px; height: 44px; flex: none; border-radius: 50%; border: 2px solid #FFFDF8; box-shadow: 0 0 0 1px #E6DFD2; background: {{ userColor }}; color: #FFFDF8; cursor: pointer; font-family: 'Literata', Georgia, serif; font-size: 17px; font-weight: 700; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.94);">{{ userInitial }}</button>
           </div>
-          <button type="button" onClick="{{ openAcct }}" aria-label="{{ t.account }}" style="width: 44px; height: 44px; flex: none; border-radius: 50%; border: 2px solid #FFFDF8; box-shadow: 0 0 0 1px #E6DFD2; background: {{ userColor }}; color: #FFFDF8; cursor: pointer; font-family: 'Literata', Georgia, serif; font-size: 17px; font-weight: 700; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.94);">{{ userInitial }}</button>
+        </div>
+      </header>
+    </sc-if>
+    <sc-if value="{{ viewingOther }}" hint-placeholder-val="{{ false }}">
+      <div style="background: {{ meTint }}; animation: gspFade 200ms ease both;">
+        <div style="max-width: 1120px; margin: 0 auto; padding: 8px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+          <span style="font-size: 14px; font-weight: 500; color: #2A2F2B;">{{ viewingText }}</span>
+          <button type="button" onClick="{{ backToMe }}" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: none; background: #2A2F2B; color: #FAF6EE; font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;">{{ backToMeLbl }}</button>
         </div>
       </div>
-      <sc-if value="{{ viewingOther }}" hint-placeholder-val="{{ false }}">
-        <div style="background: {{ meTint }}; animation: gspFade 200ms ease both;">
-          <div style="max-width: 1120px; margin: 0 auto; padding: 8px 24px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
-            <span style="font-size: 14px; font-weight: 500; color: #2A2F2B;">{{ viewingText }}</span>
-            <button type="button" onClick="{{ backToMe }}" style="min-height: 36px; padding: 0 14px; border-radius: 999px; border: none; background: #2A2F2B; color: #FAF6EE; font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer;">{{ backToMeLbl }}</button>
-          </div>
-        </div>
-      </sc-if>
-    </header>
+    </sc-if>
 
-    <main style="position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 28px 24px 160px;">
+    <main style="position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: {{ mainPad }};">
       <sc-if value="{{ ready }}" hint-placeholder-val="{{ false }}">
 
         <sc-if value="{{ showB }}" hint-placeholder-val="{{ true }}">
@@ -531,18 +592,46 @@
               <img src="img/brand/spot-olive.png" alt="" style="width: 120px; height: 120px; object-fit: contain; mix-blend-mode: multiply; opacity: 0.7; animation: gspFloat 7s ease-in-out infinite;">
             </div>
 
-            <button type="button" onClick="{{ goAhora }}" style="width: 100%; text-align: left; border: none; cursor: pointer; background: {{ a.panel }}; border-radius: 28px; padding: 20px 22px; display: flex; align-items: center; gap: 18px; color: #2A2F2B; font-family: 'Figtree', sans-serif; box-shadow: 0 10px 28px rgba(120,80,40,0.10); transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.985);" style-hover="box-shadow: 0 14px 34px rgba(120,80,40,0.16);">
+            <sc-if value="{{ faceOffer }}" hint-placeholder-val="{{ false }}">
+              <div style="background: #FFFDF8; border: 1px solid #E6DFD2; border-radius: 24px; padding: 16px 18px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; animation: gspRise 360ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+                <span style="width: 46px; height: 46px; flex: none; border-radius: 50%; background: #EEF2EA; color: #557552; display: grid; place-items: center;"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2 M9 9v1 M15 9v1 M12 9v4h-1 M9.5 15.5c1.4 1 3.6 1 5 0"></path></svg></span>
+                <span style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 2px;">
+                  <span style="font-family: 'Literata', Georgia, serif; font-size: 19px;">{{ t.faceTitle }}</span>
+                  <span style="font-size: 13.5px; line-height: 1.5; color: #5E5D57;">{{ t.faceOfferSub }}</span>
+                  <sc-if value="{{ hasFaceMsg }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #A6402A;">{{ faceMsg }}</span></sc-if>
+                </span>
+                <div style="display: flex; gap: 8px;">
+                  <button type="button" onClick="{{ dismissFace }}" style="min-height: 44px; padding: 0 16px; border-radius: 999px; border: none; background: transparent; color: #5E5D57; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer;">{{ t.faceLater }}</button>
+                  <button type="button" onClick="{{ enrollFace }}" style="min-height: 44px; padding: 0 20px; border-radius: 999px; border: none; background: #2A2F2B; color: #FAF6EE; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.97);">{{ t.faceEnable }}</button>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ nx.has }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ goAhora }}" style="width: 100%; text-align: left; border: none; cursor: pointer; background: {{ nx.panel }}; border-radius: 28px; padding: 20px 22px; display: flex; align-items: center; gap: 18px; color: #2A2F2B; font-family: 'Figtree', sans-serif; box-shadow: 0 10px 28px rgba(120,80,40,0.10); transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.985);" style-hover="box-shadow: 0 14px 34px rgba(120,80,40,0.16);">
               <span style="position: relative; width: 14px; height: 14px; flex: none; margin-left: 4px;">
-                <span style="position: absolute; inset: 0; border-radius: 50%; background: {{ a.tone }}; animation: gspHalo 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;"></span>
-                <span style="position: absolute; inset: 0; border-radius: 50%; background: {{ a.tone }};"></span>
+                <span style="position: absolute; inset: 0; border-radius: 50%; background: {{ nx.tone }}; animation: gspHalo 2.4s cubic-bezier(0.23, 1, 0.32, 1) infinite;"></span>
+                <span style="position: absolute; inset: 0; border-radius: 50%; background: {{ nx.tone }};"></span>
               </span>
-              <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;">
-                <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; line-height: 1.1; color: {{ a.tone }};">{{ t.whatNow }}</span>
-                <span style="font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: clamp(19px, 2.4vw, 24px); line-height: 1.25;">{{ a.cardLine }}</span>
-                <span style="font-size: 14px; line-height: 1.5; color: #4A4A45;">{{ a.cardHint }}</span>
+              <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px;">
+                <span style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;"><span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; line-height: 1.1; color: {{ nx.tone }};">{{ t.whatNow }}</span><span style="font-size: 12.5px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: rgba(255,253,248,0.75); color: {{ nx.tone }};">{{ nx.inLbl }}</span></span>
+                <span style="font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: clamp(20px, 2.5vw, 26px); line-height: 1.25;">{{ nx.line }}</span>
+                <sc-if value="{{ nx.hasHint }}" hint-placeholder-val="{{ true }}"><span style="font-size: 14px; line-height: 1.5; color: #4A4A45;">{{ nx.hint }}</span></sc-if>
+                <sc-if value="{{ nx.hasNow }}" hint-placeholder-val="{{ false }}"><span style="font-size: 12.5px; line-height: 1.4; color: #6B6A63;">{{ nx.nowLine }}</span></sc-if>
+                <sc-if value="{{ nx.hasTips }}" hint-placeholder-val="{{ false }}">
+                  <span style="margin-top: 8px; padding-top: 12px; border-top: 1.5px dashed rgba(42,47,43,0.16); display: flex; flex-direction: column; gap: 10px;">
+                    <sc-for list="{{ nx.tips }}" as="tp" hint-placeholder-count="2">
+                      <span style="display: flex; flex-direction: column; gap: 2px;">
+                        <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 15px; color: #3F5A3D;">{{ t.tipKicker }} · {{ tp.p }}</span>
+                        <span style="font-size: 14.5px; line-height: 1.55; color: #2A2F2B; text-wrap: pretty;">{{ tp.text }}</span>
+                      </span>
+                    </sc-for>
+                  </span>
+                </sc-if>
               </span>
               <span style="width: 48px; height: 48px; flex: none; border-radius: 50%; background: #2A2F2B; color: #FAF6EE; display: grid; place-items: center; font-size: 20px;">→</span>
             </button>
+            </sc-if>
 
             <sc-if value="{{ hasRoles }}" hint-placeholder-val="{{ true }}">
               <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 12px;">
@@ -560,7 +649,7 @@
 
         <sc-if value="{{ showA }}" hint-placeholder-val="{{ false }}">
           <section id="ahora" data-screen-label="Ahora" style="display: flex; flex-wrap: wrap; gap: 36px; align-items: flex-start; animation: gspRise 360ms cubic-bezier(0.23, 1, 0.32, 1) both;">
-            <div style="flex: 1.45 1 440px; min-width: 0; display: flex; flex-direction: column; gap: 24px;">
+            <div style="flex: 1.45 1 min(100%, 440px); min-width: 0; display: flex; flex-direction: column; gap: 24px;">
               <button type="button" onClick="{{ goHoy }}" style="align-self: flex-start; min-height: 40px; padding: 0 16px 0 10px; border-radius: 999px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; color: #2A2F2B; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.97);">← {{ t.allDay }}</button>
               <div style="display: flex; flex-direction: column; gap: 6px;">
                 <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 22px; color: #A45F22;">{{ a.eyebrow }}</span>
@@ -577,7 +666,7 @@
                 </sc-if>
               </div>
               <sc-if value="{{ a.hasStep }}" hint-placeholder-val="{{ true }}">
-                <div style="background: {{ a.panel }}; border-radius: 28px; padding: 30px; display: flex; flex-direction: column; gap: 16px; animation: gspRise 420ms 60ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+                <div style="background: {{ a.panel }}; border-radius: 28px; padding: clamp(20px, 4vw, 30px); display: flex; flex-direction: column; gap: 16px; animation: gspRise 420ms 60ms cubic-bezier(0.23, 1, 0.32, 1) both;">
                   <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 24px; line-height: 1; color: {{ a.tone }};">{{ t.yourPart }}</span>
                   <sc-for list="{{ a.mine }}" as="ln" hint-placeholder-count="1">
                     <p style="margin: 0; font-size: 19px; line-height: 1.55;">{{ ln.text }}</p>
@@ -589,6 +678,18 @@
                     </div>
                   </sc-if>
                 </div>
+                <sc-if value="{{ a.hasTips }}" hint-placeholder-val="{{ false }}">
+                  <div style="background: #EEF2EA; border-radius: 24px; padding: clamp(18px, 3.5vw, 26px); display: flex; flex-direction: column; gap: 14px; animation: gspRise 420ms 100ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+                    <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 22px; color: #3F5A3D;">{{ t.tipsTitle }}</span>
+                    <sc-for list="{{ a.tips }}" as="tp" hint-placeholder-count="2">
+                      <div style="display: flex; flex-direction: column; gap: 3px;">
+                        <span style="font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3F5A3D;">{{ tp.p }}</span>
+                        <p style="margin: 0; font-size: 16px; line-height: 1.6; text-wrap: pretty;">{{ tp.text }}</p>
+                      </div>
+                    </sc-for>
+                    <button type="button" onClick="{{ a.moreIdeas }}" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #557552; background: transparent; color: #3F5A3D; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.97);">{{ t.moreIdeas }} →</button>
+                  </div>
+                </sc-if>
                 <sc-if value="{{ a.hasOthers }}" hint-placeholder-val="{{ true }}">
                   <div style="display: flex; flex-direction: column;">
                     <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 20px; color: #6B6A63; padding-bottom: 4px;">{{ t.rest }}</span>
@@ -614,8 +715,8 @@
                 <button type="button" onClick="{{ openRelevo }}" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1.5px solid #2A2F2B; background: transparent; color: #2A2F2B; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.97);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none;"><path d="M17 3l4 4-4 4 M3 7h18 M7 21l-4-4 4-4 M21 17H3"></path></svg>{{ t.relevo }}</button>
               </div>
             </div>
-            <aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
-              <div aria-hidden="true" style="width: 100%; height: 250px; background-image: url({{ a.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; animation: gspPop 520ms 80ms cubic-bezier(0.23, 1, 0.32, 1) both;"></div>
+            <aside style="flex: 1 1 min(100%, 300px); min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+              <div aria-hidden="true" style="width: 100%; height: clamp(150px, 28vw, 250px); background-image: url({{ a.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; animation: gspPop 520ms 80ms cubic-bezier(0.23, 1, 0.32, 1) both;"></div>
               <sc-if value="{{ a.hasNext }}" hint-placeholder-val="{{ true }}">
                 <div style="background: #FFFDF8; border: 1px solid #E6DFD2; border-radius: 22px; padding: 18px 20px; display: flex; gap: 16px; align-items: center;">
                   <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 30px; color: {{ a.nextTone }}; min-width: 62px;">{{ a.nextTime }}</span>
@@ -671,12 +772,38 @@
                   <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; color: #A45F22;">{{ t.answer }}</span>
                   <span style="font-size: 13px; color: #6B6A63;">«{{ askQ }}»</span>
                 </div>
-                <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: clamp(18px, 2.2vw, 21px); line-height: 1.6; white-space: pre-line;">{{ res.answer }}</p>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px;">
+                <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-size: clamp(19px, 2.3vw, 22px); line-height: 1.55; text-wrap: pretty;">{{ res.answer }}</p>
+                <sc-if value="{{ res.hasSteps }}" hint-placeholder-val="{{ false }}">
+                  <div style="background: #FAF6EE; border: 1px solid #EDE6D8; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px;">
+                    <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 20px; color: #A45F22;">{{ t.strategy }}</span>
+                    <sc-for list="{{ res.steps }}" as="st" hint-placeholder-count="3">
+                      <div style="display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 12px; align-items: start;">
+                        <span style="width: 30px; height: 30px; border-radius: 50%; background: #2A2F2B; color: #FAF6EE; display: grid; place-items: center; font-size: 13px; font-weight: 600;">{{ st.n }}</span>
+                        <span style="display: flex; flex-direction: column; gap: 2px; padding-top: 3px;">
+                          <span style="font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #6B6A63;">{{ st.title }}</span>
+                          <span style="font-size: 15.5px; line-height: 1.55; text-wrap: pretty;">{{ st.text }}</span>
+                        </span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ res.hasWhy }}" hint-placeholder-val="{{ false }}">
+                  <div style="background: #EEF2EA; border-radius: 22px; padding: 16px 20px; display: flex; flex-direction: column; gap: 6px;">
+                    <span style="display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap;"><span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #557552;">{{ t.why }}</span><sc-if value="{{ res.hasPrinciple }}" hint-placeholder-val="{{ false }}"><span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #FFFDF8; color: #557552;">{{ res.principle }}</span></sc-if></span>
+                    <p style="margin: 0; font-size: 15.5px; line-height: 1.6; text-wrap: pretty;">{{ res.why }}</p>
+                  </div>
+                </sc-if>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px;">
                   <sc-if value="{{ res.hasSay }}" hint-placeholder-val="{{ false }}">
-                    <div style="background: #EEF2EA; border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px;">
-                      <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #557552;">{{ t.say }}</span>
+                    <div style="background: #FBF1E4; border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px;">
+                      <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #A45F22;">{{ t.say }}</span>
                       <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 20px; line-height: 1.4;">«{{ res.say }}»</p>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ res.hasAvoid }}" hint-placeholder-val="{{ false }}">
+                    <div style="background: #FBEDE7; border-radius: 20px; padding: 16px 20px; display: flex; flex-direction: column; gap: 4px;">
+                      <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #A6402A;">{{ t.avoid }}</span>
+                      <p style="margin: 0; font-size: 16px; line-height: 1.5;">{{ res.avoid }}</p>
                     </div>
                   </sc-if>
                   <sc-if value="{{ res.hasQuestion }}" hint-placeholder-val="{{ false }}">
@@ -686,6 +813,7 @@
                     </div>
                   </sc-if>
                 </div>
+                <sc-if value="{{ res.offline }}" hint-placeholder-val="{{ false }}"><span style="font-size: 12.5px; color: #6B6A63;">{{ t.offline }}</span></sc-if>
               </div>
             </sc-if>
             <sc-if value="{{ askErr }}" hint-placeholder-val="{{ false }}">
@@ -709,7 +837,7 @@
         </sc-if>
 
         <sc-if value="{{ showB }}" hint-placeholder-val="{{ true }}">
-          <div style="margin-top: 26px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 22px; align-items: start;">
+          <div style="margin-top: 26px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: clamp(14px, 2vw, 22px); align-items: start;">
             <sc-for list="{{ b.sections }}" as="sec" hint-placeholder-count="2">
               <div style="background: {{ sec.bg }}; border-radius: 32px; padding: 26px 22px 18px; display: flex; flex-direction: column; gap: 2px; animation: gspRise 420ms cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: {{ sec.delay }};">
                 <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 0 8px 8px;">
@@ -781,9 +909,9 @@
             </sc-if>
           </div>
           <sc-if value="{{ rh.showSteps }}" hint-placeholder-val="{{ true }}">
-            <div style="background: {{ rh.bg }}; border-radius: 32px; padding: 32px; display: flex; flex-direction: column; gap: 8px;">
+            <div style="background: {{ rh.bg }}; border-radius: clamp(24px, 3vw, 32px); padding: clamp(18px, 4vw, 32px); display: flex; flex-direction: column; gap: 8px;">
               <div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 16px; padding-bottom: 12px;">
-                <div style="flex: 1 1 320px; display: flex; flex-direction: column; gap: 6px;">
+                <div style="flex: 1 1 min(100%, 320px); display: flex; flex-direction: column; gap: 6px;">
                   <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 44px; line-height: 1; color: {{ rh.tone }};">{{ rh.label }}</span>
                   <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #4A4A45; max-width: 600px;">{{ rh.sub }}</p>
                 </div>
@@ -898,7 +1026,7 @@
 
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 24px; color: #33466E;">{{ t.docsTitle }}</span>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px;">
               <sc-for list="{{ docs }}" as="dc" hint-placeholder-count="2">
                 <div style="display: flex; gap: 18px; align-items: stretch; background: {{ dc.bg }}; border-radius: 28px; padding: 18px; animation: gspRise 360ms cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: {{ dc.delay }};">
                   <a href="{{ dc.href }}" target="_blank" rel="noopener" aria-label="{{ dc.title }}" style="flex: none; width: 104px; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(90,60,30,0.16); background: #FFFDF8; transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);" style-hover="transform: translateY(-3px) rotate(-1deg);">
@@ -955,7 +1083,7 @@
             <p style="margin: 4px 0 0; font-size: 17px; line-height: 1.6; color: #5E5D57;">{{ t.teamSub }}</p>
           </div>
           <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
-            <div style="flex: 1.3 1 420px; min-width: 0; background: #FFFDF8; border: 1px solid #E6DFD2; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 24px;">
+            <div style="flex: 1.3 1 min(100%, 420px); min-width: 0; background: #FFFDF8; border: 1px solid #E6DFD2; border-radius: 28px; padding: clamp(18px, 4vw, 32px); display: flex; flex-direction: column; gap: 24px;">
               <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; color: #6B6A63; text-transform: lowercase;">{{ teamDate }}</span>
               <sc-for list="{{ fields }}" as="f" hint-placeholder-count="3">
                 <label style="display: flex; flex-direction: column; gap: 10px;">
@@ -985,7 +1113,7 @@
                 <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; color: #557552;">{{ t.saved }}</span>
               </sc-if>
             </div>
-            <div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px;">
+            <div style="flex: 1 1 min(100%, 300px); min-width: 0; display: flex; flex-direction: column; gap: 14px;">
               <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 24px; color: #33466E;">{{ t.history }}</span>
               <sc-if value="{{ noNotes }}" hint-placeholder-val="{{ true }}">
                 <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
@@ -1039,6 +1167,41 @@
               </div>
             </div>
           </div>
+          <div data-screen-label="Ideas" style="background: #F1EDE4; border-radius: 32px; padding: clamp(22px, 4vw, 36px); display: flex; flex-direction: column; gap: 18px;">
+            <div style="display: flex; flex-direction: column; gap: 6px; max-width: 700px;">
+              <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; color: #A45F22;">{{ t.ideasKicker }}</span>
+              <h2 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: clamp(28px, 3.6vw, 40px); line-height: 1.1; letter-spacing: -0.01em;">{{ t.ideasTitleA }} <em style="font-weight: 400; color: #557552;">{{ t.ideasTitleB }}</em></h2>
+              <p style="margin: 2px 0 0; font-size: 15px; line-height: 1.6; color: #5E5D57; text-wrap: pretty;">{{ t.ideasSub }}</p>
+            </div>
+            <sc-if value="{{ noIdeas }}" hint-placeholder-val="{{ true }}"><p style="margin: 0; font-size: 14.5px; color: #6B6A63;">{{ t.ideasEmpty }}</p></sc-if>
+            <sc-for list="{{ ideaGroups }}" as="g" hint-placeholder-count="0">
+              <div style="background: #FFFDF8; border: 1px solid #E6DFD2; border-radius: 22px; padding: 18px 20px; display: flex; flex-direction: column; gap: 12px; animation: gspRise 320ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+                <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+                  <span style="font-size: 13px; font-weight: 600; color: {{ g.color }};">{{ g.head }}</span>
+                  <span style="font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: {{ g.stBg }}; color: {{ g.stFg }};">{{ g.status }}</span>
+                </div>
+                <p style="margin: 0; font-size: 14.5px; line-height: 1.55; color: #4A4A45; text-wrap: pretty;">«{{ g.text }}»</p>
+                <sc-if value="{{ g.busy }}" hint-placeholder-val="{{ false }}">
+                  <span style="display: inline-flex; gap: 5px;"><span style="width: 6px; height: 6px; border-radius: 50%; background: #A45F22; animation: gspDot 1.1s ease-in-out infinite;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #A45F22; animation: gspDot 1.1s 150ms ease-in-out infinite;"></span><span style="width: 6px; height: 6px; border-radius: 50%; background: #A45F22; animation: gspDot 1.1s 300ms ease-in-out infinite;"></span></span>
+                </sc-if>
+                <sc-if value="{{ g.hasItems }}" hint-placeholder-val="{{ false }}">
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 10px;">
+                    <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+                      <div style="background: #FAF6EE; border: 1px solid #EDE6D8; border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; opacity: {{ it.op }}; transition: opacity 200ms ease;">
+                        <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 15px; color: {{ it.catColor }};">{{ it.cat }}</span>
+                        <button type="button" onClick="{{ it.open }}" style="text-align: left; padding: 0; border: none; background: none; cursor: pointer; font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 16px; line-height: 1.3; color: #2A2F2B;">{{ it.title }}</button>
+                        <span style="font-size: 13px; line-height: 1.5; color: #5E5D57;">{{ it.sum }}</span>
+                        <button type="button" onClick="{{ it.toggle }}" style="align-self: flex-start; margin-top: 4px; min-height: 32px; padding: 0; border: none; background: none; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 12.5px; font-weight: 600; color: #8C877C; text-decoration: underline; text-underline-offset: 3px;">{{ it.toggleLbl }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ g.canRetry }}" hint-placeholder-val="{{ false }}">
+                  <button type="button" onClick="{{ g.retry }}" style="align-self: flex-start; min-height: 40px; padding: 0 16px; border-radius: 999px; border: 1.5px solid #2A2F2B; background: transparent; color: #2A2F2B; font-family: 'Figtree', sans-serif; font-size: 13.5px; font-weight: 600; cursor: pointer;">{{ t.ideasRetry }}</button>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
         </section>
       </sc-if>
 
@@ -1049,10 +1212,10 @@
             <h1 style="font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: clamp(40px, 5.6vw, 72px); line-height: 1.02; letter-spacing: -0.02em; margin: 0;">{{ t.remA }} <em style="font-weight: 400; color: #557552;">{{ t.remB }}</em></h1>
             <p style="margin: 4px 0 0; font-size: 17px; line-height: 1.6; color: #5E5D57;">{{ remSub }}</p>
           </div>
-          <div style="background: #F7E6D3; border-radius: 32px; padding: 28px 32px; display: flex; flex-wrap: wrap; gap: 24px; align-items: center;">
+          <div style="background: #F7E6D3; border-radius: clamp(24px, 3vw, 32px); padding: clamp(18px, 4vw, 28px) clamp(18px, 4vw, 32px); display: flex; flex-wrap: wrap; gap: 24px; align-items: center;">
             <img src="img/sun.png" alt="" style="width: 120px; height: 90px; object-fit: contain;">
             <sc-if value="{{ gOff }}" hint-placeholder-val="{{ true }}">
-              <div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="flex: 1 1 min(100%, 300px); display: flex; flex-direction: column; gap: 6px;">
                 <span style="font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 24px; line-height: 1.2;">{{ t.gcalOff }}</span>
                 <span style="font-size: 14.5px; line-height: 1.6; color: #4A4A45;">{{ t.gcalOffSub }}</span>
               </div>
@@ -1062,7 +1225,7 @@
               </div>
             </sc-if>
             <sc-if value="{{ gConnected }}" hint-placeholder-val="{{ false }}">
-              <div style="flex: 1 1 300px; display: flex; flex-direction: column; gap: 6px;">
+              <div style="flex: 1 1 min(100%, 300px); display: flex; flex-direction: column; gap: 6px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <span style="width: 10px; height: 10px; border-radius: 50%; background: #557552;"></span>
                   <span style="font-family: 'Literata', Georgia, serif; font-weight: 500; font-size: 24px; line-height: 1.2;">{{ t.gcalOn }}</span>
@@ -1106,19 +1269,25 @@
       </sc-if>
       </sc-if>
     </main>
+    </div>
 
   <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
-    <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; padding: 0 12px 14px; display: flex; justify-content: center; pointer-events: none;">
-      <nav style="pointer-events: auto; width: 100%; max-width: 520px; display: flex; align-items: center; gap: 4px; padding: 6px; background: rgba(255,253,248,0.94); backdrop-filter: blur(14px); border: 1px solid #E6DFD2; border-radius: 999px; box-shadow: 0 10px 30px rgba(90,60,30,0.14);">
-        <sc-for list="{{ mobileNav }}" as="n" hint-placeholder-count="4">
-          <button type="button" onClick="{{ n.go }}" style-active="transform: scale(0.94);" style="transition: background 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1); flex: 1; min-height: 56px; border: none; border-radius: 999px; background: {{ n.bg }}; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; padding: 4px 0; font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 600; color: {{ n.fg }};">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ n.d }}"></path></svg>
-            <span>{{ n.label }}</span>
-          </button>
+    <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; padding: 0 12px calc(10px + env(safe-area-inset-bottom)); display: flex; justify-content: center; pointer-events: none;">
+      <nav aria-label="{{ t.menuLbl }}" style="pointer-events: auto; width: 100%; max-width: 560px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; padding: 6px 6px 8px; background: rgba(255,253,248,0.8); backdrop-filter: blur(22px) saturate(180%); -webkit-backdrop-filter: blur(22px) saturate(180%); border: 1px solid rgba(230,223,210,0.9); border-radius: 30px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 14px 34px rgba(90,60,30,0.16);">
+        <sc-for list="{{ tabs }}" as="n" hint-placeholder-count="5">
+          <sc-if value="{{ n.isTab }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ n.go }}" aria-current="{{ n.cur }}" style="min-height: 58px; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; padding: 4px 0 2px; font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 600; color: {{ n.fg }}; -webkit-tap-highlight-color: transparent; transition: color 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.92);">
+              <span style="width: 54px; height: 32px; border-radius: 999px; background: {{ n.pill }}; color: {{ n.icFg }}; display: grid; place-items: center; transition: background 220ms ease, color 220ms ease;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ n.d }}"></path></svg></span>
+              <span>{{ n.label }}</span>
+            </button>
+          </sc-if>
+          <sc-if value="{{ n.isAsk }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ n.go }}" style="min-height: 58px; border: none; background: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 3px; padding: 0 0 2px; font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 600; color: #A45F22; -webkit-tap-highlight-color: transparent; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.92);">
+              <span style="width: 56px; height: 56px; margin-top: -26px; border-radius: 50%; background: {{ n.bg }}; color: #FFFDF8; display: grid; place-items: center; box-shadow: 0 0 0 5px rgba(250,246,238,0.96), 0 10px 22px rgba(164,95,34,0.35); transition: background 200ms ease;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3 M12 17h.01"></path></svg></span>
+              <span>{{ n.label }}</span>
+            </button>
+          </sc-if>
         </sc-for>
-        <button type="button" onClick="{{ goAsk }}" aria-label="{{ t.nav.ask }}" style="width: 56px; height: 56px; flex: none; border-radius: 50%; border: none; background: #A45F22; color: #FFFDF8; display: grid; place-items: center; cursor: pointer;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
-        </button>
       </nav>
     </div>
   </sc-if>
@@ -1234,10 +1403,29 @@
               </sc-for>
             </div>
           </div>
-          <button type="button" onClick="{{ acc.toggleFace }}" disabled="{{ true }}" aria-disabled="true" style="opacity: 0.6; cursor: not-allowed; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; color: #2A2F2B;">
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #6B6A63;">{{ t.viewAs }}</span>
+            <div style="display: inline-flex; align-self: flex-start; gap: 2px; padding: 4px; background: #F1EDE4; border-radius: 999px;">
+              <sc-for list="{{ personFull }}" as="o" hint-placeholder-count="2">
+                <button type="button" onClick="{{ o.go }}" style="border: none; cursor: pointer; border-radius: 999px; padding: 8px 14px; min-height: 36px; font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; background: {{ o.bg }}; color: {{ o.fg }}; transition: background 220ms ease, color 220ms ease;">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 8px;">
+            <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #6B6A63;">{{ t.tzTitle }}</span>
+            <sc-if value="{{ acc.canTz }}" hint-placeholder-val="{{ true }}">
+              <select value="{{ acc.tz }}" onChange="{{ acc.onTz }}" style="min-height: 50px; border: 1px solid #E6DFD2; border-radius: 16px; background: #FFFDF8; padding: 0 14px; font-family: 'Figtree', sans-serif; font-size: 15px; color: #2A2F2B; width: 100%;">
+                <sc-for list="{{ acc.tzOpts }}" as="z" hint-placeholder-count="0"><option value="{{ z.v }}">{{ z.l }}</option></sc-for>
+              </select>
+            </sc-if>
+            <sc-if value="{{ acc.noTz }}" hint-placeholder-val="{{ false }}"><span style="font-size: 15px; font-weight: 600;">{{ acc.tzLbl }}</span></sc-if>
+            <span style="font-size: 12.5px; line-height: 1.5; color: #6B6A63;">{{ acc.tzHint }}</span>
+          </div>
+          <sc-if value="{{ hasFaceMsg }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13px; color: #A6402A;">{{ faceMsg }}</span></sc-if>
+          <button type="button" onClick="{{ acc.toggleFace }}" style="opacity: {{ acc.faceOp }}; display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; color: #2A2F2B;">
             <span style="flex: 1; display: flex; flex-direction: column; gap: 2px;">
               <span style="font-size: 15px; font-weight: 600;">{{ t.faceOnDevice }}</span>
-              <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #5E5D57;">{{ t.faceSoonSub }}<span style="font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; background: #EFE8DB; color: #6B6A63;">{{ t.soon }}</span></span>
+              <span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: #5E5D57;">{{ acc.faceSub }}</span>
             </span>
             <span style="width: 48px; height: 28px; flex: none; border-radius: 999px; padding: 3px; background: {{ acc.faceTrk }}; display: flex; transition: background 220ms ease;">
               <span style="width: 22px; height: 22px; border-radius: 50%; background: #FFFDF8; box-shadow: 0 1px 3px rgba(0,0,0,0.2); transform: translateX({{ acc.faceX }}); transition: transform 240ms cubic-bezier(0.23, 1, 0.32, 1);"></span>
@@ -1264,7 +1452,7 @@
 
   <sc-if value="{{ breathOn }}" hint-placeholder-val="{{ false }}">
     <div style="position: fixed; inset: 0; z-index: 600; background: #FAF6EE; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; padding: 24px;">
-      <div style="position: relative; width: 300px; height: 300px; display: grid; place-items: center;">
+      <div style="position: relative; width: min(300px, 74vw); height: min(300px, 74vw); display: grid; place-items: center;">
         <img src="img/blob-peach.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transform: scale({{ breathScale }}); transition: transform 4000ms ease-in-out;">
         <span style="position: relative; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 40px; color: #A45F22;">{{ breathLabel }}</span>
       </div>
@@ -1337,7 +1525,7 @@
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;showReviewBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Revisión&quot;},&quot;googleClientId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;946315464909-i0uptgcvbpqnspnjp5a0o4a7dnpi0ngi.apps.googleusercontent.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;},&quot;appsScriptUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://script.google.com/macros/s/AKfycbzlD8c0g_6lHZAQCR8LK1nYBT_OuOkmMlPIf_2nxqQqNlQKDuFlMtK8mFAuA7mYaxpnHg/exec&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;showReviewBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Revisión&quot;},&quot;googleClientId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;946315464909-i0uptgcvbpqnspnjp5a0o4a7dnpi0ngi.apps.googleusercontent.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;},&quot;appsScriptUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://script.google.com/macros/s/AKfycbzlD8c0g_6lHZAQCR8LK1nYBT_OuOkmMlPIf_2nxqQqNlQKDuFlMtK8mFAuA7mYaxpnHg/exec&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;}}">
 
 const L2 = (es, en) => ({ es, en });
 const INK = '#2A2F2B', MUTED = '#5E5D57', OCHRE = '#A45F22', SAGE = '#557552', NAVY = '#33466E';
@@ -1346,7 +1534,7 @@ const PC = p => p === 'Juan' ? OCHRE : p === 'Christine' ? SAGE : INK;
 const IMG = n => 'img/' + n + '.png';
 const STEP_IMG = { m0655: 'fox-cup', m0700: 'hero', m0710: 'BF', m0725: 'isaac-basket', m0730: 'teddy', m0745: 'BF', m0800: 'cereal-rings', m0805: 'backpacks', m0815: 'sun',
   e1800: 'toys', e1830: 'fox-couple', e1900: 'teddy', e1910: 'bath', e1930: 'moon', e1940: 'toothbrush', e1950: 'backpacks', e1955: 'bunny-books', e2015: 'moon', e2030: 'family-reading',
-  w1630: 'cereal-banana', w1830: 'bath', w1900: 'fox-cup', w1905: 'fox-couple', w1930: 'toothbrush', w1945: 'teddy', w1955: 'bunny-books', w2015: 'moon', w2030: 'family-reading' };
+  a1610: 'backpacks', a1630: 'cereal-banana', a1710: 'sun', a1730: 'toys', p1610: 'backpacks', p1630: 'cereal-banana', p1710: 'sun', w1830: 'bath', w1900: 'fox-cup', w1905: 'fox-couple', w1930: 'toothbrush', w1945: 'teddy', w1955: 'bunny-books', w2015: 'moon', w2030: 'family-reading' };
 const BF_IMG = { b1: 'oatmeal', b2: 'eggs', b3: 'yogurt', b4: 'toast', b5: 'pancakes', 'b-planb': 'cereal-banana', 'b-steps': 'cereal-rings' };
 const CAT_COLOR = { principle: SAGE, agreement: OCHRE, routine: NAVY, situation: OCHRE, phrase: SAGE, story: NAVY, breakfast: OCHRE, note: NAVY };
 const T = {
@@ -1572,6 +1760,84 @@ Object.assign(T.en, { docsTitle: 'Our documents', docOpen: 'Open', docDownload: 
 Object.assign(T.es, { syncing: 'Sincronizando…', synced: n => n + ' eventos al día en tu calendario.', resync: 'Sincronizar ahora', filesTitle: 'Fotos y archivos', filesSub: 'Se guardan en la carpeta familiar de Google Drive.', upload: 'Subir foto o archivo', uploading: 'Subiendo…', noFiles: 'Todavía no hay archivos.' });
 Object.assign(T.en, { syncing: 'Syncing…', synced: n => n + ' events up to date in your calendar.', resync: 'Sync now', filesTitle: 'Photos & files', filesSub: 'Saved to the family Google Drive folder.', upload: 'Upload photo or file', uploading: 'Uploading…', noFiles: 'No files yet.' });
 
+const TZS = [['Europe/Madrid', 'España · Madrid'], ['Atlantic/Canary', 'España · Canarias'], ['Europe/Lisbon', 'Portugal · Lisboa'], ['Europe/London', 'Reino Unido · Londres'], ['Europe/Paris', 'Francia · París'], ['America/Guatemala', 'Guatemala'], ['America/Mexico_City', 'México · CDMX'], ['America/Bogota', 'Colombia · Bogotá'], ['America/New_York', 'EE. UU. · Nueva York'], ['America/Los_Angeles', 'EE. UU. · Los Ángeles']];
+Object.assign(T.es, { whatNow: '¿Qué sigue?', afternoon: 'Tarde', afternoonLbl: 'Tarde', kAfternoon: 'Tarde · recogida',
+  pickYou: 'Recoges a las 4:30', pickPartner: p => p + ' recoge a las 4:30', pickSub: 'Juego y merienda · en casa 5:30',
+  subStay: 'Hoy te quedas: cocinas con Sophia, a las 4:30 recoges a los niños y esta noche te toca baño y cuentos.',
+  inMin: n => n <= 1 ? 'ya' : 'en ' + n + ' min', inHM: (h, m) => 'en ' + h + ' h' + (m ? ' ' + m + ' min' : ''), tomorrow: 'mañana', onDay: d => 'el ' + d, nowPrefix: 'Ahora · ',
+  menuLbl: 'Menú principal', askHint: '¿Algo se sale del plan?', devBadge: 'Modo prueba',
+  strategy: 'La estrategia', why: 'Por qué funciona', avoid: 'Evita', offline: 'Respuesta preparada con nuestra biblioteca, sin IA.',
+  tzTitle: 'Zona horaria de la familia', tzHint: p => 'Solo ' + (p || 'quien creó la familia') + ' puede cambiarla.', tzHintOwner: '«¿Qué sigue?», los recordatorios y el calendario usan esta hora.',
+  faceTitle: 'Entra con Face ID', faceOfferSub: 'La próxima vez entras con tu rostro, sin contraseña.', faceEnable: 'Activar', faceLater: 'Ahora no',
+  faceOnSub: 'Activo en este dispositivo.', faceOffSub: 'Entra con tu rostro en este dispositivo.', faceNA: 'Este dispositivo no admite Face ID en el navegador.', faceErr: 'No se pudo activar Face ID. Inténtalo de nuevo.',
+  ideasKicker: 'Repositorio de ideas', ideasTitleA: 'Lo que aprendemos', ideasTitleB: 'se vuelve biblioteca',
+  ideasSub: 'Cada nota que guardan se lee con calma. Si trae un acuerdo, una rutina, una situación o una frase, se crea sola en la Biblioteca — a veces varias fichas que trabajan juntas. Pueden quitar lo que no sirva.',
+  ideasEmpty: 'Todavía no hay ideas. Guarda la primera nota arriba.', ideasBusy: 'Leyendo la nota…', ideasNone: 'Nada nuevo para la biblioteca',
+  ideasN: n => n === 1 ? '1 ficha en la biblioteca' : n + ' fichas en la biblioteca', ideasRetry: 'Volver a intentar', ideaRemove: 'Quitar de la biblioteca', ideaRestore: 'Volver a añadir', fromNotes: 'de sus notas',
+});
+Object.assign(T.en, { whatNow: 'Coming next', afternoon: 'Afternoon', afternoonLbl: 'Afternoon', kAfternoon: 'Afternoon · pick-up',
+  pickYou: 'You pick up at 4:30', pickPartner: p => p + ' picks up at 4:30', pickSub: 'Play and snack · home by 5:30',
+  subStay: "Today you stay home: you cook with Sophia, pick the kids up at 4:30, and tonight it's bath & stories.",
+  inMin: n => n <= 1 ? 'now' : 'in ' + n + ' min', inHM: (h, m) => 'in ' + h + ' h' + (m ? ' ' + m + ' min' : ''), tomorrow: 'tomorrow', onDay: d => 'on ' + d, nowPrefix: 'Now · ',
+  menuLbl: 'Main menu', askHint: 'Something off plan?', devBadge: 'Test mode',
+  strategy: 'The strategy', why: 'Why it works', avoid: 'Avoid', offline: 'Answer prepared from our library, without AI.',
+  tzTitle: 'Family time zone', tzHint: p => 'Only ' + (p || 'whoever created the family') + ' can change it.', tzHintOwner: '“Coming next”, reminders and the calendar use this time.',
+  faceTitle: 'Sign in with Face ID', faceOfferSub: 'Next time you sign in with your face, no password.', faceEnable: 'Turn on', faceLater: 'Not now',
+  faceOnSub: 'On for this device.', faceOffSub: 'Sign in with your face on this device.', faceNA: "This device doesn't support Face ID in the browser.", faceErr: "Couldn't turn on Face ID. Try again.",
+  ideasKicker: 'Idea repository', ideasTitleA: 'What we learn', ideasTitleB: 'becomes the library',
+  ideasSub: 'Every note you save is read calmly. If it holds an agreement, a routine, a situation or a phrase, it is created in the Library on its own — sometimes several cards that work together. Remove anything that doesn’t help.',
+  ideasEmpty: 'No ideas yet. Save the first note above.', ideasBusy: 'Reading the note…', ideasNone: 'Nothing new for the library',
+  ideasN: n => n === 1 ? '1 card in the library' : n + ' cards in the library', ideasRetry: 'Try again', ideaRemove: 'Remove from library', ideaRestore: 'Add back', fromNotes: 'from your notes',
+});
+T.es.q.idea = 'Una idea, acuerdo o sugerencia'; T.en.q.idea = 'An idea, agreement or suggestion';
+T.es.roles.pickup = 'recoge'; T.en.roles.pickup = 'pick-up'; T.es.rolesGeneric.pickup = 'Quien recoge'; T.en.rolesGeneric.pickup = 'Pick-up parent';
+T.es.rv.evening = 'Tarde y noche'; T.en.rv.evening = 'Afternoon & evening';
+Object.assign(AT.es, { useFaceSub2: 'Te lo ofrecemos al entrar. Luego entras con tu rostro.', faceNA: 'Este dispositivo no admite Face ID en el navegador.', faceFail: 'No pudimos reconocerte. Entra con tu correo.',
+  devKicker: 'Desarrollo', devTitle: 'Entrar como usuario de prueba', devSub: 'Datos de prueba solo en este dispositivo. Nada se guarda en la hoja de la familia ni en Google.', devEnter: 'Entrar',
+  devJuan: 'Lleva lunes, miércoles y viernes · cena', devChristine: 'Lleva martes y jueves · cena', devNote: 'Para salir del modo prueba, cierra sesión desde tu cuenta.' });
+Object.assign(AT.en, { useFaceSub2: "We'll offer it once you're in. Then you sign in with your face.", faceNA: "This device doesn't support Face ID in the browser.", faceFail: "We couldn't recognise you. Sign in with your email.",
+  devKicker: 'Development', devTitle: 'Sign in as a test user', devSub: 'Test data lives on this device only. Nothing is saved to the family sheet or to Google.', devEnter: 'Enter',
+  devJuan: 'Drop-off Mon, Wed, Fri · dinner', devChristine: 'Drop-off Tue, Thu · dinner', devNote: 'To leave test mode, sign out from your account.' });
+
+const PILLAR = { c: L2('La calma antes que la corrección', 'Calm before correction'), p: L2('La presencia enseña más', 'Presence teaches more'), t: L2('Confianza, no control', 'Trust over control'), s: L2('Espacio para pensar', 'Space to think') };
+const TIPS = {
+  m0655: [['c', 'Antes de mirar el teléfono, tres respiraciones. La calma de la mañana empieza aquí, no a las 7:25.', "Before you look at your phone, three breaths. The morning's calm starts here, not at 7:25."], ['p', 'Si un niño se despierta antes, un abrazo corto y vuelves a tu café: el ritmo no se adelanta.', 'If a child wakes early, a short hug and back to your coffee: the rhythm does not move forward.']],
+  m0700: [['p', 'Siéntate a su lado antes de hablar. Una mano en la espalda dice más que «¡arriba!».', 'Sit beside her before you speak. A hand on her back says more than “up you get!”.'], ['t', 'Si se viste despacio, no la vistas tú: describe lo que ves. «Ya tienes la camiseta; falta el pantalón.»', "If she dresses slowly, don't dress her: describe what you see. “Your shirt is on; your trousers are next.”"]],
+  m0710: [['t', 'Deja que bata y sirva aunque salpique. Un poco de desorden es el precio de su confianza.', 'Let her whisk and serve even if it splashes. A little mess is the price of her confidence.'], ['s', 'Pregúntale qué paso viene ahora en lugar de decírselo.', 'Ask her which step comes next instead of telling her.']],
+  m0725: [['c', 'Entra a su cuarto ya duchado y tranquilo: Isaac copia tu ritmo, no tus palabras.', 'Walk in already showered and calm: Isaac copies your pace, not your words.'], ['t', 'Elegir la historia es su trabajo. No la elijas por él aunque tarde.', "Choosing the story is his job. Don't choose for him, even if it takes a while."]],
+  m0730: [['t', 'Camina a su lado, no por él. Si se atasca, dos opciones: «¿Primero camiseta o pantalón?».', 'Walk beside him, not for him. If he stalls, two choices: “Shirt first or trousers first?”'], ['c', 'Si sube la tensión, baja la voz y agáchate a su altura antes de hablar.', 'If tension rises, lower your voice and get down to his height before speaking.']],
+  m0745: [['p', 'Sin pantallas y con el teléfono lejos. No hace falta llenar el silencio: escuchen la historia juntos.', 'No screens, phone out of reach. No need to fill the silence: listen to the story together.'], ['s', 'Una sola pregunta abierta sobre la historia basta: «¿Qué harías tú?».', 'One open question about the story is enough: “What would you do?”']],
+  m0800: [['t', 'Cada uno lleva lo suyo. Si un plato se queda, descríbelo y espera: seguimos cuando esté en el fregadero.', "Everyone carries their own. If a plate stays, describe it and wait: we move on once it's in the sink."], ['p', 'Tú también llevas tu plato. Aprenden mirando.', 'You carry your plate too. They learn by watching.']],
+  m0805: [['c', 'Si falta un zapato, sin culpables: «Veo un zapato solo. ¿Dónde estará el otro?».', 'If a shoe is missing, no blame: “I see one lonely shoe. Where might the other be?”'], ['t', 'Las mochilas están listas desde anoche; solo recuérdales dónde.', 'Backpacks were packed last night; just remind them where.']],
+  m0815: [['c', 'Si van tarde, para eso existe el colchón hasta las 8:25. En vez de «¡apúrate!»: «Nuestros zapatos ya nos esperan».', 'If you are late, that is what the cushion until 8:25 is for. Instead of “hurry up!”: “Our shoes are waiting for us.”'], ['p', 'En el coche, silencio amable o música. La conversación importante no es a las 8:15.', 'In the car, kind silence or music. The important conversation is not at 8:15.']],
+  a1610: [['c', 'Un minuto para cerrar lo tuyo antes de salir. Llegar tranquilo vale más que llegar puntual y acelerado.', 'Take a minute to close your own things before leaving. Arriving calm matters more than arriving rushed.'], ['p', 'Teléfono en el bolsillo durante la recogida: los primeros minutos son los que recuerdan.', 'Phone in your pocket at pick-up: the first minutes are the ones they remember.']],
+  a1630: [['p', 'Saluda con alegría y sin interrogatorio. «Qué gusto verte» abre más que «¿Qué hiciste hoy?».', 'Greet them warmly, no interrogation. “So good to see you” opens more than “What did you do today?”'], ['s', 'Déjales jugar sin dirigir. Lo que quieran contar llegará cuando hayan comido.', "Let them play without directing. Whatever they want to share will come once they've eaten."]],
+  a1710: [['c', 'Avisa a los cinco minutos y otra vez a los dos. Irse deja de ser una sorpresa.', 'Give a five-minute heads-up and another at two. Leaving stops being a surprise.'], ['t', 'Dales una tarea de salida: «¿Quién lleva las loncheras al coche?».', 'Give them a leaving job: “Who carries the lunchboxes to the car?”']],
+  a1730: [['t', 'Cada uno deja su mochila y su lonchera; tú solo muestras el lugar.', 'Each puts away their own backpack and lunchbox; you only show the place.'], ['p', 'Media hora de juego tranquilo contigo llena el tanque antes de la cena.', 'Half an hour of quiet play with you fills the tank before dinner.']],
+  p1610: [['c', 'Revisa que la merienda fuerte y la ropa de la actividad ya estén en la mochila: así no hay prisa en la puerta.', 'Check the proper snack and activity clothes are already in the bag: no rush at the door.']],
+  p1630: [['p', 'Primero comer, después hablar. Un niño con hambre no puede escuchar.', "Eat first, talk later. A hungry child can't listen."], ['c', 'Si hay quejas por la actividad, valida sin negociar: «Estás cansado. Y vamos igual».', 'If they complain about the activity, validate without negotiating: “You’re tired. And we’re still going.”']],
+  p1710: [['t', 'Que cada uno cargue su mochila de la actividad.', 'Let each carry their own activity bag.']],
+  e1800: [['p', 'Quien juega, juega de verdad: sin teléfono ni limpieza. Veinte minutos presentes valen por una tarde.', 'Whoever plays, really plays: no phone, no chores. Twenty present minutes are worth an afternoon.'], ['t', 'Si quieren cocinar, dales una tarea real: lavar, mezclar, poner la mesa.', 'If they want to cook, give them a real job: rinse, stir, set the table.']],
+  e1830: [['c', 'Sin premios ni castigos con la comida. Se sirve, se acompaña y a las 7:00 se retira el plato con calma.', 'No rewards or punishments around food. Serve it, keep them company, and at 7:00 calmly clear the plate.'], ['s', 'Hablen de algo bueno del día: «¿Qué fue lo mejor de hoy?».', 'Talk about something good: “What was the best part of today?”']],
+  e1900: [['t', 'Cinco minutos de juguetes con los adultos ayudando. Darle voz al juguete ayuda: «Los bloques se van a dormir».', 'Five minutes of toys with grown-ups helping. Giving toys a voice helps: “The blocks are going to sleep.”'], ['c', 'Si alguien se niega, no discutas: empieza tú a guardar, con calma, y espera.', "If someone refuses, don't argue: start tidying yourself, calmly, and wait."]],
+  e1910: [['p', 'El baño es rato de conexión, no de prisa. Canta, juega, habla bajito.', 'Bath time is for connection, not hurry. Sing, play, speak softly.'], ['t', 'Deja que se enjabonen solos; tú acompañas.', 'Let them soap themselves; you keep them company.']],
+  e1930: [['c', 'Baja las luces y la voz. El cuerpo entiende que el día termina antes que la cabeza.', 'Lower the lights and your voice. The body understands the day is ending before the mind does.'], ['p', 'Menos palabras, más gestos: señala el cesto en lugar de repetirlo.', 'Fewer words, more gestures: point to the hamper instead of repeating yourself.']],
+  e1940: [['c', 'Es la última comida: ofrécela sin insistir. Si dicen que no, está bien; mañana hay desayuno.', "It's the last food: offer it without insisting. If they say no, that's fine; breakfast is tomorrow."], ['s', 'Pregúntale a su barriga: «¿Tu barriga tiene hambre?». Así aprende a escucharse.', 'Ask their tummy: “Is your tummy hungry?” That is how they learn to listen to themselves.']],
+  e1950: [['t', 'Que cada uno elija y deje su ropa. Si Isaac duda, dos opciones bastan.', 'Let each choose and lay out their clothes. If Isaac hesitates, two options are enough.']],
+  e1955: [['p', 'Siéntate entre las dos camas y lee sin prisa. Es el momento más valioso del día: protégelo.', 'Sit between the two beds and read slowly. It is the most precious moment of the day: protect it.'], ['s', 'No expliques la moraleja del cuento. Deja que la historia haga su trabajo.', "Don't explain the moral. Let the story do its work."]],
+  e2015: [['c', 'La misma frase de cierre cada noche. La repetición da seguridad.', 'The same closing words every night. Repetition feels safe.'], ['c', 'Si piden «uno más», abraza y repite la frase: «El día terminó».', 'If they ask for “one more”, hug and repeat the words: “The day is done.”']],
+  e2030: [['s', 'Cinco minutos, sin culpas: qué funcionó y un ajuste pequeño para mañana. Guárdenlo en Equipo.', 'Five minutes, no blame: what worked and one small tweak for tomorrow. Save it in Team.'], ['p', 'Agradece algo concreto a tu pareja. El equipo también se cuida.', 'Thank your partner for one specific thing. The team needs care too.']],
+  w1830: [['c', 'Isaac llega cansado de judo: menos palabras y directo al baño, con calma.', 'Isaac comes home tired from judo: fewer words, straight to the bath, calmly.'], ['t', 'La cena ya está preparada; quien la calienta no necesita correr.', 'Dinner is made ahead; whoever warms it needs no rush.']],
+  w1900: [['p', 'Recibe a Sophia con un abrazo, sin preguntas sobre el ballet hasta que ella quiera contar.', 'Welcome Sophia with a hug, no questions about ballet until she wants to share.']],
+  w1905: [['c', 'Cena corta y tranquila. Hoy se recortan pasos, no sueño.', 'A short, calm dinner. Tonight we cut steps, not sleep.']],
+  w1930: [['t', 'Cada uno sabe su parte: ducha rápida de Sophia, dientes de Isaac. Tú solo acompañas.', "Everyone knows their part: Sophia's quick shower, Isaac's teeth. You just keep them company."]],
+  w1945: [['t', 'Ropa en la silla y juguetes al cesto: que lo hagan ellos, aunque tarden un poco más.', 'Clothes on the chair and toys in the basket: let them do it, even if it takes a little longer.']],
+  w1955: [['p', 'Un solo cuento, compartido y sin prisa. Menos cantidad, más presencia.', 'One shared story, unhurried. Less quantity, more presence.']],
+};
+TIPS.w2015 = TIPS.e2015; TIPS.w2030 = TIPS.e2030;
+Object.assign(T.es, { tipsTitle: 'Cómo vivirlo mejor', tipKicker: 'Consejo', moreIdeas: 'Pedir más ideas', moreQ: x => '¿Cómo puedo vivir mejor este momento: «' + x + '»? Dame ideas concretas.' });
+Object.assign(T.en, { tipsTitle: 'How to meet it well', tipKicker: 'Tip', moreIdeas: 'Ask for more ideas', moreQ: x => 'How can I handle this moment better: “' + x + '”? Give me concrete ideas.' });
+
 const ICON = {"sunrise":"M12 3v3 M5.6 7.6l1.4 1.4 M18.4 7.6 17 9 M2 16h20 M6 20h12 M7 16a5 5 0 0 1 10 0","moon":"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z","clock":"M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18Z M12 7v5l3 2","book":"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2Z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7Z","rings":"M9 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10Z M15 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10Z","bell":"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0","wind":"M12.8 19.6A2 2 0 1 0 14 16H2 M17.5 8a2.5 2.5 0 1 1 2 4H2 M9.8 4.4A2 2 0 1 1 11 8H2","swap":"M17 3l4 4-4 4 M3 7h18 M7 21l-4-4 4-4 M21 17H3","cup":"M17 8h1a4 4 0 1 1 0 8h-1 M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z M6 2v2 M10 2v2 M14 2v2","leaf":"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z M2 21c0-3 1.85-5.36 5.08-6","week":"M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z M16 2v4 M8 2v4 M3 10h18 M8 14h.01 M12 14h.01 M16 14h.01 M8 18h.01 M12 18h.01"};
 const NAV_ICON = { home: ICON.sunrise, rhythm: ICON.clock, library: ICON.book, team: ICON.rings, reminders: ICON.bell };
 
@@ -1580,7 +1846,7 @@ const TUT = [
   { id: 'welcome', v: 1, icon: 'leaf', title: { es: 'Tu día en un minuto', en: 'Your day in a minute' }, steps: [
     { tab: 'home', view: 'hoy', icon: 'leaf', es: ['Bienvenido a casa', 'Esta app sostiene un solo ritmo para los dos. Cada pantalla te muestra solo tu parte, en tu idioma.', 'Pausa. Observa. Respira.'], en: ['Welcome home', 'This app holds one rhythm for both of you. Each screen shows only your part, in your language.', 'Pause. Observe. Breathe.'] },
     { tab: 'home', view: 'hoy', icon: 'sun', es: ['«Hoy» es tu punto de partida', 'Aquí ves tu día completo: la mañana, el relevo y la noche. Lo que te toca a ti aparece primero.'], en: ['“Today” is home base', 'Your whole day lives here: morning, hand-off and evening. What is yours comes first.'] },
-    { tab: 'home', view: 'ahora', icon: 'now', es: ['¿Qué está pasando ahora?', 'Un toque y ves solo el paso de este momento: qué hacer, qué decir y qué hacer si se atasca.', 'Úsalo cuando la mañana se acelere.'], en: ['What’s happening now?', 'One tap shows only this moment: what to do, what to say, and what to try if it stalls.', 'Use it when the morning speeds up.'] },
+    { tab: 'home', view: 'ahora', icon: 'now', es: ['¿Qué sigue?', 'Siempre te muestra la siguiente actividad según la hora de la familia. Un toque y ves el paso completo: qué hacer, qué decir y qué hacer si se atasca.', 'Úsalo cuando la mañana se acelere.'], en: ['What’s happening now?', 'One tap shows only this moment: what to do, what to say, and what to try if it stalls.', 'Use it when the morning speeds up.'] },
     { tab: 'home', view: 'hoy', ask: true, icon: 'ask', es: ['Pregunta, sin salir', 'En «Hoy» y en «Ahora» tienes el buscador. Escribe una duda y te responde con nuestra filosofía y la rutina.'], en: ['Ask, without leaving', 'Today and Now both have the search box. Type a doubt and it answers from our philosophy and routine.'] },
     { tab: 'reminders', icon: 'bell', es: ['Tus recordatorios', 'Llegan a tu teléfono desde Google Calendar a la hora exacta. Aquí puedes apagarlos o volver a sincronizar.'], en: ['Your reminders', 'They reach your phone from Google Calendar right on time. Turn them off or re-sync here.'] },
     { tab: 'team', icon: 'team', es: ['Cinco minutos, los dos', 'Por la noche dejen una nota: qué funcionó, dónde se atoraron y un ajuste para mañana.', 'Encuentras este centro de tutoriales en Cuenta.'], en: ['Five minutes, together', 'In the evening, leave a note: what worked, where you got stuck, one tweak for tomorrow.', 'You’ll find this tutorial center under Account.'] },
@@ -1698,10 +1964,10 @@ class Component extends DCLogic {
   line(l, dow, generic) {
     const t = T[this.state.lang], K = this.state.kb, me = this.state.me;
     const [who, es, en] = l; const text = this.state.lang === 'es' ? es : en;
-    if (generic || !K.WEEK[dow]) return { label: t.rolesGeneric[who], text, mine: false, color: who === 'take' || who === 'dinner' ? OCHRE : who === 'stay' || who === 'bath' ? SAGE : INK };
+    if (generic || !K.WEEK[dow]) return { label: t.rolesGeneric[who], text, mine: false, color: who === 'take' || who === 'dinner' ? OCHRE : who === 'stay' || who === 'bath' || who === 'pickup' ? SAGE : INK };
     let person = null;
     if (who === 'take' || who === 'dinner') person = K.WEEK[dow].take;
-    if (who === 'stay' || who === 'bath') person = K.WEEK[dow].stay;
+    if (who === 'stay' || who === 'bath' || who === 'pickup') person = K.WEEK[dow].stay;
     const mine = who === 'both' || who === 'all' || person === me;
     const label = person ? (person === me ? t.you : person) + ' · ' + t.roles[who] : t.roles[who];
     return { label, text, mine, color: person ? PC(person) : INK };
@@ -1725,12 +1991,13 @@ class Component extends DCLogic {
       out.push({ id: s.id, cat: 'routine', t: s.ti, s: L2(disp(s.t) + ' · ' + T.es[kicker], disp(s.t) + ' · ' + T.en[kicker]), steps: s, k: '' });
       if (s.say) out.push({ id: 'ph-' + s.id, cat: 'phrase', t: s.say, s: L2(disp(s.t) + ' · ' + s.ti.es, disp(s.t) + ' · ' + s.ti.en), src: s.id });
     });
-    addSteps(K.MORNING, 'kMorning'); addSteps(K.EVENING, 'kEvening'); addSteps(K.EVENING_MW.filter(s => !['w2015', 'w2030'].includes(s.id)), 'kMW');
+    addSteps(K.MORNING, 'kMorning'); addSteps(K.AFTERNOON || [], 'kAfternoon'); addSteps((K.AFTERNOON_MW || []).filter(s => s.id !== 'p1610'), 'kMW'); addSteps(K.EVENING, 'kEvening'); addSteps(K.EVENING_MW.filter(s => !['w2015', 'w2030'].includes(s.id)), 'kMW');
     K.ENTRIES.filter(e => e.cat === 'situation' && e.say).forEach(e => out.push({ id: 'ph-' + e.id, cat: 'phrase', t: e.say, s: e.t, src: e.id }));
     out.push({ id: 'ph-observe', cat: 'phrase', t: L2('Nuestros zapatos ya están junto a la puerta.', 'Our shoes are waiting by the door.'), s: L2('En lugar de «¡Apúrate!»', 'Instead of “Hurry up!”'), src: 'p-observe' });
     const seen = new Set();
     const dedup = out.filter(e => { if (e.cat !== 'phrase') return true; const k = e.t.es; if (seen.has(k)) return false; seen.add(k); return true; });
     this.visibleNotes().forEach(n => dedup.push({ id: n.id, cat: 'note', t: L2(this.noteDate(n, 'es'), this.noteDate(n, 'en')), s: L2(n.worked || n.tweak || '—', n.worked || n.tweak || '—'), note: n }));
+    (this.state.ideas || []).forEach(g => (g.items || []).filter(x => x.on !== false).forEach(x => dedup.push(x)));
     return dedup;
   }
   visibleNotes() { return (this.state.notes || []).filter(n => n.vis === 'shared' || n.author === this.state.me).sort((a, b) => b.at - a.at); }
@@ -1792,6 +2059,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       { id: 'stay', t: '7:00', days: stayDays, g: 'am', title: L2('Hoy te quedas · despierta a Sophia', 'Home day · wake Sophia'), desc: L2('Voz baja, cortinas abiertas. Después, el desayuno del menú juntos.', 'Soft voice, curtains open. Then the menu breakfast together.') },
       { id: '725', t: '7:25', days: all5, g: 'am', title: L2('A las 7:25 estamos los dos', "At 7:25 we're both there"), desc: L2('Isaac se despierta y elige la historia del desayuno.', 'Isaac wakes and picks the breakfast story.') },
       { id: '815', t: '8:15', days: all5, g: 'am', title: L2('Salimos', 'We leave'), desc: L2('Colchón hasta las 8:25 · colegio 8:45.', 'Cushion until 8:25 · school 8:45.') },
+      { id: 'pickup', t: '16:10', days: stayDays, g: 'pm', title: L2('Hoy recoges tú · sal a las 4:10', 'Pick-up is yours today · leave at 4:10'), desc: L2('Recogida a las 4:30. Lleva agua y el snack. Saludo tranquilo, sin preguntas de examen.', 'Pick-up at 4:30. Bring water and the snack. A calm hello, no quiz questions.') },
+      { id: 'home', t: '17:10', days: stayDays.filter(d => d !== 1 && d !== 3), g: 'pm', title: L2('Rumbo a casa', 'Heading home'), desc: L2('Aviso de cinco minutos y al coche. En casa a las 5:30; la cena empieza a las 6:00.', 'Five-minute heads-up, then the car. Home by 5:30; dinner starts at 6:00.') },
       { id: 'snack', t: '16:30', days: [1, 3], g: 'pm', title: L2('Merienda fuerte', 'A proper snack'), desc: L2('Antes de judo y ballet. La hora de dormir no cambia.', "Before judo and ballet. Bedtime doesn't move.") },
     ];
     const pmGroups = {};
@@ -1814,12 +2083,12 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   }
   gcalUrl(r) {
     const s = this.nextDate(r.days, r.t), e = new Date(s.getTime() + 10 * 60000);
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const tz = this.tz();
     const p = new URLSearchParams({ action: 'TEMPLATE', text: this.tx(r.title), details: this.tx(r.desc) + '\n\nThe Gentle Stoic Parent', dates: fmtLocal(s) + '/' + fmtLocal(e), ctz: tz, recur: 'RRULE:FREQ=WEEKLY;BYDAY=' + r.days.map(d => BYDAY[d]).join(',') });
     return 'https://calendar.google.com/calendar/render?' + p.toString();
   }
   downloadIcs() {
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const tz = this.tz();
     const esc = s => String(s).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
     const stamp = new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '');
     const me = this.state.me, t = T[this.state.lang];
@@ -2002,7 +2271,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   componentDidMount() {
     import(new URL('kb.js', document.baseURI).href).then(kb => this.setState({ kb }));
     import(new URL('google.js', document.baseURI).href).then(G => {
-      this.setState({ G });
+      this.setState({ G }, () => { if (this.state.session) this.pullApi(); });
       const r = G.consumeRedirect(); if (!r) return;
       if (r.error) { if (r.action === 'calendar' && r.au) this.setState(s => ({ session: null, au: { ...s.au, ...r.au, calErr: AT[r.au.lang || 'es'].errPopup } })); return; }
       if (r.action === 'calendar' && r.au) { this.setState(s => ({ session: null, au: { ...s.au, ...r.au, cal: null } }), () => this.runCalendar()); }
@@ -2012,7 +2281,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       else if (r.action === 'resync' && this.state.session) this.resync();
     }).catch(() => {});
     const p = {};
-    try { const s = JSON.parse(localStorage.getItem(LS) || '{}'); ['notes', 'remOff', 'google', 'files'].forEach(k => { if (s[k] != null) p[k] = s[k]; }); } catch (e) {}
+    try { const s = JSON.parse(localStorage.getItem(this.lsKey()) || '{}'); ['notes', 'remOff', 'google', 'files', 'ideas'].forEach(k => { if (s[k] != null) p[k] = s[k]; }); } catch (e) {}
     const nav = (navigator.language || 'es').slice(0, 2) === 'en' ? 'en' : 'es';
     const au = { ...this.state.au, lang: nav, cfgInput: this.clientId() };
     try {
@@ -2026,6 +2295,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       if (u && au.step !== 'joinIntro') Object.assign(p, { session: u.role, me: u.role, lang: u.lang || 'es' });
     } catch (e) {}
     this.setState(p);
+    this.checkFace();
     this.timer = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 30000);
     this.onR = () => this.setState({ w: window.innerWidth });
     window.addEventListener('resize', this.onR);
@@ -2034,7 +2304,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     this.setState(patch, () => { const { notes, remOff, google, files } = this.state; try { localStorage.setItem(LS, JSON.stringify({ notes, remOff, google, files })); } catch (e) {} });
   }
   apiUrl() { try { return localStorage.getItem('gsp:apiUrl') || this.props.appsScriptUrl || (window.GSP_CONFIG && window.GSP_CONFIG.appsScriptUrl) || ''; } catch (e) { return ''; } }
-  clientId() { try { return localStorage.getItem('gsp:clientId') || this.props.googleClientId || (window.GSP_CONFIG && window.GSP_CONFIG.clientId) || ''; } catch (e) { return this.props.googleClientId || ''; } }
+  clientId() { try { return localStorage.getItem('gsp:clientId') || this.props.googleClientId || ''; } catch (e) { return this.props.googleClientId || ''; } }
   real() { return !!(this.clientId() && this.state.G); }
   family() { try { return JSON.parse(localStorage.getItem('gsp:family') || 'null'); } catch (e) { return null; } }
   saveFamily(f) { try { localStorage.setItem('gsp:family', JSON.stringify(f)); } catch (e) {} }
@@ -2052,12 +2322,13 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     window.scrollTo(0, 0);
     setTimeout(() => this.tutAuto(), 900);
     if (this.real()) this.loadRemote();
+    setTimeout(() => this.pullApi(), 400);
   }
   async loadRemote() {
     const G = this.state.G, f = this.family(); if (!G || !f || !G.isConnected()) return;
     try {
       const rows = (await G.readTab('Notas')).filter(r => r.familiaId === f.id);
-      const notes = rows.map(r => ({ id: r.id, at: Number(r.fecha) || Date.parse(r.fecha) || Date.now(), author: r.autor, vis: r.visibilidad, worked: r.funciono, stuck: r.atasco, tweak: r.ajuste, bags: r.mochilas === '1', clothes: r.ropa === '1', breakfast: r.desayuno === '1' }));
+      const notes = rows.map(r => ({ id: r.id, at: Number(r.fecha) || Date.parse(r.fecha) || Date.now(), author: r.autor, vis: r.visibilidad, worked: r.funciono, stuck: r.atasco, tweak: r.ajuste, bags: r.mochilas === '1', clothes: r.ropa === '1', breakfast: r.desayuno === '1', idea: r.idea || '' }));
       const fr = (await G.readTab('Archivos')).filter(r => r.familiaId === f.id).map(r => ({ name: r.nombre, link: r.enlace, author: r.autor, at: Number(r.fecha) || Date.now() }));
       this.persist({ notes, files: fr });
     } catch (e) {}
@@ -2131,6 +2402,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       add(take ? 'pm-dinner' + (mw ? 'mw' : '') : 'pm-bath' + (mw ? 'mw' : ''), take ? L2('Bloque · Cena', 'Block · Dinner')[lang] : L2('Bloque · Baño y cuentos', 'Block · Bath & stories')[lang],
         take ? L2('Cocinar, snack puente 7:40, cerrar la cocina, mochilas listas.', 'Cook, 7:40 bridge snack, close the kitchen, backpacks ready.')[lang] : L2('Juego, baño, pijamas, dientes, cuentos y luces fuera.', 'Play, bath, pajamas, teeth, stories and lights out.')[lang],
         mw ? '18:30' : '18:00', '20:15', d, '9');
+      if (!take) add('pickup' + (mw ? 'mw' : ''), L2('Bloque · Recoger a los niños', 'Block · School pick-up')[lang], mw ? L2('Salir 4:10, recoger 4:30, merienda fuerte y a la actividad.', 'Leave 4:10, pick up 4:30, proper snack, then the activity.')[lang] : L2('Salir 4:10 · recoger 4:30 · juego y snack · en casa 5:30.', 'Leave 4:10 · pick up 4:30 · play and snack · home by 5:30.')[lang], '16:10', mw ? '17:10' : '17:30', d, '2');
     });
     const out = [...ev, ...Object.values(blocks)].map(e => ({ ...e, firstDate: this.nextDate(e.days, e.start) }));
     return out.sort((a, b) => a.kind === b.kind ? toMin(a.start) - toMin(b.start) : a.kind === 'rem' ? -1 : 1);
@@ -2177,7 +2449,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const au = this.state.au, A = AT[au.lang], lang = au.lang, G = this.state.G, real = this.real(), api = this.apiUrl();
     const member = au.savedMember; if (!member) return;
     const role = member.role;
-    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const tz = this.tz();
     const events = this.buildEvents(role, lang);
     const nRem = events.filter(e => e.kind === 'rem').length, nBlk = events.length - nRem;
     const set = (i, extra) => this.setAu({ cal: { i, nRem, nBlk, done: 0, ...(this.state.au.cal || {}), ...extra, i }, calErr: '' });
@@ -2210,7 +2482,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     try {
       const u = this.users().find(x => x.role === me);
       if (this.real()) {
-        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const tz = this.tz();
         if (!G.isConnected()) await G.connect(this.clientId(), u && (u.contact || u.email), { action: 'resync' });
         const cid = await G.ensureCalendar((lang === 'es' ? 'Nuestro ritmo · ' : 'Our rhythm · ') + me, tz, u && u.calendarId);
         const n = await G.syncEvents(cid, tz, this.buildEvents(me, lang));
@@ -2320,7 +2592,9 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         wSignin: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'signin', wNew: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'new',
         wTitle: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'signin' ? A.wBack : A.welcome, wSub: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'signin' ? A.wBackSub : A.wNewSub,
         wTabs: [['signin', A.tabSignin], ['new', A.tabNew]].map(([v, label]) => { const on = (au.wTab || (this.users().length ? 'signin' : 'new')) === v; return { label, on, fg: on ? INK : '#8C877C', bar: on ? INK : 'transparent', go: () => this.setAu({ wTab: v, err: '', loginErr: '' }) }; }),
-        hasFace: false, faceLbl: '', faceId: () => {},
+        hasFace: !!this.passkey() && !!this.state.faceAvail, faceLbl: this.passkey() ? A.faceWith(this.nick(this.passkey().role)) : '', faceId: () => this.faceId(), faceBg: this.passkey() && this.passkey().role === 'Christine' ? '#EEF2EA' : '#FBF1E4', faceFg: this.passkey() ? PC(this.passkey().role) : OCHRE,
+        devTap: () => this.devTap(), devOpen: !!au.devOpen, devClose: () => this.setAu({ devOpen: false }),
+        devUsers: ['Juan', 'Christine'].map(p => ({ name: p, initial: p[0], color: PC(p), role: p === 'Juan' ? A.devJuan : A.devChristine, go: () => this.devEnter(p) })),
         gOff: !clientId || !this.state.G || (au.step === 'calendar' && !au.saved), gOp: (!clientId || !this.state.G || (au.step === 'calendar' && !au.saved)) ? 0.55 : 1,
         signInLbl: clientId ? A.signInGoogle : A.gSoonLbl, googleSignIn: () => this.googleSignIn(), gsiReal: false, gsiDemo: true, gRef: this.gRef,
         hasErr: !!au.err, err: au.err,
@@ -2373,7 +2647,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         }),
         noRole: !au.role, roleBtnOp: au.role ? 1 : 0.4, toLang: () => au.role && this.setAu({ step: 'lang' }),
         langs: [['es', 'Español', '¡Hola!'], ['en', 'English', 'Hello!']].map(([v, name, hello]) => ({ name, hello, bd: L === v ? OCHRE : '#E6DFD2', bg: L === v ? '#FBF1E4' : PAPER, pick: () => this.setAu({ lang: v }) })),
-        toggleFace: () => this.setAu({ face: !au.face }), faceTrk: au.face ? SAGE : '#D9D2C4', faceX: au.face ? '20px' : '0px',
+        toggleFace: () => { if (!this.state.faceAvail) return; const v = !au.face; try { localStorage.setItem('gsp:faceWant', v ? '1' : '0'); } catch (e) {} this.setAu({ face: v }); }, faceTrk: au.face && this.state.faceAvail ? SAGE : '#D9D2C4', faceX: au.face && this.state.faceAvail ? '20px' : '0px', faceSub: this.state.faceAvail ? A.useFaceSub2 : A.faceNA, faceRowOp: this.state.faceAvail ? 1 : 0.55,
         afterLang: () => this.setAu({ step: joining ? 'calendar' : 'invite' }),
         inviteTitle: A.inviteTitle(partner), inviteSub: A.inviteSub(partner), invitePh: A.invitePh(partner),
         inviteEmail: au.inviteEmail, onInviteEmail: e => this.setAu({ inviteEmail: e.target.value, err: '' }),
@@ -2428,11 +2702,11 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   }
   renderVals() {
     const authed = !!this.state.session;
-    const baseAuth = { authed, notAuthed: !authed, showReviewBar: this.props.showReviewBar ?? false, ready: !!this.state.kb, stop: e => e.stopPropagation() };
+    const W0 = this.state.w; const baseAuth = { heroImg: W0 < 720 ? 'none' : 'block', mainPad: W0 >= 1024 ? '32px clamp(24px, 3vw, 40px) 72px' : W0 >= 600 ? '24px 24px 140px' : '18px 16px 132px', authed, notAuthed: !authed, showReviewBar: this.props.showReviewBar ?? true, ready: !!this.state.kb, stop: e => e.stopPropagation() };
     if (!authed) return { ...baseAuth, ...this.authVals(), t: T[this.state.au.lang] };
     const lang = this.state.lang, t = T[lang], me = this.state.me, K = this.state.kb, ses = this.state.session;
     const user = this.users().find(u => u.role === ses) || { role: ses, email: '', provider: 'email' };
-    const isDesktop = this.state.w >= 1100;
+    const isDesktop = this.state.w >= 1024;
     const tab = this.state.tab, view = this.state.view;
     const navDefs = [['home', 'sun'], ['rhythm', 'pancakes'], ['library', 'bunny-books'], ['team', 'fox-couple'], ['reminders', 'backpacks']];
     const goTab = v => { this.setState({ tab: v, view: v === 'home' ? 'hoy' : this.state.view }); window.scrollTo(0, 0); };
@@ -2442,13 +2716,15 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       userColor: PC(ses), userInitial: ses[0], viewingOther: me !== ses, meTint: me === 'Juan' ? '#F7E6D3' : '#E3EBDF',
       viewingText: t.viewing(me), backToMeLbl: t.backToMe, backToMe: () => this.setState({ me: ses }),
       daySeg: seg([{ value: 'real', label: t.real }, ...[1, 2, 3, 4, 5, 6].map(d => ({ value: String(d), label: t.letters[d] }))], this.state.simDay, v => this.setState({ simDay: v })),
-      timeSeg: seg([{ value: 'real', label: t.realTime }, ...[418, 447, 467, 750, 1120, 1182, 1235].map(m => ({ value: String(m), label: disp(Math.floor(m / 60) + ':' + pad(m % 60)) }))], this.state.simMin, v => this.setState({ simMin: v })),
+      timeSeg: seg([{ value: 'real', label: t.realTime }, ...[418, 447, 467, 975, 1000, 1040, 1060, 1120, 1182, 1235].map(m => ({ value: String(m), label: disp(Math.floor(m / 60) + ':' + pad(m % 60)) }))], this.state.simMin, v => this.setState({ simMin: v })),
       tu: this.tutorialVals(lang), lk: this.linkVals(),
       goHome: () => goTab('home'), goReminders: () => goTab('reminders'), goTeam: () => goTab('team'), goRhythm: () => goTab('rhythm'),
       goAhora: () => { this.setState({ tab: 'home', view: 'ahora' }); window.scrollTo(0, 0); }, goHoy: () => { this.setState({ tab: 'home', view: 'hoy' }); window.scrollTo(0, 0); },
-      goAsk: () => { this.setState({ tab: 'home' }); this.scrollToAsk(); },
-      deskNav: navDefs.map(([v]) => ({ d: NAV_ICON[v], label: t.nav[v === 'home' ? 'today' : v], go: () => goTab(v), fg: tab === v ? INK : MUTED, bg: tab === v ? '#F1EDE4' : 'transparent' })),
-      mobileNav: navDefs.slice(0, 4).map(([v, img]) => ({ label: t.nav[v === 'home' ? 'today' : v], d: NAV_ICON[v], go: () => goTab(v), bg: tab === v ? '#F1EDE4' : 'transparent', fg: tab === v ? INK : MUTED })),
+      goAsk: () => { this.setState({ tab: 'ask' }); window.scrollTo(0, 0); this.scrollToAsk(); },
+      shellPad: isDesktop ? '248px' : '0px', isDev: this.devMode(), askBtnBg: tab === 'ask' ? '#8A4E1A' : OCHRE, acctNick: this.nick(ses), famLine: this.familyLine(), nx: this.nextUp(lang),
+      sideNav: [['home', 'today'], ['rhythm', 'rhythm'], ['library', 'library'], ['team', 'team'], ['reminders', 'reminders']].map(([v, k]) => { const on = tab === v; return { d: NAV_ICON[v], label: t.nav[k], go: () => goTab(v), cur: on ? 'page' : 'false', bg: on ? PAPER : 'transparent', sh: on ? '0 1px 2px rgba(42,47,43,0.06), 0 6px 16px rgba(90,60,30,0.08)' : 'none', fg: on ? INK : MUTED, weight: on ? 600 : 500, icBg: on ? '#FBF1E4' : 'transparent', icFg: on ? OCHRE : MUTED, hasDot: v === 'reminders' && !!(this.state.google || {})[me] }; }),
+      tabs: [['home', 'today'], ['rhythm', 'rhythm'], ['ask', 'ask'], ['library', 'library'], ['team', 'team']].map(([v, k]) => { const on = tab === v; return v === 'ask' ? { isAsk: true, isTab: false, label: t.nav.ask, go: () => { goTab('ask'); this.scrollToAsk(); }, bg: on ? '#8A4E1A' : OCHRE } : { isTab: true, isAsk: false, d: NAV_ICON[v], label: t.nav[k], go: () => goTab(v), cur: on ? 'page' : 'false', fg: on ? INK : '#6F6C64', pill: on ? '#F3E7D6' : 'transparent', icFg: on ? OCHRE : '#6F6C64' }; }),
+      personFull: ['Juan', 'Christine'].map(p => ({ label: p, go: () => this.setState({ me: p, saved: false }), bg: me === p ? PC(p) : 'transparent', fg: me === p ? PAPER : MUTED })),
       personSeg: ['Juan', 'Christine'].map(p => ({ label: isDesktop ? p : p[0], aria: t.viewAs + ' ' + p, go: () => this.setState({ me: p, saved: false }), bg: me === p ? PC(p) : 'transparent', fg: me === p ? PAPER : MUTED })),
       langSeg: seg([{ value: 'es', label: 'ES' }, { value: 'en', label: 'EN' }], lang, v => this.setState({ lang: v })),
       gConnected: !!(this.state.google || {})[me],
@@ -2465,9 +2741,9 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const bf = W ? K.ENTRIES.find(e => e.id === W.bf) : null;
     const roles = r ? [
       { k: t.morning, d: ICON.sunrise, iconBg: '#FBF1E4', iconFg: OCHRE, v: t.roleMorning[r.am], sub: t.partnerDoes(r.partner, t.roles[r.am === 'take' ? 'stay' : 'take']), color: PC(me) },
+      { k: t.afternoon, d: ICON.leaf, iconBg: '#EEF2EA', iconFg: SAGE, v: r.am === 'stay' ? t.pickYou : t.pickPartner(this.nick(r.partner)), sub: W.pm ? this.tx(W.pm) : t.pickSub, color: r.am === 'stay' ? PC(me) : INK },
       { k: t.evening, d: ICON.moon, iconBg: '#E4EAF2', iconFg: NAVY, v: t.roleEvening[r.pm], sub: t.partnerDoes(r.partner, t.roles[r.pm === 'dinner' ? 'bath' : 'dinner']), color: PC(me) },
       { k: t.breakfast, d: ICON.cup, iconBg: '#FBF1E4', iconFg: OCHRE, v: this.tx(bf.dish), sub: this.tx(bf.s), color: INK },
-      ...(W.pm ? [{ k: t.afternoon, d: ICON.leaf, iconBg: '#EEF2EA', iconFg: SAGE, v: this.tx(W.pm), sub: '', color: INK }] : []),
     ].map((x, i) => ({ ...x, delay: (60 + i * 40) + 'ms' })) : [];
 
     const focusIdx = phase === 'now' ? info.idx : (phase === 'before' || phase === 'between') ? info.p : -1;
@@ -2487,6 +2763,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         say: this.tx(focus.say), hasSay: !!focus.say, stuck: this.tx(focus.stuck), hasStuck: !!focus.stuck,
       });
       a.cardLine = (phase === 'now' ? '' : t.nextPrefix) + a.time + ' · ' + a.title;
+      a.tips = this.tipsFor(focus.id, lang); a.hasTips = a.tips.length > 0;
+      a.moreIdeas = () => { this.setState({ tab: 'ask' }); window.scrollTo(0, 0); this.ask(t.moreQ(a.title)); };
       a.cardHint = mine.length ? t.you + ': ' + mine[0].text : a.mine[0].text;
       const nx = steps[focusIdx + 1];
       if (nx) {
@@ -2510,13 +2788,14 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         op: past ? 0.5 : 1, weight: s.anchor || isNow || isNext ? 600 : 400,
       };
     };
-    const mStart = steps.findIndex(s => s.id[0] !== 'm');
+    const mStart = steps.findIndex(s => s.id[0] !== 'm'); const eStart = steps.findIndex(s => s.id[0] === 'e' || s.id[0] === 'w');
     const hour = this.clock().min;
     const b = {
       titleA: t.yourDayA, titleB: t.days[dow], sub: r ? (r.am === 'take' ? t.subTake : t.subStay) : t.subWeekend, isWeekend: !steps.length,
       sections: steps.length ? [
         { label: t.morningLbl, sub: '6:55 – 8:15', bg: PEACH, tone: OCHRE, img: 'img/brand/spot-cup.png', delay: '80ms', items: steps.slice(0, mStart).map((s, i) => mkItem(s, i)) },
-        { label: dow === 1 || dow === 3 ? t.eveMW : t.eveStd, sub: disp(steps[mStart].t) + ' – 8:30', bg: SKY, tone: NAVY, img: 'img/brand/spot-moon.png', delay: '160ms', items: steps.slice(mStart).map((s, i) => mkItem(s, i + mStart)) },
+        ...(eStart > mStart ? [{ label: t.afternoonLbl, sub: '4:10 – ' + (dow === 1 || dow === 3 ? '5:10' : '5:30'), bg: '#EAF0E4', tone: SAGE, img: 'img/brand/spot-olive.png', delay: '120ms', items: steps.slice(mStart, eStart).map((s, i) => mkItem(s, i + mStart)) }] : []),
+        { label: dow === 1 || dow === 3 ? t.eveMW : t.eveStd, sub: disp(steps[eStart].t) + ' – 8:30', bg: SKY, tone: NAVY, img: 'img/brand/spot-moon.png', delay: '160ms', items: steps.slice(eStart).map((s, i) => mkItem(s, i + eStart)) },
       ] : [],
     };
 
@@ -2527,7 +2806,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const rDay = this.state.rhythmDay || (dow >= 1 && dow <= 5 ? dow : 1);
     const rv = this.state.rhythmView;
     const mw = rDay === 1 || rDay === 3;
-    const rSteps = rv === 'morning' ? K.MORNING : (mw ? K.EVENING_MW : K.EVENING);
+    const rSteps = rv === 'morning' ? K.MORNING : [...((mw ? K.AFTERNOON_MW : K.AFTERNOON) || []), ...(mw ? K.EVENING_MW : K.EVENING)];
     const rh = {
       showDays: rv === 'morning' || rv === 'evening', showSteps: rv === 'morning' || rv === 'evening', showWeek: rv === 'week', showBreakfast: rv === 'breakfast',
       bg: rv === 'morning' ? PEACH : SKY, tone: rv === 'morning' ? OCHRE : NAVY, img: IMG(rv === 'morning' ? 'pancakes' : mw ? 'bath' : 'bunny-books'),
@@ -2596,12 +2875,13 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     };
     const br = this.state.breath;
     const relevoOpen = this.state.relevo, acctOpen = this.state.acct;
-    const fr = this.faceRole();
+    const fr = this.faceRole(); const pk = this.passkey(); const pkOn = !!pk && pk.role === ses; const famNow = this.family() || {}; const canTz = !famNow.createdBy || famNow.createdBy === ses || this.devMode();
     const acc = {
       name: (user.name || ses) + (user.nick && user.nick !== user.name ? ' · «' + user.nick + '»' : ''), email: user.email, provider: this.familyLine() + ' · ' + ses,
       langSeg: seg([{ value: 'es', label: 'Español' }, { value: 'en', label: 'English' }], user.lang || lang, v => { const us = this.users().map(u => u.role === ses ? { ...u, lang: v } : u); this.saveUsers(us); this.setState({ lang: v }); }),
-      faceTrk: '#D9D2C4', faceX: '0px', faceSub: fr === ses ? t.faceOn : t.faceOff,
-      toggleFace: () => {}, _oldFace: () => { try { if (fr === ses) localStorage.removeItem('gsp:faceid'); else localStorage.setItem('gsp:faceid', ses); } catch (e) {} this.forceUpdate(); },
+      faceTrk: pkOn ? SAGE : '#D9D2C4', faceX: pkOn ? '20px' : '0px', faceSub: !this.state.faceAvail ? t.faceNA : pkOn ? t.faceOnSub : t.faceOffSub, faceOp: this.state.faceAvail ? 1 : 0.55,
+      toggleFace: () => { if (!this.state.faceAvail) return; if (pkOn) this.disableFace(); else this.enrollFace(); },
+      tz: this.tz(), canTz, noTz: !canTz, tzLbl: (TZS.find(z => z[0] === this.tz()) || [0, this.tz()])[1], tzHint: canTz ? t.tzHintOwner : t.tzHint(famNow.createdBy || ''), onTz: e => this.setTz(e.target.value), tzOpts: TZS.map(([v, l]) => ({ v, l })),
       accounts: t.accounts(this.users().length),
     };
     const md = de ? { kicker: dt.kicker, kickColor: dt.kickColor, title: dt.title }
@@ -2613,7 +2893,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
 
     return {
       ...base,
-      showB: tab === 'home' && view === 'hoy', showA: tab === 'home' && view === 'ahora', showAskPanel: tab === 'home',
+      showB: tab === 'home' && view === 'hoy', showA: tab === 'home' && view === 'ahora', showAskPanel: tab === 'home' || tab === 'ask',
       showRhythm: tab === 'rhythm', showLibrary: tab === 'library', showTeam: tab === 'team', showReminders: tab === 'reminders',
       a, b, quote, roles, hasRoles: roles.length > 0,
       greeting: t.greet[hour < 720 ? 0 : hour < 1140 ? 1 : 2] + ', ' + this.nick(ses),
@@ -2624,7 +2904,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       onAskSubmit: e => { e.preventDefault(); this.ask(this.state.askInput); },
       showSugg: !res && !this.state.asking,
       suggestions: t.sugg.slice(0, isDesktop ? 6 : 4).map(s => ({ label: s, go: () => this.ask(s) })),
-      hasAnswer: !!(res && res.answer), res: res ? { ...res, hasSay: !!res.say, hasQuestion: !!res.question } : {}, askErr: this.state.askErr,
+      hasAnswer: !!(res && res.answer), res: res ? { ...res, hasSay: !!res.say, hasQuestion: !!res.question, hasAvoid: !!res.avoid, hasWhy: !!res.why, hasPrinciple: !!res.principle, offline: !!res.offline, hasSteps: !!(res.steps && res.steps.length), steps: (res.steps || []).map((x, i) => ({ n: String(i + 1), title: x.title || '', text: x.text || '' })) } : {}, askErr: this.state.askErr,
       related, hasRelated: related.length > 0,
       clearAsk: () => { this.setState({ askRes: null, askQ: '', askInput: '', askErr: false }); this.scrollToAsk(); },
       rhythmSeg: seg(['morning', 'evening', 'week', 'breakfast'].map(v => ({ value: v, label: t.rv[v] })), rv, v => this.setState({ rhythmView: v })).map((o, i) => ({ ...o, d: [ICON.sunrise, ICON.moon, ICON.week, ICON.cup][i] })),
@@ -2644,14 +2924,14 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       closeAll: () => { clearTimeout(this.gt); this.setState({ detail: null, gStep: null, relevo: false, acct: false }); },
       modalAlign: sheet ? 'flex-end' : 'center', modalPad: sheet ? '0' : '24px', modalRadius: sheet ? '28px 28px 0 0' : '28px', modalW: de ? '660px' : '480px',
       teamDate: dateLbl,
-      fields: ['worked', 'stuck', 'tweak'].map(k => ({ label: t.q[k], value: d[k], onChange: e => setD(k, e.target.value) })),
+      fields: ['worked', 'stuck', 'tweak', 'idea'].map(k => ({ label: t.q[k], value: d[k] || '', onChange: e => setD(k, e.target.value) })),
       checks: ['bags', 'clothes', 'breakfast'].map(k => ({ label: t.readyItems[k], toggle: () => setD(k, !d[k]), bg: d[k] ? '#EEF2EA' : PAPER, bd: d[k] ? SAGE : '#E6DFD2', box: d[k] ? SAGE : '#BDB5A6', fill: d[k] ? SAGE : 'transparent', mark: d[k] ? '✓' : '' })),
       visSeg: seg([{ value: 'shared', label: t.visShared(partnerOfSes) }, { value: 'private', label: t.visPrivate }], d.vis, v => setD('vis', v)),
-      cantSave: !(d.worked.trim() || d.stuck.trim() || d.tweak.trim()), saveOp: (d.worked.trim() || d.stuck.trim() || d.tweak.trim()) ? 1 : 0.4,
-      saveNote: () => { const n = { id: 'n' + Date.now(), at: Date.now(), author: ses, ...d }; this.syncNote(n); this.persist({ notes: [n, ...(this.state.notes || [])], draft: { worked: '', stuck: '', tweak: '', bags: false, clothes: false, breakfast: false, vis: d.vis }, saved: true }); },
+      cantSave: !['worked', 'stuck', 'tweak', 'idea'].some(k => (d[k] || '').trim()), saveOp: ['worked', 'stuck', 'tweak', 'idea'].some(k => (d[k] || '').trim()) ? 1 : 0.4,
+      saveNote: () => { const n = { id: 'n' + Date.now(), at: Date.now(), author: ses, ...d }; this.syncNote(n); this.persist({ notes: [n, ...(this.state.notes || [])], draft: { worked: '', stuck: '', tweak: '', idea: '', bags: false, clothes: false, breakfast: false, vis: d.vis }, saved: true }); setTimeout(() => this.distill(n), 60); },
       saved: this.state.saved, noNotes: notes.length === 0,
       noteList: notes.map(n => ({ head: this.noteDate(n, lang) + ' · ' + (n.author === ses ? t.you : n.author), color: PC(n.author), vis: n.vis === 'shared' ? t.tagShared : t.tagPrivate,
-        rows: [['worked', n.worked], ['stuck', n.stuck], ['tweak', n.tweak]].filter(x => x[1]).map(([k, v]) => ({ q: t.q[k], a: v })) })),
+        rows: [['worked', n.worked], ['stuck', n.stuck], ['tweak', n.tweak], ['idea', n.idea]].filter(x => x[1]).map(([k, v]) => ({ q: t.q[k], a: v })) })),
       onUpload: e => this.onUpload(e), uploading: this.state.uploading, uploadLbl: this.state.uploading ? t.uploading : t.upload,
       fileList: (this.state.files || []).map(x => ({ name: x.name, link: x.link, meta: x.author + ' · ' + new Intl.DateTimeFormat(t.locale, { day: 'numeric', month: 'short' }).format(new Date(x.at)), color: PC(x.author) })), noFiles: !(this.state.files || []).length,
       resync: () => this.resync(), syncMsg: this.state.syncMsg, hasSyncMsg: !!this.state.syncMsg,
@@ -2662,11 +2942,280 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       disconnectG: () => { const gg = { ...this.state.google }; delete gg[me]; this.persist({ google: gg }); },
       downloadIcs: () => this.downloadIcs(),
       remGroups: [{ label: t.amG, tone: OCHRE, d: ICON.sunrise, bg: '#FBF1E4', items: rems.filter(x => x.g === 'am').map(remRow) }, { label: t.pmG, tone: NAVY, d: ICON.moon, bg: '#E4EAF2', items: rems.filter(x => x.g === 'pm').map(remRow) }],
+      faceOffer: this.faceOfferOn(), faceMsg: this.state.faceMsg || '', hasFaceMsg: !!this.state.faceMsg, enrollFace: () => this.enrollFace(), dismissFace: () => { try { localStorage.setItem('gsp:faceOff:' + ses, '1'); } catch (e) {} this.forceUpdate(); },
+      ideaGroups: this.ideaGroups(lang), noIdeas: this.ideaGroups(lang).length === 0,
       breathOn: !!br, breathScale: br && br.inh ? 1.15 : 0.6,
       breathLabel: br ? (br.done ? t.breathDone : br.inh ? t.inhale : t.exhale) : '', breathCount: br ? t.breathOf(Math.max(1, br.n)) : '',
       breathBtn: br && br.done ? t.breathClose : t.breathEnd, stopBreath: () => { clearInterval(this.bt); this.setState({ breath: null }); },
     };
   }
+  // ---------- v6 ----------
+  devMode() { try { return localStorage.getItem('gsp:dev') === '1'; } catch (e) { return false; } }
+  lsKey() { return this.devMode() ? LS + ':dev' : LS; }
+  family() { try { return JSON.parse(localStorage.getItem(this.devMode() ? 'gsp:family:dev' : 'gsp:family') || 'null'); } catch (e) { return null; } }
+  saveFamily(f) { try { localStorage.setItem(this.devMode() ? 'gsp:family:dev' : 'gsp:family', JSON.stringify(f)); } catch (e) {} }
+  real() { return !this.devMode() && !!(this.clientId() && this.state.G); }
+  persist(patch) {
+    this.setState(patch, () => { const { notes, remOff, google, files, ideas } = this.state; try { localStorage.setItem(this.lsKey(), JSON.stringify({ notes, remOff, google, files, ideas })); } catch (e) {} });
+  }
+  devTap() {
+    const now = Date.now(); this.devTaps = (this.devTaps || []).filter(x => now - x < 2500).concat(now);
+    if (this.devTaps.length >= 5) { this.devTaps = []; this.setAu({ devOpen: true }); }
+  }
+  devEnter(role) {
+    try {
+      if (!this.devMode()) { const s0 = localStorage.getItem('gsp:session'); if (s0) localStorage.setItem('gsp:session:real', s0); }
+      localStorage.setItem('gsp:dev', '1');
+      const lang = this.state.au.lang || 'es';
+      if (!localStorage.getItem('gsp:family:dev')) localStorage.setItem('gsp:family:dev', JSON.stringify({ id: 'fdev', name: 'Prueba', code: 'DEV000', createdBy: 'Juan', tz: 'Europe/Madrid', members: [
+        { role: 'Juan', email: 'juan@prueba.dev', contact: 'juan@prueba.dev', name: 'Juan Prueba', nick: 'Juan', lang },
+        { role: 'Christine', email: 'christine@prueba.dev', contact: 'christine@prueba.dev', name: 'Christine Prueba', nick: 'Christine', lang }] }));
+      localStorage.setItem('gsp:session', JSON.stringify({ role }));
+    } catch (e) {}
+    location.reload();
+  }
+  devExit() {
+    try {
+      localStorage.removeItem('gsp:dev');
+      const r = localStorage.getItem('gsp:session:real'); localStorage.removeItem('gsp:session:real');
+      if (r) localStorage.setItem('gsp:session', r); else localStorage.removeItem('gsp:session');
+    } catch (e) {}
+    location.reload();
+  }
+  logout() {
+    if (this.devMode()) return this.devExit();
+    try { localStorage.removeItem('gsp:session'); } catch (e) {}
+    try { this.state.G && this.state.G.disconnect(); } catch (e) {}
+    this.setState(s => ({ session: null, acct: false, detail: null, au: { ...s.au, step: 'welcome', lang: s.lang, err: '', wTab: 'signin' } }));
+    window.scrollTo(0, 0);
+  }
+
+  // time zone (family setting, default Spain)
+  tipsFor(id, lang) { return (TIPS[id] || []).map(([p, es, en]) => ({ p: PILLAR[p][lang], text: lang === 'es' ? es : en })); }
+  tz() { const f = this.family(); return (f && f.tz) || 'Europe/Madrid'; }
+  tzNow() {
+    try {
+      const P = {}; new Intl.DateTimeFormat('en-US', { timeZone: this.tz(), weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date()).forEach(x => { P[x.type] = x.value; });
+      return { dow: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(P.weekday), min: (Number(P.hour) % 24) * 60 + Number(P.minute), y: +P.year, mo: +P.month, d: +P.day };
+    } catch (e) { const d = new Date(); return { dow: d.getDay(), min: d.getHours() * 60 + d.getMinutes(), y: d.getFullYear(), mo: d.getMonth() + 1, d: d.getDate() }; }
+  }
+  clock() {
+    const p = this.tzNow();
+    const dow = this.state.simDay === 'real' ? p.dow : Number(this.state.simDay);
+    const min = this.state.simMin === 'real' ? p.min : Number(this.state.simMin);
+    const date = new Date(p.y, p.mo - 1, p.d); date.setDate(date.getDate() + (dow - p.dow));
+    return { dow, min, date };
+  }
+  setTz(v) {
+    const f = this.family() || {}; this.saveFamily({ ...f, tz: v }); this.forceUpdate();
+    if (this.real() && this.apiUrl()) this.state.G.callApi(this.apiUrl(), 'setFamily', { tz: v }).catch(() => {});
+  }
+  stepsFor(dow) {
+    const K = this.state.kb; if (!K || dow < 1 || dow > 5) return [];
+    const mw = dow === 1 || dow === 3;
+    return [...K.MORNING, ...((mw ? K.AFTERNOON_MW : K.AFTERNOON) || []), ...(mw ? K.EVENING_MW : K.EVENING)].map(s => ({ ...s, m: toMin(s.t) }));
+  }
+  // "¿Qué sigue?": the next activity by the family clock, rolling over to the next school day
+  nextUp(lang) {
+    const t = T[lang]; if (!this.state.kb) return { has: false };
+    const { dow, min } = this.clock(), info = this.dayInfo();
+    let d = 0, s = null, dd = dow;
+    for (; d < 8; d++) { dd = (dow + d) % 7; const st = this.stepsFor(dd); s = d === 0 ? st.find(x => x.m > min) : st[0]; if (s) break; }
+    if (!s) return { has: false };
+    const diff = s.m - min + d * 1440;
+    const inLbl = d === 0 ? (diff < 60 ? t.inMin(diff) : t.inHM(Math.floor(diff / 60), diff % 60)) : d === 1 ? t.tomorrow : t.onDay(t.days[dd]);
+    const lines = s.l.map(l => this.line(l, dd));
+    const mine = lines.find(l => l.mine && l.label !== t.roles.all) || lines.find(l => l.mine);
+    const first = mine || lines[0];
+    const aft = s.id[0] === 'a' || s.id[0] === 'p', eve = s.id[0] === 'e' || s.id[0] === 'w';
+    const cur = info.phase === 'now' ? info.steps[info.idx] : null;
+    const tips = this.tipsFor(s.id, lang);
+    return { has: true, line: disp(s.t) + ' · ' + this.tx(s.ti), inLbl, tips, hasTips: tips.length > 0,
+      hint: first ? (mine ? t.you : first.label) + ': ' + first.text : '', hasHint: !!first,
+      tone: aft ? SAGE : eve ? NAVY : OCHRE, panel: aft ? '#E6EDE0' : eve ? SKY : PEACH,
+      nowLine: cur ? t.nowPrefix + disp(cur.t) + ' · ' + this.tx(cur.ti) : '', hasNow: !!cur };
+  }
+
+  // Face ID (WebAuthn passkey on this device)
+  b64u(buf) { return btoa(String.fromCharCode.apply(null, new Uint8Array(buf))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+  unb64u(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+  passkey() { try { const p = JSON.parse(localStorage.getItem('gsp:passkey') || 'null'); return p && this.users().some(u => u.role === p.role) ? p : null; } catch (e) { return null; } }
+  faceRole() { const p = this.passkey(); return p ? p.role : null; }
+  async checkFace() {
+    try { const ok = !!(window.PublicKeyCredential && PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable && await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable()); this.setState({ faceAvail: ok }); }
+    catch (e) { this.setState({ faceAvail: false }); }
+  }
+  faceOfferOn() {
+    if (!this.state.faceAvail || this.devMode() || this.passkey()) return false;
+    try { return localStorage.getItem('gsp:faceWant') !== '0' && localStorage.getItem('gsp:faceOff:' + this.state.session) !== '1'; } catch (e) { return false; }
+  }
+  async enrollFace() {
+    const ses = this.state.session, u = this.users().find(x => x.role === ses) || { role: ses }, fam = this.family() || {};
+    try {
+      const cred = await navigator.credentials.create({ publicKey: {
+        challenge: crypto.getRandomValues(new Uint8Array(32)), rp: { name: 'The Gentle Stoic Parent' },
+        user: { id: new TextEncoder().encode('gsp:' + (fam.id || 'x') + ':' + ses), name: u.contact || u.email || ses, displayName: this.nick(ses) },
+        pubKeyCredParams: [{ type: 'public-key', alg: -7 }, { type: 'public-key', alg: -257 }],
+        authenticatorSelection: { authenticatorAttachment: 'platform', userVerification: 'required', residentKey: 'preferred' }, timeout: 60000, attestation: 'none' } });
+      localStorage.setItem('gsp:passkey', JSON.stringify({ id: this.b64u(cred.rawId), role: ses, at: Date.now() }));
+      this.setState({ faceMsg: '' });
+    } catch (e) { this.setState({ faceMsg: e && e.name === 'NotAllowedError' ? '' : T[this.state.lang].faceErr }); }
+  }
+  disableFace() { try { localStorage.removeItem('gsp:passkey'); } catch (e) {} this.forceUpdate(); }
+  async faceId() {
+    const pk = this.passkey(), u = pk && this.users().find(x => x.role === pk.role); if (!u) return;
+    const A = AT[this.state.au.lang];
+    try {
+      await navigator.credentials.get({ publicKey: { challenge: crypto.getRandomValues(new Uint8Array(32)), allowCredentials: [{ type: 'public-key', id: this.unb64u(pk.id), transports: ['internal', 'hybrid'] }], userVerification: 'required', timeout: 60000 } });
+      this.setAu({ scanning: { role: u.role, done: true }, loginErr: '' });
+      setTimeout(() => this.login(u), 650);
+    } catch (e) { if (!e || e.name !== 'NotAllowedError') this.setAu({ loginErr: A.faceFail }); }
+  }
+
+  // Backend refresh (family, notes, ideas)
+  async pullApi() {
+    const G = this.state.G, api = this.apiUrl(); if (!G || !api || this.devMode() || !this.state.session) return;
+    try {
+      const pf = await G.callApi(api, 'me', {});
+      if (pf && pf.members) {
+        const old = this.family() || {};
+        const members = pf.members.map(m => ({ ...((old.members || []).find(x => x.role === m.role) || {}), ...m }));
+        this.saveFamily({ ...old, id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, tz: pf.tz || old.tz, members }); this.forceUpdate();
+      }
+    } catch (e) {}
+    try {
+      const ns = await G.callApi(api, 'listNotes', {});
+      if (Array.isArray(ns)) { const by = {}; [...(this.state.notes || []), ...ns].forEach(n => { by[n.id] = { ...(by[n.id] || {}), ...n }; }); this.persist({ notes: Object.values(by) }); }
+    } catch (e) {}
+    try {
+      const is = await G.callApi(api, 'listIdeas', {});
+      if (Array.isArray(is) && is.length) { const by = {}; [...(this.state.ideas || []), ...is].forEach(x => { by[x.id] = x; }); this.persist({ ideas: Object.values(by) }); }
+    } catch (e) {}
+  }
+
+  // AI: in-app Claude when present, else the Apps Script proxy
+  async aiComplete(system, user, max) {
+    if (window.claude && window.claude.complete) {
+      try { return await window.claude.complete({ system, max_tokens: max || 900, messages: [{ role: 'user', content: user }] }); } catch (e) {}
+    }
+    const api = this.apiUrl(), G = this.state.G;
+    if (api && G) { const r = await G.callApi(api, 'ask', { system, prompt: user, max_tokens: max || 900 }); if (r && r.text) return r.text; }
+    throw new Error('NO_AI');
+  }
+  async ask(q) {
+    q = (q || '').trim(); if (!q) return;
+    this.setState({ askQ: q, askInput: q, asking: true, askRes: null, askErr: false });
+    const list = this.allEntries(), lang = this.state.lang;
+    const hits = this.search(q, list, 18);
+    const core = list.filter(e => e.cat === 'principle' || e.cat === 'agreement');
+    const pool = core.concat(hits.filter(e => core.indexOf(e) < 0));
+    const ctx = pool.map(e => '[' + e.id + '] (' + e.cat + ') ' + this.tx(e.t) + ' — ' + this.entryText(e).replace(/\s+/g, ' ').slice(0, 520)).join('\n');
+    const { dow, min } = this.clock(), r = this.myRoles(dow), nx = this.nextUp(lang), info = this.dayInfo();
+    const cur = info.phase === 'now' ? info.steps[info.idx] : null;
+    const system = [
+      'You are the calm mentor inside "The Gentle Stoic Parent", the family app of Juan and Christine (children Sophia, 7, and Isaac, 5).',
+      'Philosophy — Modern Stoic Parenting, "a quiet return to steadiness": calm homes are built by steady parents; the parent leads from within (pause, observe, breathe). Four pillars: calm comes before correction; presence teaches more than lectures; trust builds confidence faster than control; wisdom grows when there is space to think. The goal is wise children, not obedient ones. Parents model; they do not control. Describe instead of ordering, offer two choices, natural consequences instead of punishment, one open question (never "why"), stories instead of lectures; the clock leads, not the adults.',
+      'Your job: ANSWER THE EXACT QUESTION that was asked — specific to this child, this moment and this family routine. Do not reply with a list of related resources. Then give a short strategy to shape the desired behaviour over the coming days, grounded in the philosophy.',
+      'Use the LIBRARY first (their own agreements, routines and phrases). If it does not cover the case, answer from the philosophy and sound, gentle child-development practice consistent with it. Never contradict the library.',
+      'Tone: calm, warm, concrete, few words. No emoji, no exclamation marks, never preachy or judgmental. If the parent sounds overwhelmed or angry, the first step is for them to regulate.',
+      'Context: family time zone ' + this.tz() + '; it is ' + T.en.days[dow] + ' ' + Math.floor(min / 60) + ':' + pad(min % 60) + '.' + (cur ? ' Current step: ' + this.tx(cur.ti) + '.' : '') + (nx.has ? ' Next step: ' + nx.line + ' (' + nx.inLbl + ').' : '') + ' The person asking is ' + this.state.me + (r ? '; today their part is ' + (r.am === 'take' ? 'school drop-off and dinner' : 'the home morning, 4:30 school pick-up, and bath & stories') + '.' : '; it is a weekend day.'),
+      'Reply in ' + (lang === 'es' ? 'Spanish (Latin American, "tú")' : 'English') + '.',
+      'Return ONLY a JSON object: {"answer":"2–3 sentences that directly answer the question: what to do right now","steps":[{"title":"short label such as Ahora / En el momento / Después / Esta semana","text":"one concrete action"}],"why":"1–2 sentences on why this works, naming the pillar","principle":"pillar name","say":"one phrase to say to the child, from the library when possible, or empty","avoid":"one thing to avoid saying or doing, or empty","question":"one open question for the child, or empty","ids":["up to 4 most relevant library ids"]}. Give 3 or 4 steps.'
+    ].join('\n');
+    try {
+      const txt = await this.aiComplete(system, 'LIBRARY:\n' + ctx + '\n\nQUESTION: ' + q, 1100);
+      const j = JSON.parse(txt.slice(txt.indexOf('{'), txt.lastIndexOf('}') + 1));
+      const ids = (j.ids || []).filter(id => list.some(e => e.id === id));
+      this.setState({ asking: false, askRes: { answer: j.answer || '', steps: Array.isArray(j.steps) ? j.steps.filter(x => x && x.text).slice(0, 5) : [], why: j.why || '', principle: j.principle || '', say: j.say || '', avoid: j.avoid || '', question: j.question || '', ids: ids.length ? ids : hits.slice(0, 4).map(e => e.id) } });
+    } catch (err) {
+      this.setState({ asking: false, askRes: this.composeLocal(q, list, hits) });
+    }
+  }
+  composeLocal(q, list, hits) {
+    const lang = this.state.lang, es = lang === 'es';
+    const lbl = es ? ['Ahora', 'En el momento', 'Después', 'Esta semana'] : ['Now', 'In the moment', 'After', 'This week'];
+    const best = hits.find(e => e.cat === 'situation') || hits.find(e => e.cat === 'agreement') || hits.find(e => e.cat === 'routine') || hits[0];
+    const pr = hits.find(e => e.cat === 'principle') || list.find(e => e.cat === 'principle' && e.id !== 'p-invite') || list.find(e => e.cat === 'principle');
+    let answer, steps = [], say = '';
+    if (best) {
+      answer = this.tx(best.s) || this.tx(best.t);
+      if (best.steps) {
+        steps = best.steps.l.map(l => ({ title: this.line(l, 0, true).label, text: es ? l[1] : l[2] }));
+        if (best.steps.stuck) steps.push({ title: T[lang].stuck, text: this.tx(best.steps.stuck) });
+        say = this.tx(best.steps.say);
+      } else {
+        steps = ((best.b && best.b[lang]) || []).filter(x => x && x[0] !== '[').slice(0, 4).map((x, i) => ({ title: lbl[i], text: x }));
+        say = this.tx(best.say);
+      }
+    } else {
+      answer = es ? 'Empieza por ti: pausa, observa, respira. Cuando estés en calma, describe lo que ves en lugar de dar órdenes y ofrece dos opciones.' : "Start with yourself: pause, observe, breathe. Once you're calm, describe what you see instead of giving orders, and offer two choices.";
+      steps = (es ? ['Tres respiraciones antes de hablar.', 'Describe lo que ves, sin juicio.', 'Una pregunta abierta, con calma.'] : ['Three breaths before you speak.', 'Describe what you see, without judgement.', 'One open question, calmly.']).map((x, i) => ({ title: lbl[i], text: x }));
+    }
+    return { answer, steps, why: pr ? this.tx(pr.s) : '', principle: pr ? this.tx(pr.t) : '', say, avoid: '', question: '', ids: hits.slice(0, 4).map(e => e.id), offline: true };
+  }
+
+  // Team notes → idea repository → library items
+  async distill(n) {
+    const parts = [['Qué funcionó / What worked', n.worked], ['Dónde nos atascamos / Where we got stuck', n.stuck], ['Ajuste / Tweak', n.tweak], ['Idea / acuerdo / sugerencia', n.idea]].filter(x => x[1] && String(x[1]).trim());
+    if (!parts.length) return;
+    const job = { id: 'g' + n.id, noteId: n.id, at: n.at || Date.now(), author: n.author, status: 'busy', items: [], text: [n.idea, n.tweak, n.stuck, n.worked].filter(x => x && String(x).trim()).join(' · ') };
+    this.upsertIdea(job);
+    const existing = this.allEntries().filter(e => ['agreement', 'routine', 'situation', 'phrase', 'principle'].indexOf(e.cat) >= 0).map(e => '- (' + e.cat + ') ' + this.tx(e.t)).slice(0, 160).join('\n');
+    const system = [
+      'You maintain the family library of "The Gentle Stoic Parent" (Modern Stoic Parenting: calm before correction, presence over lectures, trust over control, space to think; the clock leads, not the adults). Parents: Juan and Christine; children Sophia (7) and Isaac (5).',
+      'Read the evening team note and turn it into library items ONLY when it holds something reusable: an agreement between the parents, a routine change, a recurring situation with a plan, a phrase to say, or a principle. One note can create several items that work together (for example an agreement + a routine + a situation). If nothing is reusable, return an empty list.',
+      'Do not duplicate existing titles; if it refines one, write a new, more specific item. Write in Spanish (Latin American, tú) and English. Calm, concrete, few words. No emoji.',
+      'Return ONLY JSON: {"items":[{"cat":"agreement|routine|situation|phrase|principle","t":{"es":"title","en":"title"},"s":{"es":"one-line summary","en":"one-line summary"},"b":{"es":["2–4 short paragraphs or steps"],"en":["…"]},"say":{"es":"optional phrase to say","en":"…"}}]} — at most 4 items.'
+    ].join('\n');
+    let items, local = false;
+    try {
+      const txt = await this.aiComplete(system, 'EXISTING LIBRARY:\n' + existing + '\n\nNOTE by ' + n.author + ':\n' + parts.map(x => x[0] + ': ' + x[1]).join('\n'), 1600);
+      const j = JSON.parse(txt.slice(txt.indexOf('{'), txt.lastIndexOf('}') + 1)); items = Array.isArray(j.items) ? j.items.slice(0, 4) : [];
+    } catch (e) { items = this.localDistill(n); local = true; }
+    const OK = ['agreement', 'routine', 'situation', 'phrase', 'principle'];
+    const lz = o => o ? L2(o.es || o.en || '', o.en || o.es || '') : L2('', '');
+    const clean = items.filter(x => x && x.t && (x.t.es || x.t.en)).map((x, i) => {
+      const e = { id: 'ix-' + n.id + '-' + i, cat: OK.indexOf(x.cat) >= 0 ? x.cat : 'situation', t: lz(x.t), s: lz(x.s), b: { es: (x.b && (x.b.es || x.b.en)) || [], en: (x.b && (x.b.en || x.b.es)) || [] }, k: '', fromNote: n.id, on: true };
+      if (x.say && (x.say.es || x.say.en)) e.say = lz(x.say);
+      return e;
+    });
+    const done = { ...job, status: 'done', local, items: clean };
+    this.upsertIdea(done); this.syncIdea(done);
+  }
+  localDistill(n) {
+    const txt = String(n.idea || n.tweak || n.stuck || n.worked || '').trim(); if (!txt) return [];
+    const low = norm(txt);
+    const cat = /acuerd|acordamos|agree|decid/.test(low) ? 'agreement' : /rutina|horario|a las \d|routine|before|antes de|despues de/.test(low) ? 'routine' : /decir|frase|say /.test(low) ? 'phrase' : 'situation';
+    const title = txt.length > 64 ? txt.slice(0, 61).replace(/\s+\S*$/, '') + '…' : txt;
+    const body = [n.worked && 'Funcionó: ' + n.worked, n.stuck && 'Atasco: ' + n.stuck, n.tweak && 'Ajuste: ' + n.tweak, n.idea && 'Idea: ' + n.idea].filter(Boolean);
+    return [{ cat, t: { es: title, en: title }, s: { es: txt, en: txt }, b: { es: body, en: body } }];
+  }
+  upsertIdea(g) { const list = (this.state.ideas || []).filter(x => x.id !== g.id); this.persist({ ideas: [g, ...list] }); }
+  syncIdea(g) { if (this.real() && this.apiUrl()) this.state.G.callApi(this.apiUrl(), 'saveIdea', { idea: g }).catch(() => {}); }
+  toggleIdea(gid, iid) {
+    const g = (this.state.ideas || []).find(x => x.id === gid); if (!g) return;
+    const ng = { ...g, items: g.items.map(it => it.id === iid ? { ...it, on: it.on === false } : it) };
+    this.upsertIdea(ng); this.syncIdea(ng);
+  }
+  ideaGroups(lang) {
+    const t = T[lang], ses = this.state.session, notes = this.state.notes || [];
+    return (this.state.ideas || []).filter(g => { const n = notes.find(x => x.id === g.noteId); return !n || n.vis === 'shared' || n.author === ses; })
+      .sort((a, b) => b.at - a.at).map(g => {
+        const busy = g.status === 'busy', stale = busy && Date.now() - g.at > 120000, nOn = (g.items || []).filter(i => i.on !== false).length;
+        return { head: new Intl.DateTimeFormat(t.locale, { weekday: 'long', day: 'numeric', month: 'short' }).format(new Date(g.at)) + ' · ' + (g.author === ses ? t.you : g.author), color: PC(g.author), text: g.text || '',
+          busy: busy && !stale, canRetry: stale || !!g.local, status: busy && !stale ? t.ideasBusy : (g.items || []).length ? t.ideasN(nOn) : t.ideasNone,
+          stBg: busy && !stale ? '#FBF1E4' : nOn ? '#EEF2EA' : '#F1EDE4', stFg: busy && !stale ? OCHRE : nOn ? SAGE : MUTED,
+          hasItems: (g.items || []).length > 0,
+          items: (g.items || []).map(it => ({ cat: t.cats[it.cat] || it.cat, catColor: CAT_COLOR[it.cat] || OCHRE, title: this.tx(it.t), sum: this.tx(it.s), op: it.on === false ? 0.5 : 1,
+            open: () => { if (it.on !== false) this.setState({ detail: it.id }); }, toggleLbl: it.on === false ? t.ideaRestore : t.ideaRemove, toggle: () => this.toggleIdea(g.id, it.id) })),
+          retry: () => { const n = notes.find(x => x.id === g.noteId); if (n) this.distill(n); } };
+      });
+  }
+  card(e) {
+    const t = T[this.state.lang];
+    return { id: e.id, catLbl: (t.cats[e.cat] || e.cat) + (e.fromNote ? ' · ' + t.fromNotes : ''), catColor: CAT_COLOR[e.cat] || OCHRE, title: this.tx(e.t), sum: this.tx(e.s), img: IMG(BF_IMG[e.id] || 'pancakes'), open: () => this.setState({ detail: e.id }) };
+  }
+
 }
 </script>
 </body>
