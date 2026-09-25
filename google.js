@@ -87,6 +87,8 @@ export async function renderButton(el, clientId, { locale, text, onCredential })
   el.innerHTML = '';
   window.google.accounts.id.renderButton(el, { type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: text || 'signin_with', logo_alignment: 'left', width: Math.min(400, Math.max(240, el.offsetWidth || 360)), locale: locale || 'es' });
 }
+export const getToken = () => (isConnected() ? token : null);
+export async function whoIs() { return whoAmI(); }
 export const isConnected = () => { if (!token) loadTok(); return !!token && Date.now() < tokenExp; };
 export function disconnect() { if (token && window.google) window.google.accounts.oauth2.revoke(token, () => {}); token = null; try { sessionStorage.removeItem(TK); } catch (e) {} }
 
@@ -169,7 +171,7 @@ export async function uploadFile(file, name) {
 // ---------- Apps Script backend (emails, family rules) ----------
 export async function callApi(url, action, payload) {
   const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, payload, accessToken: isConnected() ? token : undefined, session: (() => { try { return JSON.parse(localStorage.getItem('gsp:sess') || 'null'); } catch (e) { return null; } })() }) });
-  const j = await r.json();
-  if (!j.ok) throw new Error(j.error || 'API error');
+  let j; try { j = JSON.parse(await r.text()); } catch (e) { throw new Error('API_OUTDATED'); }
+  if (!j || !j.ok) throw new Error((j && j.error) || 'API error');
   return j.data;
 }

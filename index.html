@@ -171,26 +171,46 @@
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5E5D57" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 11h12a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1v-8a1 1 0 0 1 1-1Z M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
                 </div>
               </sc-if>
+              <div style="display: flex; flex-direction: column; gap: 8px;">
+                <span style="font-size: 14px; font-weight: 600; color: #2A2F2B;">{{ at.howSignIn }}</span>
+                <div role="radiogroup" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 5px; border-radius: 999px; background: #F1EDE4;">
+                  <sc-for list="{{ au.methods }}" as="mt" hint-placeholder-count="2">
+                    <button type="button" role="radio" aria-checked="{{ mt.on }}" onClick="{{ mt.go }}" style="min-height: 44px; border: none; border-radius: 999px; background: {{ mt.bg }}; color: #2A2F2B; box-shadow: {{ mt.sh }}; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: background 200ms ease, box-shadow 200ms ease;">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ mt.icon }}"></path></svg>{{ mt.label }}
+                    </button>
+                  </sc-for>
+                </div>
+                <span style="font-size: 12.5px; line-height: 1.45; color: #6B6A63;">{{ au.methodHint }}</span>
+              </div>
               <label style="display: flex; flex-direction: column; gap: 6px;">
                 <span style="font-size: 14px; font-weight: 600; color: #2A2F2B;">{{ at.fullName }}</span>
                 <input type="text" value="{{ au.fullName }}" onChange="{{ au.onFullName }}" placeholder="{{ at.fullNamePh }}" autocomplete="name" style="min-height: 52px; border: 1px solid #E6DFD2; border-radius: 16px; background: #FFFDF8; padding: 0 16px; font-family: 'Figtree', sans-serif; font-size: 16px; color: #2A2F2B;">
                 
               </label>
+              <sc-if value="{{ au.mEmail }}" hint-placeholder-val="{{ true }}">
               <label style="display: flex; flex-direction: column; gap: 6px;">
                 <span style="font-size: 14px; font-weight: 600; color: #2A2F2B;">{{ at.emailLbl }}</span>
                 <input type="email" value="{{ au.email }}" onChange="{{ au.onEmail }}" placeholder="{{ at.emailPh }}" autocomplete="email" style="min-height: 52px; border: 1px solid #E6DFD2; border-radius: 16px; background: #FFFDF8; padding: 0 16px; font-family: 'Figtree', sans-serif; font-size: 16px; color: #2A2F2B;">
                 <span style="font-size: 12.5px; line-height: 1.45; color: #6B6A63;">{{ at.emailHint }}</span>
               </label>
+              </sc-if>
+              <sc-if value="{{ au.gLinked }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 16px; background: #EEF2EA; font-size: 14px; color: #2A2F2B; animation: gspFade 240ms ease both;">
+                  <span style="width: 22px; height: 22px; flex: none; border-radius: 50%; background: #557552; color: #FFFDF8; display: grid; place-items: center; font-size: 12px;">✓</span>{{ au.gLinkedLbl }}
+                </div>
+              </sc-if>
               <label style="display: flex; flex-direction: column; gap: 6px;">
                 <span style="font-size: 14px; font-weight: 600; color: #2A2F2B;">{{ at.nick }}</span>
                 <input type="text" value="{{ au.nick }}" onChange="{{ au.onNick }}" placeholder="{{ au.nickPh }}" autocomplete="nickname" style="min-height: 52px; border: 1px solid #E6DFD2; border-radius: 16px; background: #FFFDF8; padding: 0 16px; font-family: 'Figtree', sans-serif; font-size: 16px; color: #2A2F2B;">
                 <span style="font-size: 12.5px; line-height: 1.45; color: #6B6A63;">{{ at.nickHint }}</span>
               </label>
+              <sc-if value="{{ au.mEmail }}" hint-placeholder-val="{{ true }}">
               <label style="display: flex; flex-direction: column; gap: 6px;">
                 <span style="font-size: 14px; font-weight: 600; color: #2A2F2B;">{{ at.newPass }}</span>
                 <input type="password" value="{{ au.pass }}" onChange="{{ au.onPass }}" placeholder="{{ at.newPassPh }}" autocomplete="new-password" style="min-height: 52px; border: 1px solid #E6DFD2; border-radius: 16px; background: #FFFDF8; padding: 0 16px; font-family: 'Figtree', sans-serif; font-size: 16px; color: #2A2F2B;">
                 <span style="font-size: 12.5px; line-height: 1.45; color: #6B6A63;">{{ at.newPassHint }}</span>
               </label>
+              </sc-if>
               <sc-if value="{{ au.hasErr }}" hint-placeholder-val="{{ false }}">
                 <span style="font-size: 14px; color: #A6402A; animation: gspFade 200ms ease both;">{{ au.err }}</span>
               </sc-if>
@@ -1225,6 +1245,10 @@
           </button>
           <div style="background: #F1EDE4; border-radius: 18px; padding: 14px 16px; font-size: 13.5px; line-height: 1.55; color: #4A4A45;">{{ acc.accounts }}</div>
           <button type="button" onClick="{{ goDocs }}" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; color: #2A2F2B;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A45F22" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2Z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7Z"></path></svg><span style="flex: 1;">{{ t.docsTitle }}</span><span style="color: #8C877C;">→</span></button>
+          <button type="button" onClick="{{ lk.linkG }}" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; color: #2A2F2B;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#33466E" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9"></path></svg><span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span>{{ lk.gLbl }}</span><span style="font-size: 12.5px; font-weight: 500; color: #6B6A63;">{{ lk.gMeta }}</span></span><span style="font-size: 12.5px; font-weight: 600; color: {{ lk.gLblFg }};">{{ lk.gLblSt }}</span></button>
+          <button type="button" onClick="{{ lk.linkCal }}" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; color: #2A2F2B;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#A45F22" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16v14H4Z M4 10h16 M8 3v4 M16 3v4"></path></svg><span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><span>{{ lk.cLbl }}</span><span style="font-size: 12.5px; font-weight: 500; color: #6B6A63;">{{ lk.cMeta }}</span></span><span style="font-size: 12.5px; font-weight: 600; color: {{ lk.cLblFg }};">{{ lk.cLblSt }}</span></button>
+          <sc-if value="{{ lk.hasMsg }}" hint-placeholder-val="{{ false }}"><span style="font-size: 13.5px; line-height: 1.5; color: {{ lk.msgFg }}; padding: 0 4px; animation: gspFade 200ms ease both;">{{ lk.msg }}</span></sc-if>
+          <button type="button" onClick="{{ tu.openCenter }}" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 18px; border: 1px solid #E6DFD2; background: #FFFDF8; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; color: #2A2F2B;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#557552" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z M10 8.5l5 3.5-5 3.5Z"></path></svg><span style="flex: 1;">{{ tu.centerTitle }}</span><span style="font-size: 12.5px; font-weight: 500; color: #6B6A63;">{{ tu.progressLbl }}</span></button>
           <button type="button" onClick="{{ logout }}" style="min-height: 50px; border-radius: 999px; border: 1.5px solid #2A2F2B; background: transparent; color: #2A2F2B; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;">{{ t.logout }}</button>
         </sc-if>
 
@@ -1246,6 +1270,68 @@
       </div>
       <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; color: #6B6A63;">{{ breathCount }}</span>
       <button type="button" onClick="{{ stopBreath }}" style="min-height: 48px; padding: 0 24px; border-radius: 999px; border: 1.5px solid #2A2F2B; background: transparent; color: #2A2F2B; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer;">{{ breathBtn }}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tu.centerOn }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ tu.closeCenter }}" style="position: fixed; inset: 0; z-index: 700; background: rgba(42,47,43,0.28); display: flex; align-items: flex-end; justify-content: center; animation: gspFade 220ms ease both;">
+      <div onClick="{{ tu.stop }}" role="dialog" aria-label="{{ tu.centerTitle }}" style="width: 100%; max-width: 560px; max-height: 88vh; overflow-y: auto; background: #FBF8F2; border-radius: 28px 28px 0 0; padding: 28px 24px 32px; display: flex; flex-direction: column; gap: 20px; animation: gspSheet 320ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+        <div style="display: flex; align-items: flex-start; gap: 14px;">
+          <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-family: 'Figtree', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #A45F22;">{{ tu.centerKicker }}</span>
+            <h2 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: 30px; line-height: 1.15; color: #2A2F2B;">{{ tu.centerTitle }}</h2>
+            <span style="font-size: 14px; line-height: 1.5; color: #5E5D57;">{{ tu.centerSub }}</span>
+          </div>
+          <button type="button" onClick="{{ tu.closeCenter }}" aria-label="Cerrar" style="width: 44px; height: 44px; flex: none; border-radius: 50%; border: 1px solid #E6DFD2; background: transparent; cursor: pointer; font-size: 18px; color: #2A2F2B;">×</button>
+        </div>
+        <div style="height: 4px; border-radius: 999px; background: #EDE7DB; overflow: hidden;">
+          <div style="height: 100%; width: {{ tu.pct }}; background: #557552; border-radius: 999px; transition: width 600ms cubic-bezier(0.23, 1, 0.32, 1);"></div>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <sc-for list="{{ tu.lessons }}" as="l" hint-placeholder-count="7">
+            <button type="button" onClick="{{ l.go }}" style="display: flex; align-items: center; gap: 14px; padding: 16px 4px; border: none; border-bottom: 1px solid #E6DFD2; background: transparent; cursor: pointer; text-align: left; font-family: 'Figtree', sans-serif; color: #2A2F2B; transition: padding 220ms cubic-bezier(0.23, 1, 0.32, 1);" style-hover="padding-left: 10px;">
+              <span style="width: 42px; height: 42px; flex: none; border-radius: 50%; background: {{ l.bg }}; color: {{ l.fg }}; display: grid; place-items: center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ l.icon }}"></path></svg></span>
+              <span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;">
+                <span style="font-family: 'Literata', Georgia, serif; font-size: 18px;">{{ l.title }}</span>
+                <span style="font-size: 13px; color: #6B6A63;">{{ l.meta }}</span>
+              </span>
+              <span style="font-size: 12px; font-weight: 600; color: {{ l.stFg }};">{{ l.status }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tu.on }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 690; background: rgba(42,47,43,0.14); pointer-events: none; animation: gspFade 220ms ease both;"></div>
+    <div role="dialog" aria-live="polite" aria-label="{{ tu.lessonTitle }}" style="position: fixed; z-index: 710; left: 50%; bottom: max(16px, env(safe-area-inset-bottom)); transform: translateX(-50%); width: calc(100% - 24px); max-width: 460px; background: #FBF8F2; border: 1px solid #E6DFD2; border-radius: 24px; box-shadow: 0 18px 50px rgba(42,47,43,0.18); padding: 20px 20px 18px; display: flex; flex-direction: column; gap: 14px;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-family: 'Figtree', sans-serif; font-size: 10.5px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #A45F22; flex: 1; min-width: 0;">{{ tu.lessonTitle }}</span>
+        <div style="display: flex; gap: 5px;">
+          <sc-for list="{{ tu.dots }}" as="d" hint-placeholder-count="4">
+            <span style="width: {{ d.w }}; height: 6px; border-radius: 999px; background: {{ d.bg }}; transition: width 280ms cubic-bezier(0.23, 1, 0.32, 1), background 200ms ease;"></span>
+          </sc-for>
+        </div>
+      </div>
+      <div key="{{ tu.key }}" style="display: flex; gap: 14px; align-items: flex-start; animation: gspRise 320ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+        <span style="width: 46px; height: 46px; flex: none; border-radius: 50%; background: #FBF1E4; color: #A45F22; display: grid; place-items: center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ tu.icon }}"></path></svg></span>
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 6px;">
+          <h3 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: 22px; line-height: 1.2; color: #2A2F2B; text-wrap: pretty;">{{ tu.title }}</h3>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.55; color: #4A4A45; text-wrap: pretty;">{{ tu.body }}</p>
+          <sc-if value="{{ tu.hasTip }}" hint-placeholder-val="{{ false }}">
+            <p style="margin: 2px 0 0; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 15px; line-height: 1.45; color: #557552;">{{ tu.tip }}</p>
+          </sc-if>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <button type="button" onClick="{{ tu.skip }}" style="min-height: 44px; padding: 0 12px; border: none; background: transparent; color: #6B6A63; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer;">{{ tu.skipLbl }}</button>
+        <span style="flex: 1;"></span>
+        <sc-if value="{{ tu.hasPrev }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ tu.prev }}" aria-label="{{ tu.prevLbl }}" style="width: 44px; height: 44px; border-radius: 50%; border: 1px solid #D9D2C4; background: transparent; color: #2A2F2B; cursor: pointer; font-size: 16px;">←</button>
+        </sc-if>
+        <button type="button" onClick="{{ tu.next }}" style="min-height: 44px; padding: 0 22px; border-radius: 999px; border: none; background: #2A2F2B; color: #FAF6EE; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.96);">{{ tu.nextLbl }}</button>
+      </div>
     </div>
   </sc-if>
   </sc-if>
@@ -1465,6 +1551,8 @@ const AT4 = {
     errRoleTaken: r => r + ' is already in the family with another account.', errNotMember: "We couldn't find your email in any family. Create one or use your invitation." },
 };
 Object.assign(AT.es, AT4.es); Object.assign(AT.en, AT4.en);
+Object.assign(AT.es, { howSignIn: '¿Cómo quieres entrar?', mEmail: 'Correo', mEmailHint: 'Entrarás con tu correo y una contraseña. Puedes enlazar Google después, desde Cuenta.', mGoogleHint: 'Te llevamos a Google para confirmar tu cuenta y vuelves aquí mismo.', gLinkedAs: e => 'Cuenta de Google: ' + e, gUnavailable: 'Google aún no está disponible. Usa tu correo por ahora.', errGNotLinked: e => 'La cuenta de Google ' + e + ' no está enlazada a ninguna familia. Entra con tu correo y contraseña, y enlázala desde Cuenta → Enlazar con Google.', errApiOld: 'El Apps Script publicado no está actualizado. Publica una nueva versión.' });
+Object.assign(AT.en, { howSignIn: 'How do you want to sign in?', mEmail: 'Email', mEmailHint: "You'll sign in with your email and a password. You can link Google later from Account.", mGoogleHint: "We'll take you to Google to confirm your account and bring you right back.", gLinkedAs: e => 'Google account: ' + e, gUnavailable: 'Google is not available yet. Use your email for now.', errGNotLinked: e => 'The Google account ' + e + ' is not linked to any family. Sign in with email and password, then link it from Account → Link with Google.', errApiOld: 'The published Apps Script is outdated. Publish a new version.' });
 Object.assign(AT.es, { tabSignin: 'Entrar', tabNew: 'Empezar', wBack: 'Bienvenidos de vuelta', wBackSub: 'Entra para ver el día de hoy.', wNewSub: 'Un solo ritmo para los dos. Crea tu familia o únete con tu invitación.', orWord: 'o', faceSoonLine: 'Face ID llegará pronto' });
 Object.assign(AT.en, { tabSignin: 'Sign in', tabNew: 'Get started', wBack: 'Welcome back', wBackSub: "Sign in to see today.", wNewSub: 'One rhythm for both of you. Create your family or join with your invitation.', orWord: 'or', faceSoonLine: 'Face ID is coming soon' });
 Object.assign(AT.es, { orAlso: 'o también', signInPass: 'Entrar', signingIn: 'Entrando…', newPass: 'Crea una contraseña', newPassPh: 'Mínimo 8 caracteres', newPassHint: 'Para entrar con tu correo, sin necesidad de Google.', errPass8: 'La contraseña necesita al menos 8 caracteres.', errLogin: 'Correo o contraseña incorrectos.' });
@@ -1486,6 +1574,44 @@ Object.assign(T.en, { syncing: 'Syncing…', synced: n => n + ' events up to dat
 
 const ICON = {"sunrise":"M12 3v3 M5.6 7.6l1.4 1.4 M18.4 7.6 17 9 M2 16h20 M6 20h12 M7 16a5 5 0 0 1 10 0","moon":"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z","clock":"M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18Z M12 7v5l3 2","book":"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2Z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7Z","rings":"M9 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10Z M15 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10Z","bell":"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0","wind":"M12.8 19.6A2 2 0 1 0 14 16H2 M17.5 8a2.5 2.5 0 1 1 2 4H2 M9.8 4.4A2 2 0 1 1 11 8H2","swap":"M17 3l4 4-4 4 M3 7h18 M7 21l-4-4 4-4 M21 17H3","cup":"M17 8h1a4 4 0 1 1 0 8h-1 M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z M6 2v2 M10 2v2 M14 2v2","leaf":"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z M2 21c0-3 1.85-5.36 5.08-6","week":"M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z M16 2v4 M8 2v4 M3 10h18 M8 14h.01 M12 14h.01 M16 14h.01 M8 18h.01 M12 18h.01"};
 const NAV_ICON = { home: ICON.sunrise, rhythm: ICON.clock, library: ICON.book, team: ICON.rings, reminders: ICON.bell };
+
+const TUT_IC = {"sun":"M12 4v2M12 18v2M4 12h2M18 12h2M6.3 6.3l1.4 1.4M16.3 16.3l1.4 1.4M6.3 17.7l1.4-1.4M16.3 7.7l1.4-1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z","now":"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18Z M12 7v5l3 2","ask":"M4 5h16v11H9l-5 4Z M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.4","rhythm":"M3 17c3 0 3-6 6-6s3 6 6 6 3-6 6-6","bell":"M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15Z M10 20a2 2 0 0 0 4 0","team":"M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z M2 20c0-3 3-5 6-5s6 2 6 5 M14 15.5c.6-.3 1.3-.5 2-.5 3 0 6 2 6 5","book":"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2Z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7Z","leaf":"M5 19c0-8 5-13 14-14-1 9-6 14-14 14Z M5 19l7-7"};
+const TUT = [
+  { id: 'welcome', v: 1, icon: 'leaf', title: { es: 'Tu día en un minuto', en: 'Your day in a minute' }, steps: [
+    { tab: 'home', view: 'hoy', icon: 'leaf', es: ['Bienvenido a casa', 'Esta app sostiene un solo ritmo para los dos. Cada pantalla te muestra solo tu parte, en tu idioma.', 'Pausa. Observa. Respira.'], en: ['Welcome home', 'This app holds one rhythm for both of you. Each screen shows only your part, in your language.', 'Pause. Observe. Breathe.'] },
+    { tab: 'home', view: 'hoy', icon: 'sun', es: ['«Hoy» es tu punto de partida', 'Aquí ves tu día completo: la mañana, el relevo y la noche. Lo que te toca a ti aparece primero.'], en: ['“Today” is home base', 'Your whole day lives here: morning, hand-off and evening. What is yours comes first.'] },
+    { tab: 'home', view: 'ahora', icon: 'now', es: ['¿Qué está pasando ahora?', 'Un toque y ves solo el paso de este momento: qué hacer, qué decir y qué hacer si se atasca.', 'Úsalo cuando la mañana se acelere.'], en: ['What’s happening now?', 'One tap shows only this moment: what to do, what to say, and what to try if it stalls.', 'Use it when the morning speeds up.'] },
+    { tab: 'home', view: 'hoy', ask: true, icon: 'ask', es: ['Pregunta, sin salir', 'En «Hoy» y en «Ahora» tienes el buscador. Escribe una duda y te responde con nuestra filosofía y la rutina.'], en: ['Ask, without leaving', 'Today and Now both have the search box. Type a doubt and it answers from our philosophy and routine.'] },
+    { tab: 'reminders', icon: 'bell', es: ['Tus recordatorios', 'Llegan a tu teléfono desde Google Calendar a la hora exacta. Aquí puedes apagarlos o volver a sincronizar.'], en: ['Your reminders', 'They reach your phone from Google Calendar right on time. Turn them off or re-sync here.'] },
+    { tab: 'team', icon: 'team', es: ['Cinco minutos, los dos', 'Por la noche dejen una nota: qué funcionó, dónde se atoraron y un ajuste para mañana.', 'Encuentras este centro de tutoriales en Cuenta.'], en: ['Five minutes, together', 'In the evening, leave a note: what worked, where you got stuck, one tweak for tomorrow.', 'You’ll find this tutorial center under Account.'] },
+  ] },
+  { id: 'now', v: 1, icon: 'now', title: { es: 'Modo «Ahora»', en: '“Now” mode' }, steps: [
+    { tab: 'home', view: 'ahora', icon: 'now', es: ['Un paso a la vez', 'Ves el paso actual en grande, lo que sigue y cuánto falta.'], en: ['One step at a time', 'See the current step large, what’s next and how long is left.'] },
+    { tab: 'home', view: 'ahora', icon: 'ask', es: ['Si se atasca', 'Cada paso trae una frase para decir y un plan B tranquilo. No hace falta improvisar.'], en: ['If it stalls', 'Each step brings a phrase to say and a calm plan B. No need to improvise.'] },
+    { tab: 'home', view: 'hoy', icon: 'sun', es: ['Volver a «Hoy»', 'Cuando quieras ver el día completo, regresa a «Hoy».'], en: ['Back to Today', 'To see the whole day again, go back to Today.'] },
+  ] },
+  { id: 'ask', v: 1, icon: 'ask', title: { es: 'Preguntar', en: 'Ask' }, steps: [
+    { tab: 'home', view: 'hoy', ask: true, icon: 'ask', es: ['Escribe como hablas', '«Sophia no quiere vestirse», «¿quién baña hoy?». Te responde con la parte de la rutina y el principio que aplica.'], en: ['Type as you talk', '“Sophia won’t get dressed”, “who does bath tonight?”. It answers with the routine step and the principle behind it.'] },
+    { tab: 'library', icon: 'book', es: ['Todo sale de la Biblioteca', 'Las respuestas usan los handbooks, el póster y el manifiesto. Puedes leerlos completos cuando quieras.'], en: ['It all comes from the Library', 'Answers draw on the handbooks, the poster and the manifesto. Read them in full anytime.'] },
+  ] },
+  { id: 'rhythm', v: 1, icon: 'rhythm', title: { es: 'El ritmo de la semana', en: 'The weekly rhythm' }, steps: [
+    { tab: 'rhythm', icon: 'rhythm', es: ['Mañana y noche', 'Cambia entre mañana y noche para ver cada bloque y quién lo lleva.'], en: ['Morning and evening', 'Switch between morning and evening to see each block and who leads it.'] },
+    { tab: 'rhythm', icon: 'sun', es: ['Día por día', 'Elige un día: quién lleva a los niños, quién se queda en casa y cuándo es el relevo.'], en: ['Day by day', 'Pick a day: who does the school run, who stays home, and when the hand-off is.'] },
+  ] },
+  { id: 'reminders', v: 1, icon: 'bell', title: { es: 'Recordatorios y Google Calendar', en: 'Reminders & Google Calendar' }, steps: [
+    { tab: 'reminders', icon: 'bell', es: ['Avisos a la hora exacta', 'Cada aviso vive en tu calendario «Nuestro ritmo». Tu teléfono te avisa aunque la app esté cerrada.'], en: ['On-time alerts', 'Each alert lives in your “Our rhythm” calendar. Your phone pings you even with the app closed.'] },
+    { tab: 'reminders', icon: 'rhythm', es: ['Bloques de tiempo', 'Además de avisos, se crean bloques para que nadie te agende encima de la mañana o la noche.'], en: ['Time blocks', 'Besides alerts, blocks are created so nobody books over your mornings or evenings.'] },
+    { tab: 'reminders', icon: 'leaf', es: ['¿Aún no lo conectas?', 'Abre Cuenta → Google Calendar y toca «Sincronizar». Tarda menos de un minuto.'], en: ['Not connected yet?', 'Open Account → Google Calendar and tap “Sync”. It takes under a minute.'] },
+  ] },
+  { id: 'team', v: 1, icon: 'team', title: { es: 'Equipo: la nota de cinco minutos', en: 'Team: the five-minute note' }, steps: [
+    { tab: 'team', icon: 'team', es: ['Tres preguntas', 'Qué funcionó, dónde nos atoramos y un ajuste para mañana. Nada más.'], en: ['Three questions', 'What worked, where we got stuck, one tweak for tomorrow. That’s it.'] },
+    { tab: 'team', icon: 'leaf', es: ['Compartida o privada', 'Si la compartes, tu pareja la ve y recibe un aviso por correo. La privada es solo para ti.'], en: ['Shared or private', 'Shared notes reach your partner with an email. Private ones are just for you.'] },
+  ] },
+  { id: 'library', v: 1, icon: 'book', title: { es: 'Biblioteca y handbooks', en: 'Library & handbooks' }, steps: [
+    { tab: 'library', icon: 'book', es: ['Nuestra filosofía, a mano', 'Principios, frases y guías por situación. Busca o filtra por categoría.'], en: ['Our philosophy, at hand', 'Principles, phrases and guides by situation. Search or filter by category.'] },
+    { tab: 'library', icon: 'leaf', es: ['Descargas', 'Los handbooks y el póster están en Cuenta → Documentos, listos para descargar o imprimir.'], en: ['Downloads', 'Handbooks and the poster live in Account → Documents, ready to download or print.'] },
+  ] },
+];
 class Component extends DCLogic {
   state = {
     kb: null, tab: 'home', variant: null, me: 'Juan', lang: 'es', simDay: 'real', simMin: 'real', tick: 0,
@@ -1496,9 +1622,47 @@ class Component extends DCLogic {
     w: typeof window !== 'undefined' ? window.innerWidth : 1200,
   };
 
+  tutKey() { return 'gsp:tut:' + (this.state.session || 'x'); }
+  tutSeen() { try { return JSON.parse(localStorage.getItem(this.tutKey()) || '{}'); } catch (e) { return {}; } }
+  tutMark(id) { const s = this.tutSeen(); const l = TUT.find(x => x.id === id); s[id] = l ? l.v : 1; try { localStorage.setItem(this.tutKey(), JSON.stringify(s)); } catch (e) {} }
+  tutGo(st) {
+    if (!st) return;
+    const patch = { tab: st.tab || 'home' }; if (st.view) patch.view = st.view;
+    this.setState(patch, () => { if (st.ask && this.scrollToAsk) this.scrollToAsk(); else window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  }
+  tutStart(id) { const l = TUT.find(x => x.id === id); if (!l) return; this.setState({ tour: { id, i: 0 }, tutCenter: false, acct: false }); this.tutGo(l.steps[0]); }
+  tutAuto() {
+    if (!this.state.session || this.state.tour) return;
+    const seen = this.tutSeen();
+    if (!(seen.welcome >= 1)) return this.tutStart('welcome');
+    const upd = TUT.find(l => seen[l.id] != null && seen[l.id] < l.v);
+    if (upd) this.tutStart(upd.id);
+  }
+  tutorialVals(lang) {
+    const L = lang === 'en' ? 'en' : 'es', tour = this.state.tour, seen = this.tutSeen();
+    const S = L === 'es' ? { kicker: 'Aprende a usarla', title: 'Centro de tutoriales', sub: 'Guías cortas de lo más importante. Se abren solas la primera vez y puedes repetirlas cuando quieras.', steps: n => n + ' pasos · ~' + Math.max(1, Math.round(n * 0.3)) + ' min', done: 'Visto', start: 'Ver', next: 'Siguiente', finish: 'Listo', skip: 'Saltar', prev: 'Anterior', prog: (a, b) => a + ' de ' + b } : { kicker: 'Learn the app', title: 'Tutorial center', sub: 'Short guides to what matters most. They open on their own the first time and you can replay them anytime.', steps: n => n + ' steps · ~' + Math.max(1, Math.round(n * 0.3)) + ' min', done: 'Seen', start: 'Start', next: 'Next', finish: 'Done', skip: 'Skip', prev: 'Back', prog: (a, b) => a + ' of ' + b };
+    const nDone = TUT.filter(l => seen[l.id] >= l.v).length;
+    const base = {
+      centerOn: !!this.state.tutCenter, centerKicker: S.kicker, centerTitle: S.title, centerSub: S.sub,
+      pct: Math.round(nDone / TUT.length * 100) + '%', progressLbl: S.prog(nDone, TUT.length),
+      openCenter: () => this.setState({ tutCenter: true, acct: false }), closeCenter: () => this.setState({ tutCenter: false }), stop: e => e.stopPropagation(),
+      lessons: TUT.map(l => { const d = seen[l.id] >= l.v; return { title: l.title[L], meta: S.steps(l.steps.length), icon: TUT_IC[l.icon], bg: d ? '#EEF2EA' : '#FBF1E4', fg: d ? '#557552' : '#A45F22', status: d ? '✓ ' + S.done : S.start, stFg: d ? '#557552' : '#2A2F2B', go: () => this.tutStart(l.id) }; }),
+      on: false,
+    };
+    if (!tour) return base;
+    const l = TUT.find(x => x.id === tour.id), st = l.steps[tour.i], txt = st[L], last = tour.i === l.steps.length - 1;
+    const end = () => { this.tutMark(l.id); this.setState({ tour: null }); };
+    return { ...base, on: true, key: l.id + tour.i, lessonTitle: l.title[L] + ' · ' + (tour.i + 1) + '/' + l.steps.length, icon: TUT_IC[st.icon], title: txt[0], body: txt[1], tip: txt[2] || '', hasTip: !!txt[2],
+      dots: l.steps.map((_, j) => ({ w: j === tour.i ? '18px' : '6px', bg: j <= tour.i ? '#A45F22' : '#E0D8C9' })),
+      hasPrev: tour.i > 0, prevLbl: S.prev, skipLbl: S.skip, nextLbl: last ? S.finish : S.next,
+      prev: () => { const i = Math.max(0, tour.i - 1); this.setState({ tour: { ...tour, i } }); this.tutGo(l.steps[i]); },
+      next: () => { if (last) return end(); const i = tour.i + 1; this.setState({ tour: { ...tour, i } }); this.tutGo(l.steps[i]); },
+      skip: end };
+  }
   componentDidMount() {
     import(new URL('kb.js', document.baseURI).href).then(kb => this.setState({ kb }));
     try { const s = JSON.parse(localStorage.getItem(LS) || '{}'); const p = {}; ['me', 'lang', 'notes', 'remOff', 'google'].forEach(k => { if (s[k] != null) p[k] = s[k]; }); this.setState(p); } catch (e) {}
+    setTimeout(() => this.tutAuto(), 1400);
     this.timer = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 30000);
     this.onR = () => this.setState({ w: window.innerWidth });
     window.addEventListener('resize', this.onR);
@@ -1843,6 +2007,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       if (r.error) { if (r.action === 'calendar' && r.au) this.setState(s => ({ session: null, au: { ...s.au, ...r.au, calErr: AT[r.au.lang || 'es'].errPopup } })); return; }
       if (r.action === 'calendar' && r.au) { this.setState(s => ({ session: null, au: { ...s.au, ...r.au, cal: null } }), () => this.runCalendar()); }
       else if (r.action === 'signin') this.googleSignIn();
+      else if (r.action === 'profileGoogle' && r.au) { this.setState(s => ({ session: null, au: { ...s.au, ...r.au } }), () => this.profileGoogle()); }
+      else if (r.action === 'link') { const tryLink = () => this.state.session ? this.linkGoogleNow(true) : setTimeout(tryLink, 300); setTimeout(tryLink, 300); }
       else if (r.action === 'resync' && this.state.session) this.resync();
     }).catch(() => {});
     const p = {};
@@ -1884,6 +2050,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     this.persist({ google });
     this.setState(s => ({ session: u.role, me: u.role, lang: u.lang || s.au.lang, tab: 'home', view: 'hoy', saved: false, au: { ...s.au, step: 'welcome', err: '', cal: null, calErr: '', scanning: null } }));
     window.scrollTo(0, 0);
+    setTimeout(() => this.tutAuto(), 900);
     if (this.real()) this.loadRemote();
   }
   async loadRemote() {
@@ -1915,8 +2082,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       const api = this.apiUrl();
       if (api && this.state.G) {
         const r = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'passwordLogin', payload: { email: em, password: pw } }) });
-        const j = await r.json(); if (!j.ok) throw new Error(j.error);
-        const pf = j.data; try { if (pf.session) localStorage.setItem('gsp:sess', JSON.stringify(pf.session)); } catch (e) {}
+        let j; try { j = JSON.parse(await r.text()); } catch (e) { throw new Error(A.errApiOld); } if (!j.ok) throw new Error(j.error);
+        const pf = j.data; if (!pf || !pf.members) throw new Error(A.errLogin); try { if (pf.session) localStorage.setItem('gsp:sess', JSON.stringify(pf.session)); } catch (e) {}
         this.saveFamily({ id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members });
         const me = pf.members.find(m => m.role === pf.myRole) || pf.members.find(m => String(m.email).toLowerCase() === em || String(m.contact || '').toLowerCase() === em);
         this.setAu({ loggingIn: false, loginPass: '' }); return this.login(me);
@@ -1979,7 +2146,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       const create = au.mode === 'create';
       let role = au.role, fam;
       if (api && G) {
-        const pf = await G.callApi(api, create ? 'createFamily' : 'joinFamily', { role, fullName, nick, email, password: au.pass || '', lang, familyName: (au.famName || '').trim(), code: create ? au.code : au.join.code });
+        const pf = await G.callApi(api, create ? 'createFamily' : 'joinFamily', { role, fullName, nick, email, method: au.method || 'email', password: (au.method || 'email') === 'email' ? (au.pass || '') : '', lang, familyName: (au.famName || '').trim(), code: create ? au.code : au.join.code });
         try { if (pf.session) localStorage.setItem('gsp:sess', JSON.stringify(pf.session)); } catch (e) {}
         role = pf.myRole || role;
         fam = { id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members };
@@ -2053,6 +2220,38 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       } else { await new Promise(r => setTimeout(r, 700)); this.setState({ syncMsg: T0.synced(this.buildEvents(me, lang).length) }); }
     } catch (err) { this.setState({ syncMsg: String(err.message || err) }); }
   }
+  async profileGoogle() {
+    const au = this.state.au, A = AT[au.lang], G = this.state.G;
+    if (!this.clientId() || !G) return this.setAu({ err: A.gUnavailable });
+    try {
+      const keep = { step: 'profile', mode: au.mode, lang: au.lang, famName: au.famName, join: au.join, code: au.code, role: au.role, fullName: au.fullName, nick: au.nick, method: 'google' };
+      const me = await G.connect(this.clientId(), '', { action: 'profileGoogle', au: keep });
+      this.setAu({ gEmail: me.email, email: me.email, err: '' });
+    } catch (e) { this.setAu({ err: String(e.message || e) }); }
+  }
+  async linkGoogleNow(fromRedirect) {
+    const G = this.state.G, api = this.apiUrl(), L = this.state.lang;
+    const S = L === 'en' ? { ok: e => 'Google linked: ' + e, no: 'Google is not available yet.' } : { ok: e => 'Google enlazado: ' + e, no: 'Google aún no está disponible.' };
+    if (!G || !this.clientId() || !api) return this.setState({ lkMsg: S.no, lkErr: true });
+    try {
+      const me = await G.connect(this.clientId(), '', { action: 'link' });
+      const pf = await G.callApi(api, 'linkGoogle', { googleToken: G.getToken() });
+      if (pf) this.saveFamily({ id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members });
+      this.setState({ lkMsg: S.ok(me.email), lkErr: false, acct: true });
+    } catch (e) { this.setState({ lkMsg: String(e.message || e) === 'API_OUTDATED' ? AT[L].errApiOld : String(e.message || e), lkErr: true, acct: true }); }
+  }
+  linkVals() {
+    const L = this.state.lang, fam = this.family(), me = this.state.session;
+    const m = fam && (fam.members || []).find(x => x.role === me) || {};
+    const gOn = !!m.google, cOn = !!m.calendarId && !String(m.calendarId).startsWith('demo');
+    const S = L === 'en'
+      ? { g: 'Link with Google', gm: gOn ? m.google : 'Sign in with Google next time', c: 'Google Calendar', cm: cOn ? 'Reminders and blocks in “Our rhythm”' : 'Create your reminders and time blocks', on: 'Linked', off: 'Link', con: 'Re-sync', coff: 'Connect' }
+      : { g: 'Enlazar con Google', gm: gOn ? m.google : 'Para entrar con Google la próxima vez', c: 'Google Calendar', cm: cOn ? 'Recordatorios y bloques en «Nuestro ritmo»' : 'Crea tus recordatorios y bloques de tiempo', on: 'Enlazado', off: 'Enlazar', con: 'Sincronizar', coff: 'Conectar' };
+    return { gLbl: S.g, gMeta: S.gm, gLblSt: gOn ? '✓ ' + S.on : S.off, gLblFg: gOn ? '#557552' : '#2A2F2B',
+      cLbl: S.c, cMeta: S.cm, cLblSt: cOn ? S.con : S.coff, cLblFg: cOn ? '#557552' : '#2A2F2B',
+      linkG: () => this.linkGoogleNow(), linkCal: () => { this.setState({ acct: false, tab: 'reminders' }); this.resync(); },
+      hasMsg: !!this.state.lkMsg, msg: this.state.lkMsg || '', msgFg: this.state.lkErr ? '#A6402A' : '#557552' };
+  }
   async googleSignIn(hint) {
     const A = AT[this.state.au.lang];
     if (!this.real()) return this.setAu({ step: 'google', from: 'welcome', err: '' });
@@ -2061,7 +2260,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       if (this.apiUrl()) {
         let pf = null; try { localStorage.removeItem('gsp:sess'); } catch (e) {}
         pf = await G.callApi(this.apiUrl(), 'me', {});
-        if (!pf) return this.setAu({ err: A.errNotMember });
+        if (!pf) return this.setAu({ err: A.errGNotLinked(me && me.email || '') });
         try { if (pf.session) localStorage.setItem('gsp:sess', JSON.stringify(pf.session)); } catch (e) {}
         this.saveFamily({ id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members });
         const mm = pf.members.find(x => x.role === pf.myRole);
@@ -2074,7 +2273,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       const mem = (await G.readTab('Miembros')).filter(x => x.familiaId === m.familiaId);
       this.saveFamily({ id: f.id, name: f.nombre, code: f.codigo, createdBy: f.creadoPor, members: mem.map(x => ({ role: x.rol, email: x.email, name: x.nombre, nick: x.apodo, lang: x.idioma, calendarId: x.calendarId })) });
       this.login({ role: m.rol, email: m.email, name: m.nombre, nick: m.apodo, lang: m.idioma, calendarId: m.calendarId });
-    } catch (err) { const s = String(err.message || err); this.setAu({ err: s === 'POPUP_CLOSED' ? A.errPopup : s }); }
+    } catch (err) { const s = String(err.message || err); this.setAu({ err: s === 'POPUP_CLOSED' ? A.errPopup : s === 'API_OUTDATED' ? A.errApiOld : s }); }
   }
   pickGoogle(email) {
     const A = AT[this.state.au.lang];
@@ -2138,10 +2337,17 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         submitLogin: e => { e.preventDefault(); this.passwordLogin(); },
         nickPh: (au.fullName || '').trim().split(/\s+/)[0] || A.nickPh,
         hasAutoRole: !!autoRole, autoRole: autoRole || '', autoRoleInitial: autoRole ? autoRole[0] : '', autoRoleColor: PC(autoRole), autoRoleBg: autoRole === 'Juan' ? '#FBF1E4' : '#EEF2EA',
+        methods: [['email', A.mEmail, 'M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z M22 7l-10 6L2 7'], ['google', 'Google', 'M12 3a9 9 0 1 0 9 9h-9']].map(([v, label, icon]) => { const on = (au.method || 'email') === v; return { label, icon, on, bg: on ? '#FFFDF8' : 'transparent', sh: on ? '0 1px 3px rgba(42,47,43,0.12)' : 'none', go: () => this.setAu({ method: v, err: '' }) }; }),
+        mEmail: (au.method || 'email') === 'email', gLinked: (au.method || 'email') === 'google' && !!au.gEmail, gLinkedLbl: A.gLinkedAs(au.gEmail || ''),
+        methodHint: (au.method || 'email') === 'google' ? A.mGoogleHint : A.mEmailHint,
         submitProfile: e => {
           e.preventDefault();
           const fn = (au.fullName || '').trim(), em = (au.email || '').trim().toLowerCase();
           if (fn.length < 3 || !/\s/.test(fn)) return this.setAu({ err: A.errFullName });
+          if ((au.method || 'email') === 'google') {
+            if (au.gEmail) { const nk = (au.nick || '').trim() || fn.split(/\s+/)[0]; return this.setAu({ fullName: fn, email: au.gEmail, nick: nk, err: '', role: autoRole || au.role, step: joining ? (autoRole ? 'lang' : 'role') : 'role' }); }
+            return this.profileGoogle();
+          }
           if (!/^\S+@\S+\.\S+$/.test(em)) return this.setAu({ err: A.errEmail });
           if ((au.pass || '').length < 8) return this.setAu({ err: A.errPass8 });
           const nick = (au.nick || '').trim() || fn.split(/\s+/)[0];
@@ -2237,6 +2443,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       viewingText: t.viewing(me), backToMeLbl: t.backToMe, backToMe: () => this.setState({ me: ses }),
       daySeg: seg([{ value: 'real', label: t.real }, ...[1, 2, 3, 4, 5, 6].map(d => ({ value: String(d), label: t.letters[d] }))], this.state.simDay, v => this.setState({ simDay: v })),
       timeSeg: seg([{ value: 'real', label: t.realTime }, ...[418, 447, 467, 750, 1120, 1182, 1235].map(m => ({ value: String(m), label: disp(Math.floor(m / 60) + ':' + pad(m % 60)) }))], this.state.simMin, v => this.setState({ simMin: v })),
+      tu: this.tutorialVals(lang), lk: this.linkVals(),
       goHome: () => goTab('home'), goReminders: () => goTab('reminders'), goTeam: () => goTab('team'), goRhythm: () => goTab('rhythm'),
       goAhora: () => { this.setState({ tab: 'home', view: 'ahora' }); window.scrollTo(0, 0); }, goHoy: () => { this.setState({ tab: 'home', view: 'hoy' }); window.scrollTo(0, 0); },
       goAsk: () => { this.setState({ tab: 'home' }); this.scrollToAsk(); },

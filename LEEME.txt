@@ -1,0 +1,20 @@
+ARCHIVOS MODIFICADOS (últimas actualizaciones)
+
+Cambios incluidos:
+- Tutoriales
+- Iniciar sesión con correo o con Google
+- Enlazar Google y Google Calendar desde Cuenta
+
+1) GitHub (raíz del repositorio): reemplaza estos 2 archivos
+   - index.html
+   - google.js
+
+2) Apps Script: reemplaza el código
+   - apps-script/Code.gs
+   Luego ve a Implementar → Gestionar implementaciones → ✏️ → Versión: Nueva → Implementar.
+   Abre la URL /exec: debe decir "version":4
+
+3) Google Cloud → Credenciales → tu Client ID (solo si aún no lo hiciste)
+   En "URIs de redireccionamiento autorizados", agrega estas dos direcciones:
+   https://thegentlestoicparent.com/
+   https://www.thegentlestoicparent.com/
