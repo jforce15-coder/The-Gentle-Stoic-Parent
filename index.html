@@ -1554,7 +1554,7 @@ const PEACH = '#F7E6D3', SKY = '#E4EAF2', PAPER = '#FFFDF8';
 const PALETTE = [['#4B6A94', 'Azul bruma', 'Misty blue'], ['#557552', 'Salvia', 'Sage'], ['#3D6B66', 'Eucalipto', 'Eucalyptus'], ['#6B5B95', 'Lavanda', 'Lavender'], ['#85476B', 'Ciruela', 'Plum'], ['#A94F5C', 'Rosa arcilla', 'Clay rose'], ['#6B7039', 'Oliva', 'Olive']];
 const THEMES = { 'Naranja suave': { acc: '#AD5528', btn: '#F7C49C', ink: '#2A2F2B', dark: '#F0AE7C', soft: '#FDEFE4', acc2: '#8C6A55' }, 'Arena': { acc: '#7A6246', btn: '#E2D2BA', ink: '#2A2F2B', dark: '#D3BF9F', soft: '#F4EDE2', acc2: '#786E62' }, 'Azafrán': { acc: '#9A6412', btn: '#E3AE55', ink: '#2A2F2B', dark: '#D39A3C', soft: '#FAEFD9', acc2: '#7D6A4C' } };
 const PASSIVE = /^(termina lo suyo|sigue con lo suyo|wraps up|carries on)/i;
-const PCOL = { Juan: '#4B6A94', Christine: '#557552' };
+const PCOL = { Juan: '#4B6A94', Christine: '#A94F5C' };
 const PC = p => PCOL[p] || INK;
 const MIX = (c, a) => { const h = x => parseInt(x, 16); const f = [h(c.slice(1, 3)), h(c.slice(3, 5)), h(c.slice(5, 7))], b = [255, 253, 248]; return '#' + f.map((v, i) => Math.round(b[i] + (v - b[i]) * a).toString(16).padStart(2, '0')).join(''); };
 const TINT = p => MIX(PC(p), 0.13);
@@ -3315,7 +3315,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   }
   syncColors() {
     const f = this.family(); const used = {};
-    ['Juan', 'Christine'].forEach(r => { const m = f && (f.members || []).find(x => x.role === r); PCOL[r] = (m && m.color) || (r === 'Juan' ? '#4B6A94' : '#557552'); used[r] = PCOL[r]; });
+    ['Juan', 'Christine'].forEach(r => { const m = f && (f.members || []).find(x => x.role === r); PCOL[r] = (m && m.color) || (r === 'Juan' ? '#4B6A94' : '#A94F5C'); used[r] = PCOL[r]; });
   }
   setColor(c) {
     const ses = this.state.session, f = this.family() || { members: [] };

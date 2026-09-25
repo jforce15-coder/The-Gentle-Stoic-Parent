@@ -6,7 +6,7 @@ Qué trae:
 - Color de marca: naranja suave (botones, menú activo, títulos y detalles). Sin café ni azul.
 - Logo con sol y línea base en tinta oscura.
 - Logo sin recuadro, con fondo transparente (favicon, menú y cabecera). En iPhone/iPad el icono de inicio usa fondo crema, porque iOS no permite iconos transparentes.
-- Cada padre tiene su color en toda la app. Se elige en Cuenta → «Tu color» (7 tonos; el de tu pareja queda bloqueado). Por defecto: Juan azul bruma, Christine salvia.
+- Cada padre tiene su color en toda la app. Se elige en Cuenta → «Tu color» (7 tonos; el de tu pareja queda bloqueado). Por defecto: Juan azul bruma, Christine rosa arcilla.
 - «¿Qué sigue?» salta los momentos en que no tienes nada que hacer.
 - «Preguntar» responde a la situación concreta, incluso sin IA (salidas y transiciones, rabietas, peleas, comida, sueño, pantallas, «no escucha», miedos, prisas de la mañana).
 
