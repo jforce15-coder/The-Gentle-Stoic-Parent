@@ -138,3 +138,11 @@ export async function uploadFile(file, name) {
   fd.append('file', file);
   return api('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name,webViewLink,thumbnailLink&supportsAllDrives=true', { method: 'POST', body: fd });
 }
+
+// ---------- Apps Script backend (emails, family rules) ----------
+export async function callApi(url, action, payload) {
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, payload, accessToken: token }) });
+  const j = await r.json();
+  if (!j.ok) throw new Error(j.error || 'API error');
+  return j.data;
+}
