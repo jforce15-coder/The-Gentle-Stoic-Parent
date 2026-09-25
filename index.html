@@ -797,6 +797,34 @@
             </div>
             <img src="img/bunny-books.png" alt="" style="width: 150px; height: 130px; object-fit: contain;">
           </div>
+          <div data-screen-label="Filosofía" style="background: #F1EDE4; border-radius: 32px; padding: clamp(24px, 4vw, 40px); display: flex; flex-direction: column; gap: 22px; animation: gspRise 420ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+            <div style="display: flex; flex-direction: column; gap: 6px; max-width: 640px;">
+              <span style="font-family: 'Gochi Hand', cursive; font-size: 21px; color: #A45F22;">{{ core.kicker }}</span>
+              <h2 style="margin: 0; font-family: 'Literata', Georgia, serif; font-weight: 700; font-size: clamp(30px, 4.2vw, 46px); line-height: 1.08; letter-spacing: -0.015em;">{{ core.name }}</h2>
+              <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: clamp(18px, 2.2vw, 22px); line-height: 1.4; color: #4A4A45;">{{ core.tagline }}</p>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 18px;">{{ core.within }}</span>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px;">
+                <sc-for list="{{ core.pillars }}" as="pl" hint-placeholder-count="4">
+                  <button type="button" onClick="{{ pl.open }}" style="text-align: left; background: #FFFDF8; border: 1px solid #E6DFD2; border-radius: 22px; padding: 18px; cursor: pointer; display: flex; flex-direction: column; gap: 10px; color: #2A2F2B; font-family: 'Figtree', sans-serif; animation: gspRise 360ms cubic-bezier(0.23, 1, 0.32, 1) both; animation-delay: {{ pl.delay }}; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.98);" style-hover="box-shadow: 0 8px 22px rgba(120,80,40,0.10);">
+                    <span style="font-family: 'Gochi Hand', cursive; font-size: 30px; line-height: 1; color: {{ pl.tone }};">{{ pl.n }}</span>
+                    <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 18px; line-height: 1.3;">{{ pl.t }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; border-top: 1.5px dashed #DCD4C4; padding-top: 18px;">
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <sc-for list="{{ core.practice }}" as="pr" hint-placeholder-count="3">
+                  <span style="padding: 8px 16px; border-radius: 999px; background: #FFFDF8; font-family: 'Gochi Hand', cursive; font-size: 20px; color: #557552;">{{ pr }}</span>
+                </sc-for>
+              </div>
+              <button type="button" onClick="{{ core.openManifesto }}" style="min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid #2A2F2B; background: transparent; color: #2A2F2B; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.97);">{{ core.readLbl }}</button>
+            </div>
+            <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 17px; line-height: 1.5; color: #4A4A45;">{{ core.promise }}</p>
+          </div>
+
           <div style="display: flex; flex-direction: column; gap: 12px;">
             <span style="font-family: 'Gochi Hand', cursive; font-size: 24px; color: #33466E;">{{ t.docsTitle }}</span>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 16px;">
@@ -1317,7 +1345,7 @@ const TX = {
 Object.assign(T.es, TX.es); Object.assign(T.en, TX.en);
 T.es.nav.today = 'Hoy'; T.en.nav.today = 'Today';
 const AT = {
-  es: { tag: 'No hace falta ser perfectos. Hace falta ser el mismo equipo todos los días.', back: 'Atrás', welcome: 'Hola de nuevo', welcomeSub: 'Entra para ver tu día.',
+  es: { tag: 'Un regreso tranquilo a la estabilidad. Porque los hogares tranquilos los construyen padres estables.', back: 'Atrás', welcome: 'Hola de nuevo', welcomeSub: 'Entra para ver tu día.',
     withGoogle: 'Continuar con Google', orEmail: 'o con tu correo', email: 'Correo', password: 'Contraseña', newPassword: 'Contraseña (mínimo 6)', signIn: 'Entrar',
     firstTime: '¿Primera vez?', create: 'Crea tu cuenta', step1: 'Paso 1 de 3', createTitle: 'Crea tu cuenta', continue: 'Continuar',
     chooseAccount: 'Elige una cuenta', toContinue: 'para continuar a The Gentle Stoic Parent', otherAccount: 'Otra cuenta de Google', use: 'Usar',
@@ -1327,7 +1355,7 @@ const AT = {
     scanning: 'Buscando tu rostro…', hello: n => 'Hola, ' + n, slots: n => n >= 2 ? 'Ya están los dos. Solo queda entrar.' : (2 - n) + ' de 2 lugares libres',
     errLogin: 'Correo o contraseña incorrectos.', errEmail: 'Escribe un correo válido.', errPass: 'La contraseña necesita al menos 6 caracteres.',
     errUsed: 'Ese correo ya tiene cuenta. Entra desde el inicio.', errFull: 'Ya existen las dos cuentas.', existing: 'Ya tiene cuenta' },
-  en: { tag: "We don't need to be perfect. We need to be the same team every day.", back: 'Back', welcome: 'Welcome back', welcomeSub: 'Sign in to see your day.',
+  en: { tag: 'A quiet return to steadiness. Because calm homes are built by steady parents.', back: 'Back', welcome: 'Welcome back', welcomeSub: 'Sign in to see your day.',
     withGoogle: 'Continue with Google', orEmail: 'or with your email', email: 'Email', password: 'Password', newPassword: 'Password (at least 6)', signIn: 'Sign in',
     firstTime: 'First time?', create: 'Create your account', step1: 'Step 1 of 3', createTitle: 'Create your account', continue: 'Continue',
     chooseAccount: 'Choose an account', toContinue: 'to continue to The Gentle Stoic Parent', otherAccount: 'Another Google account', use: 'Use',
@@ -1388,6 +1416,8 @@ const AT4 = {
 Object.assign(AT.es, AT4.es); Object.assign(AT.en, AT4.en);
 Object.assign(AT.es, { profileTitle: 'Cuéntanos de ti', profileSub: 'Estos datos se guardan en su hoja familiar y solo los ve tu familia.', fullName: 'Nombre completo', fullNamePh: 'Juan Pablo Morales', emailLbl: 'Correo electrónico', emailPh: 'tu@gmail.com', emailHint: 'Usa el mismo correo de tu cuenta de Google: con él conectamos tu calendario.', nick: '¿Cómo te gusta que te digan?', nickPh: 'Juanpa', nickHint: 'Así te saludaremos en la app y en tus recordatorios.', errFullName: 'Escribe tu nombre y apellido.', assignedRole: 'Tu rol en la familia', assignedAuto: 'Asignado automáticamente: es el rol que queda libre.' });
 Object.assign(AT.en, { profileTitle: 'Tell us about you', profileSub: 'Saved in your family sheet and only visible to your family.', fullName: 'Full name', fullNamePh: 'Christine Morales', emailLbl: 'Email', emailPh: 'you@gmail.com', emailHint: 'Use the same email as your Google account: we connect your calendar with it.', nick: 'What do you like to be called?', nickPh: 'Chris', nickHint: "That's how we'll greet you in the app and your reminders.", errFullName: 'Enter your first and last name.', assignedRole: 'Your role in the family', assignedAuto: "Assigned automatically: it's the role that's left." });
+Object.assign(T.es, { coreKicker: 'El núcleo de nuestro sistema', coreRead: 'Leer el manifiesto' });
+Object.assign(T.en, { coreKicker: 'The core of our system', coreRead: 'Read the manifesto' });
 Object.assign(T.es, { docsTitle: 'Nuestros documentos', docOpen: 'Abrir', docDownload: 'Descargar', docAlt: 'Descargar en inglés', docs: { manual: { kicker: 'Manual · 12 páginas', title: 'Nuestro ritmo familiar', meta: 'Mañana y noche, roles, reglas del equipo, desayunos e imprevistos.' }, poster: { kicker: 'Póster · A3', title: 'Nuestro ritmo, para la pared', meta: 'Mañana y noche de un vistazo. Imprímelo para la cocina o el pasillo.' } } });
 Object.assign(T.en, { docsTitle: 'Our documents', docOpen: 'Open', docDownload: 'Download', docAlt: 'Download in Spanish', docs: { manual: { kicker: 'Handbook · 12 pages', title: 'Our family rhythm', meta: 'Mornings and evenings, roles, team rules, breakfasts and what to do off plan.' }, poster: { kicker: 'Poster · A3', title: 'Our rhythm, for the wall', meta: 'Morning and evening at a glance. Print it for the kitchen or hallway.' } } });
 Object.assign(T.es, { syncing: 'Sincronizando…', synced: n => n + ' eventos al día en tu calendario.', resync: 'Sincronizar ahora', filesTitle: 'Fotos y archivos', filesSub: 'Se guardan en la carpeta familiar de Google Drive.', upload: 'Subir foto o archivo', uploading: 'Subiendo…', noFiles: 'Todavía no hay archivos.' });
@@ -1511,7 +1541,7 @@ class Component extends DCLogic {
     const lang = this.state.lang;
     const { dow } = this.clock(); const r = this.myRoles(dow);
     const ctx = list.map(e => `[${e.id}] (${e.cat}) ${this.tx(e.t)} — ${this.entryText(e).replace(/\s+/g, ' ').slice(0, 700)}`).join('\n');
-    const system = `You are the calm guide inside "The Gentle Stoic Parent", the family app of Juan and Christine (children Sophia, 7, and Isaac, 5). Their philosophy is Gentle Stoic Parenting: calm before correction, observe instead of judge, trust the child's capability, one open question (never "why", never a quiz), stories instead of lectures, parent for wisdom not compliance. Parents model; they don't control.
+    const system = `You are the calm guide inside "The Gentle Stoic Parent", the family app of Juan and Christine (children Sophia, 7, and Isaac, 5). The core of their system is Modern Stoic Parenting — "a quiet return to steadiness": calm homes are built by steady parents; the parent leads from within (pause, observe, breathe); four pillars: calm comes before correction, presence teaches more than lectures, trust builds confidence faster than control, wisdom grows when there is space to think; the goal is wise children, not obedient ones; it promises steadier parents, not easy children; "Life doesn't have to be hard." Also: calm before correction, observe instead of judge, trust the child's capability, one open question (never "why", never a quiz), stories instead of lectures, parent for wisdom not compliance. Parents model; they don't control.
 Answer ONLY from the LIBRARY below; if it doesn't cover the question, say so gently and point to the closest principle. Tone: calm, warm, few words. Never preachy, never judgmental, no emoji, no exclamation marks. If the parent sounds overwhelmed, begin by helping them regulate (breathe, slow down). Never explain a story's moral.
 The person asking is ${this.state.me}. ${r ? `Today ${this.state.me} has the ${r.am === 'take' ? 'drop-off' : 'home'} role in the morning and ${r.pm === 'dinner' ? 'dinner' : 'bath & stories'} in the evening.` : 'Today is a weekend day.'}
 Reply in ${lang === 'es' ? 'Spanish (Guatemala, tú)' : 'English'}.
@@ -2253,6 +2283,9 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       rhythmDaySeg: seg([1, 2, 3, 4, 5].map(dd => ({ value: String(dd), label: t.letters[dd] })), String(rDay), v => this.setState({ rhythmDay: Number(v) })), rh,
       libQ: this.state.libQ, onLibChange: e => this.setState({ libQ: e.target.value }), hasLibQ: !!this.state.libQ.trim(),
       askFromLib: () => { const q = this.state.libQ; this.setState({ tab: 'home', view: 'hoy' }); this.ask(q); this.scrollToAsk(); },
+      core: { kicker: t.coreKicker, name: this.tx(K.CORE.name), tagline: this.tx(K.CORE.tagline), within: this.tx(K.CORE.within), promise: this.tx(K.CORE.promise), practice: K.CORE.practice[lang], readLbl: t.coreRead,
+        openManifesto: () => this.setState({ detail: 'p-invite' }),
+        pillars: K.CORE.pillars.map((p, i) => ({ n: String(i + 1), t: this.tx(p.t), tone: [OCHRE, SAGE, NAVY, OCHRE][i], delay: (i * 50) + 'ms', open: () => this.setState({ detail: p.id }) })) },
       cats, libItems, libEmpty: libItems.length === 0,
       docs: [
         { key: 'manual', es: ['Manual_Ritmo_Familiar_ES.pdf', 'thumb-manual-es.png'], en: ['Family_Rhythm_Handbook_EN.pdf', 'thumb-manual-en.png'], bg: '#F7E6D3', tone: OCHRE },
