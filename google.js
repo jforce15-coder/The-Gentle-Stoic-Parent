@@ -16,6 +16,23 @@ export const TABS = {
 };
 
 let token = null, tokenExp = 0, tokenClient = null, gisReady = null;
+const TK = 'gsp:gtok', RS = 'gsp:resume';
+function loadTok() { try { const t = JSON.parse(sessionStorage.getItem(TK) || 'null'); if (t && Date.now() < t.exp) { token = t.token; tokenExp = t.exp; } } catch (e) {} }
+function saveTok() { try { sessionStorage.setItem(TK, JSON.stringify({ token, exp: tokenExp })); } catch (e) {} }
+const redirectUri = () => location.origin + location.pathname;
+// Returns the saved resume object when coming back from Google, else null.
+export function consumeRedirect() {
+  loadTok();
+  const h = location.hash || '';
+  if (!/access_token=|error=/.test(h)) return null;
+  const p = new URLSearchParams(h.slice(1));
+  let st = {}; try { st = JSON.parse(localStorage.getItem(RS) || '{}'); localStorage.removeItem(RS); } catch (e) {}
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+  if (p.get('error')) return { ...st, error: p.get('error') };
+  token = p.get('access_token'); tokenExp = Date.now() + (Number(p.get('expires_in') || 3600) - 60) * 1000; saveTok();
+  return st;
+}
+async function whoAmI() { const me = await api('https://www.googleapis.com/oauth2/v3/userinfo'); return { email: (me.email || '').toLowerCase(), name: me.given_name || me.name || '' }; }
 
 function loadGis() {
   if (gisReady) return gisReady;
@@ -29,15 +46,25 @@ function loadGis() {
   return gisReady;
 }
 
-export async function connect(clientId, hint) {
+// Full-page redirect (reliable on iPad/iPhone, no popups). `resume` is stored and returned by consumeRedirect().
+export async function connect(clientId, hint, resume) {
   if (!clientId) throw new Error('NO_CLIENT_ID');
+  loadTok();
+  if (isConnected()) { try { return await whoAmI(); } catch (e) { token = null; } }
+  if (resume !== false) {
+    try { localStorage.setItem(RS, JSON.stringify(resume || {})); } catch (e) {}
+    const q = new URLSearchParams({ client_id: clientId, redirect_uri: redirectUri(), response_type: 'token', scope: SCOPES, include_granted_scopes: 'true', prompt: 'select_account' });
+    if (hint) q.set('login_hint', hint);
+    location.assign('https://accounts.google.com/o/oauth2/v2/auth?' + q.toString());
+    return new Promise(() => {});
+  }
   await loadGis();
   return new Promise((res, rej) => {
     tokenClient = window.google.accounts.oauth2.initTokenClient({
       client_id: clientId, scope: SCOPES, login_hint: hint || undefined, prompt: '',
       callback: async (r) => {
         if (r.error) return rej(new Error(r.error_description || r.error));
-        token = r.access_token; tokenExp = Date.now() + (r.expires_in - 60) * 1000;
+        token = r.access_token; tokenExp = Date.now() + (r.expires_in - 60) * 1000; saveTok();
         try { const me = await api('https://www.googleapis.com/oauth2/v3/userinfo'); res({ email: (me.email || '').toLowerCase(), name: me.given_name || me.name || '' }); }
         catch (e) { rej(e); }
       },
@@ -60,8 +87,8 @@ export async function renderButton(el, clientId, { locale, text, onCredential })
   el.innerHTML = '';
   window.google.accounts.id.renderButton(el, { type: 'standard', theme: 'outline', size: 'large', shape: 'pill', text: text || 'signin_with', logo_alignment: 'left', width: Math.min(400, Math.max(240, el.offsetWidth || 360)), locale: locale || 'es' });
 }
-export const isConnected = () => !!token && Date.now() < tokenExp;
-export function disconnect() { if (token && window.google) window.google.accounts.oauth2.revoke(token, () => {}); token = null; }
+export const isConnected = () => { if (!token) loadTok(); return !!token && Date.now() < tokenExp; };
+export function disconnect() { if (token && window.google) window.google.accounts.oauth2.revoke(token, () => {}); token = null; try { sessionStorage.removeItem(TK); } catch (e) {} }
 
 async function api(url, opts = {}) {
   const r = await fetch(url, { ...opts, headers: { Authorization: 'Bearer ' + token, ...(opts.body && !(opts.body instanceof FormData) ? { 'Content-Type': 'application/json' } : {}), ...(opts.headers || {}) } });
@@ -141,7 +168,7 @@ export async function uploadFile(file, name) {
 
 // ---------- Apps Script backend (emails, family rules) ----------
 export async function callApi(url, action, payload) {
-  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, payload, accessToken: token }) });
+  const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action, payload, accessToken: isConnected() ? token : undefined, session: (() => { try { return JSON.parse(localStorage.getItem('gsp:sess') || 'null'); } catch (e) { return null; } })() }) });
   const j = await r.json();
   if (!j.ok) throw new Error(j.error || 'API error');
   return j.data;

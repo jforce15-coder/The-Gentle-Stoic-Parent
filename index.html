@@ -303,6 +303,26 @@
                 </div>
                 <img src="img/sun.png" alt="" style="width: 86px; height: 64px; object-fit: contain; animation: gspFloat 6s ease-in-out infinite;">
               </div>
+              <sc-if value="{{ au.isSaving }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #F1EDE4; font-size: 14.5px; color: #4A4A45;">
+                  <span style="width: 20px; height: 20px; flex: none; border-radius: 50%; border: 2.5px solid #E0D8C9; border-top-color: #A45F22; animation: gspSpin 800ms linear infinite;"></span>{{ at.savingFam }}
+                </div>
+              </sc-if>
+              <sc-if value="{{ au.isSaved }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px; border-radius: 16px; background: #EEF2EA; animation: gspFade 260ms ease both;">
+                  <span style="width: 24px; height: 24px; flex: none; border-radius: 50%; background: #557552; color: #FFFDF8; display: grid; place-items: center; font-size: 13px;">✓</span>
+                  <span style="display: flex; flex-direction: column; gap: 2px;">
+                    <span style="font-size: 15px; font-weight: 600; color: #2A2F2B;">{{ au.savedTitle }}</span>
+                    <span style="font-size: 13.5px; line-height: 1.5; color: #4A4A45;">{{ au.savedSub }}</span>
+                  </span>
+                </div>
+              </sc-if>
+              <sc-if value="{{ au.hasSaveErr }}" hint-placeholder-val="{{ false }}">
+                <div style="display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 16px; background: #FBEDE7; color: #7A2E1D; font-size: 14px; line-height: 1.5;">
+                  <span>{{ au.saveErr }}</span>
+                  <button type="button" onClick="{{ au.retrySave }}" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid #7A2E1D; background: transparent; color: #7A2E1D; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;">{{ at.retry }}</button>
+                </div>
+              </sc-if>
               <div style="background: #FFFDF8; border: 1px solid #E6DFD2; border-radius: 22px; padding: 16px 18px; display: flex; flex-direction: column; gap: 2px;">
                 <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 6px;">
                   <span style="font-family: 'Literata', Georgia, serif; font-weight: 700; font-size: 17px; color: {{ au.roleColor }};">{{ au.calName }}</span>
@@ -323,6 +343,10 @@
                   </sc-for>
                 </div>
                 <button type="button" onClick="{{ au.connectCal }}" disabled="{{ au.gOff }}" style="opacity: {{ au.gOp }}; min-height: 48px; width: 100%; border-radius: 999px; border: 1px solid #747775; background: #FFFFFF; color: #1F1F1F; font-family: 'Roboto', 'Figtree', sans-serif; font-size: 15px; font-weight: 500; letter-spacing: 0.01em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 12px; padding: 0 20px; transition: background 200ms ease, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-hover="background: #F7F8F8;" style-active="transform: scale(0.98);"><svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true" style="flex: none;"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg><span>{{ at.connectCal }}</span></button>
+              </sc-if>
+              <sc-if value="{{ au.canLater }}" hint-placeholder-val="{{ false }}">
+                <button type="button" onClick="{{ au.later }}" style="min-height: 48px; border: none; background: transparent; color: #4A4A45; font-family: 'Figtree', sans-serif; font-size: 14.5px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; cursor: pointer;">{{ at.calLater }}</button>
+                <p style="margin: -6px 0 0; text-align: center; font-size: 12.5px; line-height: 1.5; color: #6B6A63;">{{ at.calLaterHint }}</p>
               </sc-if>
               <sc-if value="{{ au.calRunning }}" hint-placeholder-val="{{ false }}">
                 <div style="display: flex; flex-direction: column; gap: 10px; background: #F1EDE4; border-radius: 22px; padding: 18px;">
@@ -1227,7 +1251,7 @@
   </sc-if>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;showReviewBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Revisión&quot;},&quot;googleClientId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;946315464909-i0uptgcvbpqnspnjp5a0o4a7dnpi0ngi.apps.googleusercontent.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;},&quot;appsScriptUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;showReviewBar&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Revisión&quot;},&quot;googleClientId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;946315464909-i0uptgcvbpqnspnjp5a0o4a7dnpi0ngi.apps.googleusercontent.com&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;},&quot;appsScriptUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://script.google.com/macros/s/AKfycbzlD8c0g_6lHZAQCR8LK1nYBT_OuOkmMlPIf_2nxqQqNlQKDuFlMtK8mFAuA7mYaxpnHg/exec&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Google&quot;}}">
 
 const L2 = (es, en) => ({ es, en });
 const INK = '#2A2F2B', MUTED = '#5E5D57', OCHRE = '#A45F22', SAGE = '#557552', NAVY = '#33466E';
@@ -1449,8 +1473,8 @@ Object.assign(AT.es, { soon: 'Próximamente', gSoonLbl: 'Google · aún no dispo
 Object.assign(AT.en, { soon: 'Coming soon', gSoonLbl: 'Google · not available yet', gSoonNote: "Signing in with Google isn't available yet. We'll turn it on very soon.", gSoonCal: "Google Calendar connection isn't available yet. You can come back to this step as soon as we turn it on.", faceSoonSub: 'Not available yet.' });
 Object.assign(T.es, { soon: 'Próximamente', faceSoonSub: 'Aún no está disponible.' });
 Object.assign(T.en, { soon: 'Coming soon', faceSoonSub: 'Not available yet.' });
-Object.assign(AT.es, { invitedQueued: to => 'Le enviaremos la invitación a ' + to + ' en cuanto conectes tu calendario.' });
-Object.assign(AT.en, { invitedQueued: to => "We'll email the invitation to " + to + ' as soon as you connect your calendar.' });
+Object.assign(AT.es, { invitedQueued: to => 'Enviando la invitación a ' + to + '…', invitedDone: to => 'Invitación enviada a ' + to + '.', savingFam: 'Guardando tu familia…', savedTitle: f => 'Tu familia está guardada' + (f ? ' · ' + f : ''), savedSub: r => 'Ya eres parte como ' + r + '. Puedes entrar con tu correo y contraseña.', retry: 'Intentar de nuevo', calLater: 'Conectar más tarde', calLaterHint: 'Lo encuentras en Cuenta → Google Calendar.' });
+Object.assign(AT.en, { invitedQueued: to => 'Sending the invitation to ' + to + '…', invitedDone: to => 'Invitation sent to ' + to + '.', savingFam: 'Saving your family…', savedTitle: f => 'Your family is saved' + (f ? ' · ' + f : ''), savedSub: r => "You're in as " + r + '. You can sign in with your email and password.', retry: 'Try again', calLater: 'Connect later', calLaterHint: 'Find it in Account → Google Calendar.' });
 Object.assign(AT.es, { profileTitle: 'Cuéntanos de ti', profileSub: 'Estos datos se guardan en su hoja familiar y solo los ve tu familia.', fullName: 'Nombre completo', fullNamePh: 'Juan Pablo Morales', emailLbl: 'Correo electrónico', emailPh: 'tu@gmail.com', emailHint: 'Usa el mismo correo de tu cuenta de Google: con él conectamos tu calendario.', nick: '¿Cómo te gusta que te digan?', nickPh: 'Juanpa', nickHint: 'Así te saludaremos en la app y en tus recordatorios.', errFullName: 'Escribe tu nombre y apellido.', assignedRole: 'Tu rol en la familia', assignedAuto: 'Asignado automáticamente: es el rol que queda libre.' });
 Object.assign(AT.en, { profileTitle: 'Tell us about you', profileSub: 'Saved in your family sheet and only visible to your family.', fullName: 'Full name', fullNamePh: 'Christine Morales', emailLbl: 'Email', emailPh: 'you@gmail.com', emailHint: 'Use the same email as your Google account: we connect your calendar with it.', nick: 'What do you like to be called?', nickPh: 'Chris', nickHint: "That's how we'll greet you in the app and your reminders.", errFullName: 'Enter your first and last name.', assignedRole: 'Your role in the family', assignedAuto: "Assigned automatically: it's the role that's left." });
 Object.assign(T.es, { coreKicker: 'El núcleo de nuestro sistema', coreRead: 'Leer el manifiesto' });
@@ -1813,7 +1837,14 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   };
   componentDidMount() {
     import(new URL('kb.js', document.baseURI).href).then(kb => this.setState({ kb }));
-    import(new URL('google.js', document.baseURI).href).then(G => this.setState({ G })).catch(() => {});
+    import(new URL('google.js', document.baseURI).href).then(G => {
+      this.setState({ G });
+      const r = G.consumeRedirect(); if (!r) return;
+      if (r.error) { if (r.action === 'calendar' && r.au) this.setState(s => ({ session: null, au: { ...s.au, ...r.au, calErr: AT[r.au.lang || 'es'].errPopup } })); return; }
+      if (r.action === 'calendar' && r.au) { this.setState(s => ({ session: null, au: { ...s.au, ...r.au, cal: null } }), () => this.runCalendar()); }
+      else if (r.action === 'signin') this.googleSignIn();
+      else if (r.action === 'resync' && this.state.session) this.resync();
+    }).catch(() => {});
     const p = {};
     try { const s = JSON.parse(localStorage.getItem(LS) || '{}'); ['notes', 'remOff', 'google', 'files'].forEach(k => { if (s[k] != null) p[k] = s[k]; }); } catch (e) {}
     const nav = (navigator.language || 'es').slice(0, 2) === 'en' ? 'en' : 'es';
@@ -1866,9 +1897,9 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   }
   syncNote(n) {
     const G = this.state.G, f = this.family(); if (!this.real() || !f) return;
-    if (this.apiUrl()) { (G.isConnected() ? Promise.resolve() : G.connect(this.clientId(), this.memberEmail())).then(() => G.callApi(this.apiUrl(), 'saveNote', { note: n })).catch(() => {}); return; }
+    if (this.apiUrl()) { G.callApi(this.apiUrl(), 'saveNote', { note: n }).catch(() => {}); return; }
     const row = { familiaId: f.id, id: n.id, fecha: String(n.at), autor: n.author, visibilidad: n.vis, funciono: n.worked, atasco: n.stuck, ajuste: n.tweak, mochilas: n.bags ? '1' : '0', ropa: n.clothes ? '1' : '0', desayuno: n.breakfast ? '1' : '0' };
-    (G.isConnected() ? Promise.resolve() : G.connect(this.clientId(), this.memberEmail())).then(() => G.appendRow('Notas', row)).catch(() => {});
+    (G.isConnected() ? Promise.resolve() : G.connect(this.clientId(), this.memberEmail(), false)).then(() => G.appendRow('Notas', row)).catch(() => {});
   }
   nick(role) { const u = this.users().find(x => x.role === role); return (u && u.nick) || role; }
   async hashPass(email, pass) {
@@ -1885,8 +1916,9 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       if (api && this.state.G) {
         const r = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'passwordLogin', payload: { email: em, password: pw } }) });
         const j = await r.json(); if (!j.ok) throw new Error(j.error);
-        const pf = j.data; this.saveFamily({ id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members });
-        const me = pf.members.find(m => String(m.email).toLowerCase() === em || String(m.contact || '').toLowerCase() === em);
+        const pf = j.data; try { if (pf.session) localStorage.setItem('gsp:sess', JSON.stringify(pf.session)); } catch (e) {}
+        this.saveFamily({ id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members });
+        const me = pf.members.find(m => m.role === pf.myRole) || pf.members.find(m => String(m.email).toLowerCase() === em || String(m.contact || '').toLowerCase() === em);
         this.setAu({ loggingIn: false, loginPass: '' }); return this.login(me);
       }
       const h = await this.hashPass(em, pw);
@@ -1903,7 +1935,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     try {
       let rec;
       if (this.real()) {
-        const G = this.state.G; if (!G.isConnected()) await G.connect(this.clientId(), this.memberEmail());
+        const G = this.state.G; if (!G.isConnected()) await G.connect(this.clientId(), this.memberEmail(), { action: 'none' });
         const up = await G.uploadFile(file);
         rec = { name: up.name, link: up.webViewLink, author: ses, at: Date.now() };
         await G.appendRow('Archivos', { familiaId: f.id, fecha: String(rec.at), autor: ses, nombre: rec.name, driveId: up.id, enlace: rec.link });
@@ -1936,8 +1968,48 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const out = [...ev, ...Object.values(blocks)].map(e => ({ ...e, firstDate: this.nextDate(e.days, e.start) }));
     return out.sort((a, b) => a.kind === b.kind ? toMin(a.start) - toMin(b.start) : a.kind === 'rem' ? -1 : 1);
   }
+  async saveAccount() {
+    const au = this.state.au, A = AT[au.lang], lang = au.lang, G = this.state.G, api = this.apiUrl();
+    if (au.saving || au.saved) return;
+    this.setAu({ saving: true, saveErr: '' });
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+    try {
+      const email = (au.email || '').trim().toLowerCase(), fullName = (au.fullName || '').trim();
+      const nick = (au.nick || '').trim() || fullName.split(/\s+/)[0] || au.role;
+      const create = au.mode === 'create';
+      let role = au.role, fam;
+      if (api && G) {
+        const pf = await G.callApi(api, create ? 'createFamily' : 'joinFamily', { role, fullName, nick, email, password: au.pass || '', lang, familyName: (au.famName || '').trim(), code: create ? au.code : au.join.code });
+        try { if (pf.session) localStorage.setItem('gsp:sess', JSON.stringify(pf.session)); } catch (e) {}
+        role = pf.myRole || role;
+        fam = { id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members };
+        if (create && pf.code) this.setAu({ code: pf.code });
+        if (create && au.queuedInvite) G.callApi(api, 'sendInvite', { to: au.queuedInvite }).then(() => this.setAu({ inviteDelivered: true })).catch(() => {});
+      } else {
+        await wait(500);
+        fam = this.family();
+        if (create) fam = { id: 'f' + Date.now().toString(36), name: (au.famName || '').trim(), code: au.code, createdBy: role, created: Date.now(), members: [] };
+        else {
+          if (!fam || fam.code !== au.join.code) fam = { id: 'f' + Date.now().toString(36), name: au.join.fam || 'Familia', code: au.join.code, createdBy: au.join.by, members: au.join.by ? [{ role: au.join.by, email: au.join.by.toLowerCase() + '@gmail.com', lang }] : [] };
+          if (fam.members.filter(m => m.email !== email).length >= 2) throw new Error(A.errFull);
+          if (fam.members.some(m => m.role === role && m.email !== email)) throw new Error(A.errRoleTaken(role));
+        }
+      }
+      const passHash = au.pass ? await this.hashPass(email, au.pass) : '';
+      const prev = (fam.members || []).find(m => m.role === role) || {};
+      const member = { ...prev, role, email: prev.email || email, passHash, name: fullName || prev.name, nick, contact: email, lang, calendarId: prev.calendarId || '', joined: Date.now() };
+      fam.members = [...(fam.members || []).filter(m => m.role !== role), member];
+      this.saveFamily(fam);
+      try { localStorage.setItem('gsp:session', JSON.stringify({ role })); } catch (e) {}
+      this.setAu({ saving: false, saved: true, savedMember: member, savedFam: fam.name, role });
+    } catch (err) {
+      this.setAu({ saving: false, saveErr: String(err && err.message || err) });
+    }
+  }
   async runCalendar() {
-    const au = this.state.au, A = AT[au.lang], role = au.role, lang = au.lang, G = this.state.G, real = this.real();
+    const au = this.state.au, A = AT[au.lang], lang = au.lang, G = this.state.G, real = this.real(), api = this.apiUrl();
+    const member = au.savedMember; if (!member) return;
+    const role = member.role;
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const events = this.buildEvents(role, lang);
     const nRem = events.filter(e => e.kind === 'rem').length, nBlk = events.length - nRem;
@@ -1945,56 +2017,21 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const wait = ms => new Promise(r => setTimeout(r, ms));
     try {
       set(0, { done: 0 });
-      let email, name;
-      if (real) { const me = await G.connect(this.clientId(), au.pendingEmail); email = me.email; name = me.name; }
-      else { await wait(700); email = au.pendingEmail || role.toLowerCase() + '@gmail.com'; name = role; }
-      set(1);
-      let fam = this.family();
-      const api = real && this.apiUrl();
-      if (api) { await G.connect(this.clientId(), email).catch(() => {}); if (au.mode === 'create') fam = { id: '', name: au.famName.trim(), code: '', createdBy: role, members: [] }; else fam = { id: '', name: au.join.fam, code: au.join.code, createdBy: au.join.by, members: [] }; }
-      else if (au.mode === 'create') {
-        fam = { id: 'f' + Date.now().toString(36), name: au.famName.trim(), code: this.newCode(), createdBy: role, created: Date.now(), members: [] };
-        if (real) { await G.ensureTabs(); await G.appendRow('Familias', { id: fam.id, nombre: fam.name, codigo: fam.code, creadoPor: role, creado: new Date().toISOString() }); }
-        else await wait(600);
-      } else {
-        if (real) {
-          await G.ensureTabs();
-          const f = (await G.readTab('Familias')).find(r => (r.codigo || '').toUpperCase() === au.join.code);
-          if (!f) throw new Error(A.errNoFamily);
-          const mem = (await G.readTab('Miembros')).filter(m => m.familiaId === f.id);
-          if (mem.some(m => m.email === email)) { fam = { id: f.id, name: f.nombre, code: f.codigo, createdBy: f.creadoPor, members: mem.map(m => ({ role: m.rol, email: m.email, name: m.nombre, nick: m.apodo, lang: m.idioma, calendarId: m.calendarId })) }; }
-          else {
-            if (mem.length >= 2) throw new Error(A.errFull);
-            if (mem.some(m => m.rol === role)) throw new Error(A.errRoleTaken(role));
-            fam = { id: f.id, name: f.nombre, code: f.codigo, createdBy: f.creadoPor, members: mem.map(m => ({ role: m.rol, email: m.email, name: m.nombre, nick: m.apodo, lang: m.idioma, calendarId: m.calendarId })) };
-          }
-        } else {
-          await wait(600);
-          if (!fam || fam.code !== au.join.code) fam = { id: 'f' + Date.now().toString(36), name: au.join.fam || 'Familia', code: au.join.code, createdBy: au.join.by, members: au.join.by ? [{ role: au.join.by, email: au.join.by.toLowerCase() + '@gmail.com', lang }] : [] };
-          if (fam.members.length >= 2 && !fam.members.some(m => m.role === role && m.email === email)) throw new Error(A.errFull);
-          if (fam.members.some(m => m.role === role && m.email !== email)) throw new Error(A.errRoleTaken(role));
-        }
-      }
-      set(2);
+      if (real) {
+        const keep = { step: 'calendar', mode: au.mode, role, lang, famName: au.famName, join: au.join, code: au.code, saved: true, savedMember: member, savedFam: au.savedFam };
+        await G.connect(this.clientId(), member.contact || member.email, { action: 'calendar', au: keep });
+      } else await wait(700);
+      set(1); set(2);
       let calendarId = '';
       const calName = (lang === 'es' ? 'Nuestro ritmo · ' : 'Our rhythm · ') + role;
-      if (real) calendarId = await G.ensureCalendar(calName, tz); else { await wait(700); calendarId = 'demo-' + role.toLowerCase(); }
+      if (real) calendarId = await G.ensureCalendar(calName, tz, member.calendarId); else { await wait(700); calendarId = 'demo-' + role.toLowerCase(); }
       set(3, { done: 0 });
       if (real) await G.syncEvents(calendarId, tz, events, n => set(n <= nRem ? 3 : 4, { done: n }));
       else for (let n = 1; n <= events.length; n++) { await wait(110); set(n <= nRem ? 3 : 4, { done: n }); }
-      const passHash = au.pass ? await this.hashPass(au.email || email, au.pass) : '';
-      const member = { role, email, passHash, name: au.fullName || name, nick: au.nick || (au.fullName || name || role).split(' ')[0], contact: au.email || email, lang, calendarId, joined: Date.now() };
-      if (api) {
-        const prof = { role, fullName: member.name, nick: member.nick, email: member.contact, password: au.pass || '', lang, calendarId, familyName: au.famName.trim(), code: au.join && au.join.code };
-        const pf = await G.callApi(api, au.mode === 'create' ? 'createFamily' : 'joinFamily', prof);
-        fam = { id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members.filter(m => m.role !== role) };
-        if (au.mode === 'create' && au.queuedInvite) await G.callApi(api, 'sendInvite', { to: au.queuedInvite }).catch(() => {});
-      }
-      else if (real && !fam.members.some(m => m.email === email)) await G.appendRow('Miembros', { familiaId: fam.id, rol: role, email, nombre: member.name, apodo: member.nick, correoContacto: member.contact, idioma: lang, calendarId, unido: new Date().toISOString() });
-      fam.members = [...fam.members.filter(m => m.role !== role), member];
-      this.saveFamily(fam);
-      
-      set(5, { finished: true, member });
+      if (real && api) G.callApi(api, 'setPrefs', { calendarId }).catch(() => {});
+      const m2 = { ...member, calendarId };
+      const fam = this.family(); if (fam) { fam.members = (fam.members || []).map(m => m.role === role ? { ...m, calendarId } : m); this.saveFamily(fam); }
+      set(5, { finished: true, member: m2 });
     } catch (err) {
       const m = String(err && err.message || err);
       this.setAu({ calErr: m === 'POPUP_CLOSED' ? A.errPopup : m === 'NO_CLIENT_ID' ? A.errNoClient : m, cal: { ...(this.state.au.cal || {}), failed: true } });
@@ -2007,9 +2044,11 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       const u = this.users().find(x => x.role === me);
       if (this.real()) {
         const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        if (!G.isConnected()) await G.connect(this.clientId(), u && u.email);
+        if (!G.isConnected()) await G.connect(this.clientId(), u && (u.contact || u.email), { action: 'resync' });
         const cid = await G.ensureCalendar((lang === 'es' ? 'Nuestro ritmo · ' : 'Our rhythm · ') + me, tz, u && u.calendarId);
         const n = await G.syncEvents(cid, tz, this.buildEvents(me, lang));
+        const fam = this.family(); if (fam) { fam.members = (fam.members || []).map(m => m.role === me ? { ...m, calendarId: cid } : m); this.saveFamily(fam); }
+        if (this.apiUrl()) G.callApi(this.apiUrl(), 'setPrefs', { calendarId: cid }).catch(() => {});
         this.setState({ syncMsg: T0.synced(n) });
       } else { await new Promise(r => setTimeout(r, 700)); this.setState({ syncMsg: T0.synced(this.buildEvents(me, lang).length) }); }
     } catch (err) { this.setState({ syncMsg: String(err.message || err) }); }
@@ -2018,7 +2057,16 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const A = AT[this.state.au.lang];
     if (!this.real()) return this.setAu({ step: 'google', from: 'welcome', err: '' });
     try {
-      const G = this.state.G; const me = await G.connect(this.clientId(), hint);
+      const G = this.state.G; const me = await G.connect(this.clientId(), hint, { action: 'signin' });
+      if (this.apiUrl()) {
+        let pf = null; try { localStorage.removeItem('gsp:sess'); } catch (e) {}
+        pf = await G.callApi(this.apiUrl(), 'me', {});
+        if (!pf) return this.setAu({ err: A.errNotMember });
+        try { if (pf.session) localStorage.setItem('gsp:sess', JSON.stringify(pf.session)); } catch (e) {}
+        this.saveFamily({ id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, members: pf.members });
+        const mm = pf.members.find(x => x.role === pf.myRole);
+        return this.login(mm);
+      }
       await G.ensureTabs();
       const m = (await G.readTab('Miembros')).find(x => x.email === me.email);
       if (!m) return this.setAu({ err: A.errNotMember });
@@ -2056,7 +2104,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const back = () => {
       const map = { famName: 'welcome', joinCode: 'welcome', joinIntro: 'welcome', google: au.from || 'welcome' };
       const prev = map[au.step] || flow[Math.max(0, idx - 1)];
-      this.setAu({ ...(prev === 'welcome' ? { fullName: '', email: '', nick: '', pass: '', pendingEmail: '', inviteEmail: '', invited: false, copied: false, role: null } : {}), step: prev, err: '', calErr: '', cal: null, mode: prev === 'welcome' ? 'create' : au.mode });
+      this.setAu({ ...(prev === 'welcome' ? { fullName: '', email: '', nick: '', pass: '', pendingEmail: '', saved: false, saving: false, saveErr: '', savedMember: null, cal: null, calErr: '', inviteDelivered: false, queuedInvite: '', inviteEmail: '', invited: false, copied: false, role: null } : {}), step: prev, err: '', calErr: '', cal: null, mode: prev === 'welcome' ? 'create' : au.mode });
     };
     const sc = au.scanning;
     const clientId = this.clientId();
@@ -2068,14 +2116,14 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         hasSteps: idx >= 0, steps: flow.map((_, i) => ({ bg: i <= idx ? OCHRE : '#E6DFD2' })), stepLbl: A.stepOf(idx + 1, flow.length),
         isWelcome: au.step === 'welcome', isFamName: au.step === 'famName', isJoinCode: au.step === 'joinCode', isJoinIntro: au.step === 'joinIntro',
         isRole: au.step === 'role', isLang: au.step === 'lang', isInvite: au.step === 'invite', isCalendar: au.step === 'calendar', isGoogle: au.step === 'google',
-        toCreate: () => this.setAu({ fullName: '', email: '', nick: '', pass: '', pendingEmail: '', inviteEmail: '', invited: false, copied: false, step: 'famName', mode: 'create', role: null, err: '', cal: null }),
-        toJoinCode: () => this.setAu({ fullName: '', email: '', nick: '', pass: '', pendingEmail: '', inviteEmail: '', invited: false, copied: false, step: 'joinCode', mode: 'join', role: null, err: '', cal: null }),
+        toCreate: () => this.setAu({ fullName: '', email: '', nick: '', pass: '', pendingEmail: '', saved: false, saving: false, saveErr: '', savedMember: null, cal: null, calErr: '', inviteDelivered: false, queuedInvite: '', inviteEmail: '', invited: false, copied: false, step: 'famName', mode: 'create', role: null, err: '', cal: null }),
+        toJoinCode: () => this.setAu({ fullName: '', email: '', nick: '', pass: '', pendingEmail: '', saved: false, saving: false, saveErr: '', savedMember: null, cal: null, calErr: '', inviteDelivered: false, queuedInvite: '', inviteEmail: '', invited: false, copied: false, step: 'joinCode', mode: 'join', role: null, err: '', cal: null }),
         wSignin: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'signin', wNew: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'new',
         wTitle: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'signin' ? A.wBack : A.welcome, wSub: (au.wTab || (this.users().length ? 'signin' : 'new')) === 'signin' ? A.wBackSub : A.wNewSub,
         wTabs: [['signin', A.tabSignin], ['new', A.tabNew]].map(([v, label]) => { const on = (au.wTab || (this.users().length ? 'signin' : 'new')) === v; return { label, on, fg: on ? INK : '#8C877C', bar: on ? INK : 'transparent', go: () => this.setAu({ wTab: v, err: '', loginErr: '' }) }; }),
         hasFace: false, faceLbl: '', faceId: () => {},
-        gOff: !clientId || !this.state.G, gOp: (!clientId || !this.state.G) ? 0.55 : 1,
-        signInLbl: clientId ? A.signInGoogle : A.gSoonLbl, googleSignIn: () => this.googleSignIn(), gsiReal: !!clientId, gsiDemo: !clientId, gRef: this.gRef,
+        gOff: !clientId || !this.state.G || (au.step === 'calendar' && !au.saved), gOp: (!clientId || !this.state.G || (au.step === 'calendar' && !au.saved)) ? 0.55 : 1,
+        signInLbl: clientId ? A.signInGoogle : A.gSoonLbl, googleSignIn: () => this.googleSignIn(), gsiReal: false, gsiDemo: true, gRef: this.gRef,
         hasErr: !!au.err, err: au.err,
         famName: au.famName, onFamName: e => this.setAu({ famName: e.target.value, err: '' }),
         submitFamName: e => { e.preventDefault(); if (au.famName.trim().length < 2) return this.setAu({ err: A.errFamName }); this.setAu({ step: 'profile', err: '' }); },
@@ -2109,7 +2157,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         },
         joinFam: au.join ? (au.join.fam ? (L === 'es' ? 'Familia ' : 'Family ') + au.join.fam.replace(/^(Familia|Family)\s+/i, '') : A.yourFamily) : '',
         joinBy: au.join && au.join.by ? A.joinBy(au.join.by, au.join.by === 'Juan' ? 'Christine' : 'Juan') : A.joinByUnknown,
-        toRole: () => this.setAu({ fullName: '', email: '', nick: '', pass: '', pendingEmail: '', inviteEmail: '', invited: false, copied: false, step: 'profile', err: '', role: autoRole }),
+        toRole: () => this.setAu({ fullName: '', email: '', nick: '', pass: '', pendingEmail: '', saved: false, saving: false, saveErr: '', savedMember: null, cal: null, calErr: '', inviteDelivered: false, queuedInvite: '', inviteEmail: '', invited: false, copied: false, step: 'profile', err: '', role: autoRole }),
         roleSub: joining ? A.roleSubJoin : A.roleSubCreate,
         roles: ['Juan', 'Christine'].map(p => {
           const tk = takenRoles.includes(p), on = au.role === p;
@@ -2127,11 +2175,15 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         sendInvite: e => {
           e.preventDefault(); const to = au.inviteEmail.trim(); if (!/^\S+@\S+\.\S+$/.test(to)) return this.setAu({ err: A.errEmail });
           const subject = A.mailSubject(previewFam.name), body = A.mailBody(partner, au.nick || au.role, previewFam.name, link, previewFam.code);
-          if (this.real() && this.apiUrl()) { this.setAu({ invited: true, inviteSentTo: to, queuedInvite: to }); return; }
+          if (this.apiUrl() && this.state.G) {
+            if (au.saved) { this.setAu({ invited: true, inviteSentTo: to, inviteDelivered: false }); this.state.G.callApi(this.apiUrl(), 'sendInvite', { to }).then(() => this.setAu({ inviteDelivered: true })).catch(e => this.setAu({ err: String(e.message || e) })); }
+            else this.setAu({ invited: true, inviteSentTo: to, queuedInvite: to });
+            return;
+          }
           window.open('mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body), '_blank');
           this.setAu({ invited: true, inviteSentTo: to });
         },
-        invited: au.invited || au.copied, invitedMsg: au.invited ? (au.queuedInvite ? A.invitedQueued(au.inviteSentTo || '') : A.invitedMsg(au.inviteSentTo || '')) : A.copiedMsg,
+        invited: au.invited || au.copied, invitedMsg: au.invited ? (this.apiUrl() ? (au.inviteDelivered ? A.invitedDone(au.inviteSentTo || '') : A.invitedQueued(au.inviteSentTo || '')) : A.invitedMsg(au.inviteSentTo || '')) : A.copiedMsg,
         copyLink: () => { const done = () => this.setAu({ copied: true }); try { navigator.clipboard.writeText(link).then(done, done); } catch (x) { done(); } },
         copyLbl: au.copied ? A.copied : A.copy, copyBg: au.copied ? INK : 'transparent', copyFg: au.copied ? PAPER : INK,
         canShare: typeof navigator !== 'undefined' && !!navigator.share, shareLink: () => navigator.share({ title: 'The Gentle Stoic Parent', text: A.mailSubject(previewFam.name), url: link }).catch(() => {}),
@@ -2140,7 +2192,10 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         perms: [A.p1, A.p2, A.p3],
         calIdle: !cal || cal.failed, calRunning: !!cal, calDone: !!(cal && cal.finished), calErr: !!au.calErr, calErrMsg: au.calErr,
         calSteps: stepLabels.map((label, i) => { const st = !cal ? 'wait' : cal.finished || i < cal.i ? 'done' : i === cal.i && !cal.failed ? 'busy' : 'wait'; return { label, busy: st === 'busy', done: st === 'done', wait: st === 'wait', op: st === 'wait' ? 0.5 : 1, weight: st === 'busy' ? 600 : 400 }; }),
-        connectCal: () => { if (clientId && this.state.G) this.runCalendar(); }, enter: () => cal && cal.member && this.login(cal.member),
+        connectCal: () => { if (clientId && this.state.G && au.saved) this.runCalendar(); }, enter: () => cal && cal.member && this.login(cal.member),
+        isSaving: !!au.saving, isSaved: !!au.saved, hasSaveErr: !!au.saveErr, saveErr: au.saveErr || '', retrySave: () => this.setAu({ saveErr: '' }),
+        savedTitle: A.savedTitle(au.savedFam || (au.join && au.join.fam) || au.famName || ''), savedSub: A.savedSub(au.role || ''),
+        canLater: !!au.saved && !(cal && cal.finished) && !(cal && !cal.failed), later: () => au.savedMember && this.login(au.savedMember),
         isDemo: !clientId || !this.state.G,
         gAccounts: ['Juan', 'Christine'].map(p => ({ name: p, email: p.toLowerCase() + '@gmail.com', initial: p[0], color: PC(p), pick: () => this.pickGoogle(p.toLowerCase() + '@gmail.com') })),
         gEmail: au.gEmail, onGEmail: e => this.setAu({ gEmail: e.target.value, err: '' }),
@@ -2156,7 +2211,10 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   }
 
   gRef = el => { this.gEl = el; if (el) this.mountGsi(); };
-  componentDidUpdate() { if (!this.state.session) this.mountGsi(); }
+  componentDidUpdate() {
+    const au = this.state.au;
+    if (!this.state.session && (au.step === 'invite' || au.step === 'calendar') && au.role && !au.saving && !au.saved && !au.saveErr) this.saveAccount();
+  }
   mountGsi() {
     const G = this.state.G, cid = this.clientId(), el = this.gEl; if (!G || !cid || !el || !el.isConnected) return;
     const key = cid + '|' + this.state.au.lang; if (el.dataset.k === key) return; el.dataset.k = key;
