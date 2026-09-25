@@ -1,25 +1,14 @@
-ACTUALIZACIÓN v7 — The Gentle Stoic Parent
+ACTUALIZACIÓN v8 — Google sign-in + color de Christine
 
 Qué trae:
-- «¿Qué sigue?» se centra en TU próximo momento: tu parte, la frase para decir y consejos para prepararte. Lo que hace tu pareja aparece en pequeño, con su color.
-- Fondo más claro y paneles de cristal translúcido (menú lateral, cabecera, barra inferior).
-- Color de marca: naranja suave (botones, menú activo, títulos y detalles). Sin café ni azul.
-- Logo con sol y línea base en tinta oscura.
-- Logo sin recuadro, con fondo transparente (favicon, menú y cabecera). En iPhone/iPad el icono de inicio usa fondo crema, porque iOS no permite iconos transparentes.
-- Cada padre tiene su color en toda la app. Se elige en Cuenta → «Tu color» (7 tonos; el de tu pareja queda bloqueado). Por defecto: Juan azul bruma, Christine rosa arcilla.
-- «¿Qué sigue?» salta los momentos en que no tienes nada que hacer.
-- «Preguntar» responde a la situación concreta, incluso sin IA (salidas y transiciones, rabietas, peleas, comida, sueño, pantallas, «no escucha», miedos, prisas de la mañana).
+- Se reactivó el botón «Entrar con Google» en la pantalla de acceso (estaba desactivado en todos los dispositivos).
+- Color por defecto de Christine: Rosa arcilla.
 
-1) GitHub (raíz): reemplaza
-   - index.html
-   - manifest.webmanifest
-   - la carpeta icons/ completa (hay un archivo nuevo: logo-mark.svg)
+GitHub (raíz): reemplaza únicamente
+  - index.html
 
-2) Apps Script: reemplaza el código con apps-script/Code.gs → Implementar → Gestionar implementaciones → ✏️ → Versión nueva.
-   La URL /exec debe decir "version":6. La columna «color» se crea sola.
+Si al volver de Google aparece un error de redirección, revisa en Google Cloud → Credenciales → tu Client ID → URIs de redirección autorizados:
+  https://thegentlestoicparent.com/
+  https://www.thegentlestoicparent.com/
 
-3) Para respuestas con IA de verdad en «Preguntar»:
-   Apps Script → ⚙️ Configuración del proyecto → Propiedades del script → ANTHROPIC_KEY = tu clave (console.anthropic.com).
-   La respuesta que viste («Respuesta preparada con nuestra biblioteca, sin IA») indica que esa clave aún no está puesta.
-
-Nota: si NO subiste la actualización v6, sube primero la carpeta cambios-v6 (trae kb.js y manifest) y luego esta.
+(Si aún no subiste la carpeta cambios-v7 completa, súbela primero: trae iconos, manifest y Code.gs v6.)
