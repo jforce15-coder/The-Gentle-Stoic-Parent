@@ -1,31 +1,25 @@
-ACTUALIZACIÓN v6 — The Gentle Stoic Parent
+ACTUALIZACIÓN v7 — The Gentle Stoic Parent
 
 Qué trae:
-- Face ID real (llave de acceso del dispositivo). Se activa desde Cuenta o desde la tarjeta en «Hoy».
-- Acceso de desarrollo oculto: en la pantalla de entrada, toca 5 veces seguidas el texto «GENTLE STOIC PARENTING». Entra con Juan o Christine de prueba (datos solo en ese dispositivo). Para salir: Cuenta → Cerrar sesión.
-- Icono nuevo (favicon, iPhone/iPad y app instalable).
-- Menú nuevo: barra lateral en iPad horizontal y ordenador; barra inferior con botón «Preguntar» en el centro en teléfono y iPad vertical.
-- «¿Qué sigue?» muestra la siguiente actividad según la hora de la familia (por defecto España). La zona horaria se cambia en Cuenta (solo quien creó la familia).
-- Tarde nueva: quien no llevó a los niños sale 4:10, recoge 4:30, juego y snack, rumbo a casa 5:10, en casa 5:30 (lunes y miércoles: recogida con merienda fuerte y a la actividad). También en recordatorios y en Google Calendar.
-- «Preguntar» responde la pregunta exacta y da una estrategia paso a paso según la filosofía.
-- Equipo: cada nota se convierte en fichas de la Biblioteca (acuerdos, rutinas, situaciones, frases) — «Repositorio de ideas».
+- «¿Qué sigue?» se centra en TU próximo momento: tu parte, la frase para decir y consejos para prepararte. Lo que hace tu pareja aparece en pequeño, con su color.
+- Fondo más claro y paneles de cristal translúcido (menú lateral, cabecera, barra inferior).
+- Color de marca: naranja suave (botones, menú activo, títulos y detalles). Sin café ni azul.
+- Logo con sol y línea base en tinta oscura.
+- Logo sin recuadro, con fondo transparente (favicon, menú y cabecera). En iPhone/iPad el icono de inicio usa fondo crema, porque iOS no permite iconos transparentes.
+- Cada padre tiene su color en toda la app. Se elige en Cuenta → «Tu color» (7 tonos; el de tu pareja queda bloqueado). Por defecto: Juan azul bruma, Christine salvia.
+- «¿Qué sigue?» salta los momentos en que no tienes nada que hacer.
+- «Preguntar» responde a la situación concreta, incluso sin IA (salidas y transiciones, rabietas, peleas, comida, sueño, pantallas, «no escucha», miedos, prisas de la mañana).
 
-1) GitHub (raíz del repositorio): sube o reemplaza
+1) GitHub (raíz): reemplaza
    - index.html
-   - kb.js
-   - manifest.webmanifest   (nuevo)
-   - la carpeta icons/      (nueva, con todos sus archivos)
-   (google.js y config.js no cambian)
+   - manifest.webmanifest
+   - la carpeta icons/ completa (hay un archivo nuevo: logo-mark.svg)
 
-2) Apps Script: reemplaza el código con apps-script/Code.gs
-   Implementar → Gestionar implementaciones → ✏️ → Versión: Nueva → Implementar.
-   Abre la URL /exec: debe decir "version":5
-   La hoja crea sola la pestaña «Ideas» y las columnas nuevas (zona, idea).
+2) Apps Script: reemplaza el código con apps-script/Code.gs → Implementar → Gestionar implementaciones → ✏️ → Versión nueva.
+   La URL /exec debe decir "version":6. La columna «color» se crea sola.
 
-3) IMPORTANTE para que «Preguntar» y el repositorio de ideas funcionen con IA:
-   Apps Script → ⚙️ Configuración del proyecto → Propiedades del script → Agregar:
-     ANTHROPIC_KEY = tu clave de API de Anthropic (console.anthropic.com)
-   Sin la clave, la app responde igualmente con la biblioteca (sin IA).
+3) Para respuestas con IA de verdad en «Preguntar»:
+   Apps Script → ⚙️ Configuración del proyecto → Propiedades del script → ANTHROPIC_KEY = tu clave (console.anthropic.com).
+   La respuesta que viste («Respuesta preparada con nuestra biblioteca, sin IA») indica que esa clave aún no está puesta.
 
-4) Face ID: funciona en thegentlestoicparent.com con Safari (iPhone/iPad). La llave queda en cada dispositivo;
-   si entras por www.thegentlestoicparent.com y por thegentlestoicparent.com, actívalo en la dirección que uses.
+Nota: si NO subiste la actualización v6, sube primero la carpeta cambios-v6 (trae kb.js y manifest) y luego esta.
