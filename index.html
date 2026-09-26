@@ -1927,12 +1927,31 @@ const TIPS = {
   w1945: [['t', 'Ropa en la silla y juguetes al cesto: que lo hagan ellos, aunque tarden un poco más.', 'Clothes on the chair and toys in the basket: let them do it, even if it takes a little longer.']],
   w1955: [['p', 'Un solo cuento, compartido y sin prisa. Menos cantidad, más presencia.', 'One shared story, unhurried. Less quantity, more presence.']],
 };
+Object.assign(TIPS, {
+  sm0745: [['c', 'Aprovecha el silencio sin mirar el teléfono. Llegar descansado al despertar de los niños cambia todo el día.', "Enjoy the quiet without your phone. Being rested when the kids wake changes the whole day."]],
+  sm0815: [['p', 'Sin prisa no hay que dirigir: siéntate, escucha qué soñaron y deja que se levanten solos.', "With no rush there's nothing to direct: sit, listen to their dreams, and let them get up on their own."]],
+  sm0845: [['t', 'Es el día para practicar lo nuevo: cascar un huevo, servir el zumo. Deja que se equivoquen.', 'The day to practise new skills: crack an egg, pour the juice. Let them get it wrong.'], ['s', 'Pregunta en lugar de indicar: «¿Qué necesitamos primero?».', 'Ask instead of instructing: “What do we need first?”']],
+  sm0930: [['t', 'Una cama mal hecha por ellos vale más que una perfecta hecha por ti.', 'A bed badly made by them is worth more than a perfect one made by you.']],
+  sd1000: [['p', 'Un plan sencillo y el teléfono guardado. No hace falta llenar el día.', "One simple plan and the phone put away. No need to fill the day."], ['s', 'Deja que ellos propongan el juego y tú acompaña.', 'Let them lead the play and you follow.']],
+  sd1330: [['s', 'Una pregunta abierta sobre la mañana abre la conversación mejor que diez preguntas cerradas.', 'One open question about the morning opens more than ten closed ones.']],
+  sd1430: [['c', 'El rato tranquilo también es para ti. Recárgate: la tarde y la noche lo agradecerán.', 'Quiet time is for you too. Recharge: the evening will thank you.']],
+  sd1630: [['p', 'Moverse fuera regula su energía para la noche. Juega con ellos un rato de verdad.', 'Moving outdoors settles their energy for the evening. Really play with them for a while.']],
+  se1830: [['t', 'Dales una tarea real en la cocina; sin tareas de mentira.', 'Give them a real kitchen job; no pretend tasks.']],
+  se1900: [['c', 'Sin premios ni castigos con la comida, igual que entre semana. La constancia da calma.', 'No rewards or punishments with food, just like on weekdays. Consistency brings calm.']],
+  se1945: [['t', 'Empieza tú a guardar, con calma. El ejemplo arrastra más que la orden.', 'Start tidying yourself, calmly. Example pulls more than orders.']],
+  se2000: [['c', 'Aunque sea fin de semana, desde aquí todo baja: luces, voces, ritmo.', "Even at the weekend, from here everything slows: lights, voices, pace."]],
+  se2025: [['p', 'El cuento es el mejor momento del día. Léelo sin mirar la hora.', "Story time is the best moment of the day. Read without watching the clock."]],
+  se2045: [['c', 'Si piden «uno más», abrazo y la frase de siempre. La media hora extra ya fue el regalo.', "If they ask for “one more”, a hug and the usual words. The extra half hour was already the gift."]],
+  se2100: [['s', 'El domingo, miren juntos la semana: quién lleva, quién recoge, actividades.', 'On Sunday, look at the week together: who drops off, who picks up, activities.']],
+});
 TIPS.w2015 = TIPS.e2015; TIPS.w2030 = TIPS.e2030;
 Object.assign(T.es, { tipsTitle: 'Cómo vivirlo mejor', tipKicker: 'Consejo', moreIdeas: 'Pedir más ideas', moreQ: x => '¿Cómo puedo vivir mejor este momento: «' + x + '»? Dame ideas concretas.' });
 Object.assign(T.en, { tipsTitle: 'How to meet it well', tipKicker: 'Tip', moreIdeas: 'Ask for more ideas', moreQ: x => 'How can I handle this moment better: “' + x + '”? Give me concrete ideas.' });
 
 Object.assign(T.es, { yourPart: 'Tu parte', meanwhile: p => 'Mientras, ' + p + ':', yourColor: 'Tu color', colorHint: p => 'Te identifica en toda la app. El color de ' + p + ' no está disponible.', whoFor: p => 'para ' + p });
 Object.assign(T.en, { yourPart: 'Your part', meanwhile: p => 'Meanwhile, ' + p + ':', yourColor: 'Your colour', colorHint: p => "It marks you across the whole app. " + p + "'s colour is taken.", whoFor: p => 'for ' + p });
+Object.assign(T.es, { youWeekend: 'Fin de semana · los dos', wkDay: 'Día', subWeekend: 'Sin colegio: el mismo ritmo de la semana, con más holgura. Despertar 8:15 y luces fuera 8:45.' });
+Object.assign(T.en, { youWeekend: 'Weekend · both of you', wkDay: 'Day', subWeekend: 'No school: the same weekday rhythm with more slack. Wake at 8:15, lights out at 8:45.' });
 const ICON = {"sunrise":"M12 3v3 M5.6 7.6l1.4 1.4 M18.4 7.6 17 9 M2 16h20 M6 20h12 M7 16a5 5 0 0 1 10 0","moon":"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z","clock":"M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18Z M12 7v5l3 2","book":"M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2Z M22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7Z","rings":"M9 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10Z M15 7a5 5 0 1 0 0 10a5 5 0 1 0 0-10Z","bell":"M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9 M10.3 21a1.94 1.94 0 0 0 3.4 0","wind":"M12.8 19.6A2 2 0 1 0 14 16H2 M17.5 8a2.5 2.5 0 1 1 2 4H2 M9.8 4.4A2 2 0 1 1 11 8H2","swap":"M17 3l4 4-4 4 M3 7h18 M7 21l-4-4 4-4 M21 17H3","cup":"M17 8h1a4 4 0 1 1 0 8h-1 M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z M6 2v2 M10 2v2 M14 2v2","leaf":"M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z M2 21c0-3 1.85-5.36 5.08-6","week":"M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z M16 2v4 M8 2v4 M3 10h18 M8 14h.01 M12 14h.01 M16 14h.01 M8 18h.01 M12 18h.01"};
 const NAV_ICON = { home: ICON.sunrise, rhythm: ICON.clock, library: ICON.book, team: ICON.rings, reminders: ICON.bell };
 
@@ -2059,7 +2078,9 @@ class Component extends DCLogic {
   line(l, dow, generic) {
     const t = T[this.state.lang], K = this.state.kb, me = this.state.me;
     const [who, es, en] = l; const text = this.state.lang === 'es' ? es : en;
-    if (generic || !K.WEEK[dow]) return { label: t.rolesGeneric[who], text, mine: false, color: who === 'take' || who === 'dinner' ? OCHRE : who === 'stay' || who === 'bath' || who === 'pickup' ? SAGE : INK };
+    const Wd = K.WEEK[dow];
+    if (!generic && !Wd) { const m2 = who === 'both' || who === 'all'; return { label: t.roles[who], text, mine: m2, color: INK }; }
+    if (generic || !Wd) return { label: t.rolesGeneric[who], text, mine: false, color: who === 'take' || who === 'dinner' ? OCHRE : who === 'stay' || who === 'bath' || who === 'pickup' ? SAGE : INK };
     let person = null;
     if (who === 'take' || who === 'dinner') person = K.WEEK[dow].take;
     if (who === 'stay' || who === 'bath' || who === 'pickup') person = K.WEEK[dow].stay;
@@ -2583,6 +2604,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         const n = await G.syncEvents(cid, tz, this.buildEvents(me, lang));
         const fam = this.family(); if (fam) { fam.members = (fam.members || []).map(m => m.role === me ? { ...m, calendarId: cid } : m); this.saveFamily(fam); }
         if (this.apiUrl()) G.callApi(this.apiUrl(), 'setPrefs', { calendarId: cid }).catch(() => {});
+        try { localStorage.setItem('gsp:calTz:' + me, tz + '|w2'); } catch (e) {}
         this.setState({ syncMsg: T0.synced(n) });
       } else { await new Promise(r => setTimeout(r, 700)); this.setState({ syncMsg: T0.synced(this.buildEvents(me, lang).length) }); }
     } catch (err) { this.setState({ syncMsg: String(err.message || err) }); }
@@ -2845,7 +2867,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
 
     const focusIdx = phase === 'now' ? info.idx : (phase === 'before' || phase === 'between') ? info.p : -1;
     const focus = focusIdx >= 0 ? steps[focusIdx] : null;
-    const eveOf = s => s && s.id[0] !== 'm';
+    const wkd = dow === 0 || dow === 6;
+    const eveOf = s => s && (wkd ? s.id.slice(0, 2) === 'se' : s.id[0] !== 'm');
     const a = { hasStep: !!focus, hasMsg: !focus, eyebrow: dateLbl + (focus ? ' · ' + (phase === 'now' ? t.now : t.nextUp) : '') };
     if (focus) {
       const lines = focus.l.map(l => this.line(l, dow));
@@ -2854,8 +2877,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       Object.assign(a, {
         time: disp(focus.t), title: this.tx(focus.ti), img: this.stepImg(focus.id, dow),
         tone: eve ? NAVY : OCHRE, panel: eve ? SKY : PEACH, chipBg: PC(me),
-        roleTag: eve ? (r.pm === 'dinner' ? t.youDinner : t.youBath) : (r.am === 'take' ? t.youTake : t.youStay),
-        mine: mine.length ? mine : [{ text: focus.l.length ? t.presence(r.partner) : this.tx(focus.ti) }],
+        roleTag: !r ? t.youWeekend : eve ? (r.pm === 'dinner' ? t.youDinner : t.youBath) : (r.am === 'take' ? t.youTake : t.youStay),
+        mine: mine.length ? mine : [{ text: focus.l.length ? t.presence(this.partner()) : this.tx(focus.ti) }],
         others: lines.filter(l => !l.mine), hasOthers: lines.some(l => !l.mine),
         say: this.tx(focus.say), hasSay: !!focus.say, stuck: this.tx(focus.stuck), hasStuck: !!focus.stuck,
       });
@@ -2870,7 +2893,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       }
     } else {
       const wk = phase === 'weekend';
-      Object.assign(a, { msgA: wk ? t.weekendA : t.afterA, msgB: wk ? t.weekendB : t.afterB, msgBody: wk ? t.weekendBody : t.afterBody, img: IMG(wk ? 'family-reading' : 'moon'), time: '', title: '', tone: NAVY, panel: SKY, hasNext: false,
+      Object.assign(a, { msgA: wk ? t.weekendA : t.afterA, msgB: wk ? t.weekendB : t.afterB, msgBody: wk ? t.weekendBody : t.afterBody.replace('6:55', (() => { const nd = this.stepsFor((dow + 1) % 7)[0]; return nd ? disp(nd.t) : '6:55'; })()), img: IMG(wk ? 'family-reading' : 'moon'), time: '', title: '', tone: NAVY, panel: SKY, hasNext: false,
         cardLine: (wk ? t.weekendA + ' ' + t.weekendB : t.afterA + ' ' + t.afterB), cardHint: quote });
     }
 
@@ -2889,7 +2912,11 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const hour = this.clock().min;
     const b = {
       titleA: t.yourDayA, titleB: t.days[dow], sub: r ? (r.am === 'take' ? t.subTake : t.subStay) : t.subWeekend, isWeekend: !steps.length,
-      sections: steps.length ? [
+      sections: steps.length && wkd ? [
+        { label: t.morningLbl, sub: '7:45 – 9:45', bg: PEACH, tone: OCHRE, img: 'img/brand/spot-cup.png', delay: '80ms', items: steps.map((s, i) => [s, i]).filter(([s]) => s.id.slice(0, 2) === 'sm').map(([s, i]) => mkItem(s, i)) },
+        { label: t.wkDay, sub: '10:00 – 18:00', bg: 'var(--accSoft, #FDEFE4)', tone: SAGE, img: 'img/brand/spot-olive.png', delay: '120ms', items: steps.map((s, i) => [s, i]).filter(([s]) => s.id.slice(0, 2) === 'sd').map(([s, i]) => mkItem(s, i)) },
+        { label: t.evening, sub: '18:30 – 21:00', bg: SKY, tone: NAVY, img: 'img/brand/spot-moon.png', delay: '160ms', items: steps.map((s, i) => [s, i]).filter(([s]) => s.id.slice(0, 2) === 'se').map(([s, i]) => mkItem(s, i)) },
+      ] : steps.length ? [
         { label: t.morningLbl, sub: '6:55 – 8:15', bg: PEACH, tone: OCHRE, img: 'img/brand/spot-cup.png', delay: '80ms', items: steps.slice(0, mStart).map((s, i) => mkItem(s, i)) },
         ...(eStart > mStart ? [{ label: t.afternoonLbl, sub: '4:10 – ' + (dow === 1 || dow === 3 ? '5:10' : '5:30'), bg: 'var(--accSoft, #FDEFE4)', tone: SAGE, img: 'img/brand/spot-olive.png', delay: '120ms', items: steps.slice(mStart, eStart).map((s, i) => mkItem(s, i + mStart)) }] : []),
         { label: dow === 1 || dow === 3 ? t.eveMW : t.eveStd, sub: disp(steps[eStart].t) + ' – 8:30', bg: SKY, tone: NAVY, img: 'img/brand/spot-moon.png', delay: '160ms', items: steps.slice(eStart).map((s, i) => mkItem(s, i + eStart)) },
@@ -3110,7 +3137,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     if (this.real() && this.apiUrl()) this.state.G.callApi(this.apiUrl(), 'setFamily', { tz: v }).catch(() => {});
   }
   stepsFor(dow) {
-    const K = this.state.kb; if (!K || dow < 1 || dow > 5) return [];
+    const K = this.state.kb; if (!K) return [];
+    if (dow === 0 || dow === 6) return (K.WEEKEND || []).map(s => ({ ...s, m: toMin(s.t) }));
     const mw = dow === 1 || dow === 3;
     return [...K.MORNING, ...((mw ? K.AFTERNOON_MW : K.AFTERNOON) || []), ...(mw ? K.EVENING_MW : K.EVENING)].map(s => ({ ...s, m: toMin(s.t) }));
   }
@@ -3152,6 +3180,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
 
   // Backend refresh (family, notes, ideas)
   async pullApi() {
+    setTimeout(() => { try { const G = this.state.G, me = this.state.session; if (this.real() && G && G.isConnected && G.isConnected() && (this.state.google || {})[me] && localStorage.getItem('gsp:calTz:' + me) !== this.tz() + '|w2') this.resync(); } catch (e) {} }, 2500);
     const G = this.state.G, api = this.apiUrl(); if (!G || !api || this.devMode() || !this.state.session) return;
     try {
       const pf = await G.callApi(api, 'me', {});
@@ -3197,7 +3226,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       'Family facts: the children eat lunch at school. School pick-up is at 4:30; they play and eat a snack for 30–40 minutes, head home at 5:10 and are home by 5:30; dinner starts at 6:00. Only use library items that are genuinely about the question — ignore the rest.',
       'Use the LIBRARY first (their own agreements, routines and phrases). If it does not cover the case, answer from the philosophy and sound, gentle child-development practice consistent with it. Never contradict the library.',
       'Tone: calm, warm, concrete, few words. No emoji, no exclamation marks, never preachy or judgmental. If the parent sounds overwhelmed or angry, the first step is for them to regulate.',
-      'Context: family time zone ' + this.tz() + '; it is ' + T.en.days[dow] + ' ' + Math.floor(min / 60) + ':' + pad(min % 60) + '.' + (cur ? ' Current step: ' + this.tx(cur.ti) + '.' : '') + (nx.has ? ' Next step: ' + nx.line + ' (' + nx.inLbl + ').' : '') + ' The person asking is ' + this.state.me + (r ? '; today their part is ' + (r.am === 'take' ? 'school drop-off and dinner' : 'the home morning, 4:30 school pick-up, and bath & stories') + '.' : '; it is a weekend day.'),
+      'Context: family time zone ' + this.tz() + '; it is ' + T.en.days[dow] + ' ' + Math.floor(min / 60) + ':' + pad(min % 60) + '.' + (cur ? ' Current step: ' + this.tx(cur.ti) + '.' : '') + (nx.has ? ' Next step: ' + nx.line + ' (' + nx.inLbl + ').' : '') + ' Weekends: same rhythm with more slack — wake 8:15, lights out 8:45, both parents share everything.' + ' The person asking is ' + this.state.me + (r ? '; today their part is ' + (r.am === 'take' ? 'school drop-off and dinner' : 'the home morning, 4:30 school pick-up, and bath & stories') + '.' : '; it is a weekend day.'),
       'Reply in ' + (lang === 'es' ? 'Spanish (Latin American, "tú")' : 'English') + '.',
       'Return ONLY a JSON object: {"answer":"2–3 sentences that directly answer the question: what to do right now","steps":[{"title":"short label such as Ahora / En el momento / Después / Esta semana","text":"one concrete action"}],"why":"1–2 sentences on why this works, naming the pillar","principle":"pillar name","say":"one phrase to say to the child, from the library when possible, or empty","avoid":"one thing to avoid saying or doing, or empty","question":"one open question for the child, or empty","ids":["up to 4 most relevant library ids"]}. Give 3 or 4 steps.'
     ].join('\n');

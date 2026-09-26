@@ -1,14 +1,16 @@
-ACTUALIZACIÓN v8 — Google sign-in + color de Christine
+ACTUALIZACIÓN v9 — Calendario en hora de España + fin de semana
 
 Qué trae:
-- Se reactivó el botón «Entrar con Google» en la pantalla de acceso (estaba desactivado en todos los dispositivos).
-- Color por defecto de Christine: Rosa arcilla.
+- Google Calendar: los bloques salían 8 horas tarde (a las 3 pm) porque se habían creado con la hora de otro país.
+  Ahora el calendario se fuerza a la zona de la familia (España) y, al abrir la app con Google conectado,
+  se vuelve a sincronizar solo una vez: borra los eventos viejos y crea los nuevos a la hora correcta.
+- «¿Qué sigue?» ya no muestra el lunes durante el fin de semana: sábado y domingo tienen su propio ritmo.
+- Ritmo de fin de semana: el mismo de la semana con más holgura (adultos 7:45, despertar 8:15, desayuno 8:45,
+  mañana en familia, comida 1:30, rato tranquilo, cena 7:00, cuentos 8:25, luces fuera 8:45, equipo 9:00).
 
-GitHub (raíz): reemplaza únicamente
+GitHub (raíz): reemplaza
   - index.html
+  - kb.js
+  - google.js
 
-Si al volver de Google aparece un error de redirección, revisa en Google Cloud → Credenciales → tu Client ID → URIs de redirección autorizados:
-  https://thegentlestoicparent.com/
-  https://www.thegentlestoicparent.com/
-
-(Si aún no subiste la carpeta cambios-v7 completa, súbela primero: trae iconos, manifest y Code.gs v6.)
+Si después de abrir la app el calendario sigue mostrando las 3 pm: Cuenta / Recordatorios → «Sincronizar ahora».

@@ -125,11 +125,12 @@ export async function updateRow(tab, rowNum, obj) {
 
 // ---------- Calendar ----------
 const C = 'https://www.googleapis.com/calendar/v3';
+const fixTz = async (id, tz) => { try { await api(C + '/calendars/' + encodeURIComponent(id), { method: 'PATCH', body: JSON.stringify({ timeZone: tz }) }); } catch (e) {} return id; };
 export async function ensureCalendar(summary, tz, existingId) {
-  if (existingId) { try { await api(C + '/calendars/' + encodeURIComponent(existingId)); return existingId; } catch (e) {} }
+  if (existingId) { try { await api(C + '/calendars/' + encodeURIComponent(existingId)); return fixTz(existingId, tz); } catch (e) {} }
   const list = await api(C + '/users/me/calendarList?minAccessRole=owner');
   const found = (list.items || []).find(c => c.summary === summary);
-  if (found) return found.id;
+  if (found) return fixTz(found.id, tz);
   const cal = await api(C + '/calendars', { method: 'POST', body: JSON.stringify({ summary, timeZone: tz, description: 'The Gentle Stoic Parent · recordatorios y bloques del ritmo familiar' }) });
   await api(C + '/users/me/calendarList/' + encodeURIComponent(cal.id), { method: 'PATCH', body: JSON.stringify({ colorId: '6', defaultReminders: [] }) }).catch(() => {});
   return cal.id;

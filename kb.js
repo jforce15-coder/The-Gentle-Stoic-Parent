@@ -93,6 +93,42 @@ export const AFTERNOON_MW = [
     l: [['pickup', 'Aviso de cinco minutos y en marcha. Todo va en la mochila desde la mañana.', 'Five-minute heads-up and off we go. Everything has been in the bag since morning.']] },
 ];
 
+// Sábado y domingo: el mismo ritmo de la semana, con más holgura. Se despierta ~45 min más tarde y se duerme ~30 min más tarde.
+export const WEEKEND = [
+  { id: 'sm0745', t: '7:45', ti: L('Los adultos se levantan', 'Grown-ups get up'),
+    l: [['both', 'Sin alarma apurada: agua, respirar, café. Hoy no hay reloj de colegio.', 'No rushed alarm: water, breathe, coffee. No school clock today.']] },
+  { id: 'sm0815', t: '8:15', anchor: true, ti: L('Despertar sin prisa', 'An unhurried wake-up'),
+    l: [['both', 'Un abrazo en la cama y cinco minutos de charla antes de levantarse.', 'A hug in bed and five minutes of chat before getting up.'], ['kids', 'Se visten solos, a su ritmo.', 'Dress themselves, at their own pace.']],
+    say: L('Buenos días. Hoy tenemos tiempo.', 'Good morning. Today we have time.') },
+  { id: 'sm0845', t: '8:45', anchor: true, ti: L('Desayuno largo, cocinado juntos', 'A long breakfast, cooked together'),
+    l: [['all', 'Sophia bate y sirve; Isaac pone la mesa. Es el momento de practicar lo nuevo.', 'Sophia whisks and serves; Isaac sets the table. The time to practise new skills.']] },
+  { id: 'sm0930', t: '9:30', ti: L('Recoger y hacer camas', 'Clear up and make beds'),
+    l: [['all', 'Cada uno lleva su plato. Camas hechas como sepan, sin corregir.', 'Everyone carries their plate. Beds made as best they can, no correcting.']] },
+  { id: 'sd1000', t: '10:00', anchor: true, ti: L('Mañana en familia', 'Family morning'),
+    l: [['both', 'Salir: parque, paseo, mercado o un plan sencillo. Menos planes, más presencia.', 'Get out: park, walk, market or a simple plan. Fewer plans, more presence.']] },
+  { id: 'sd1330', t: '13:30', anchor: true, ti: L('Comida en familia', 'Family lunch'),
+    l: [['all', 'Todos a la mesa, sin pantallas. «¿Qué fue lo mejor de la mañana?»', 'Everyone at the table, no screens. “What was the best part of the morning?”']] },
+  { id: 'sd1430', t: '14:30', ti: L('Rato tranquilo', 'Quiet time'),
+    l: [['both', 'Una hora de calma: siesta, libros o juego tranquilo. Los adultos también descansan.', 'An hour of calm: nap, books or quiet play. The grown-ups rest too.']] },
+  { id: 'sd1630', t: '16:30', ti: L('Merienda y juego fuera', 'Snack and outdoor play'),
+    l: [['all', 'Merienda sencilla y a moverse: bici, balón, parque.', 'A simple snack, then move: bikes, ball, park.']] },
+  { id: 'se1830', t: '18:30', ti: L('Preparar la cena juntos', 'Make dinner together'),
+    l: [['all', 'Los niños lavan, mezclan o ponen la mesa. Quien cocina, prueba.', 'The kids rinse, stir or set the table. Whoever cooks, tastes.']] },
+  { id: 'se1900', t: '19:00', anchor: true, ti: L('Cena', 'Dinner'),
+    l: [['all', 'Cena tranquila. Se retira el plato a las 7:40 sin drama.', 'A calm dinner. Plates cleared at 7:40, no drama.']] },
+  { id: 'se1945', t: '19:45', ti: L('Juguetes a su casa', 'Toys go home'),
+    l: [['all', 'Cinco minutos, con los adultos ayudando.', 'Five minutes, with the grown-ups helping.']] },
+  { id: 'se2000', t: '20:00', ti: L('Baño, pijamas y dientes', 'Bath, pajamas and teeth'),
+    l: [['both', 'Luces y voces bajas desde ahora. Uno baña, el otro prepara los pijamas.', 'Lights and voices low from now. One does the bath, the other the pajamas.']] },
+  { id: 'se2025', t: '20:25', anchor: true, ti: L('Cuentos', 'Stories'),
+    l: [['both', 'Un cuento cada uno o uno compartido, sin prisa.', 'A story each or one shared, unhurried.']] },
+  { id: 'se2045', t: '20:45', anchor: true, ti: L('Luces fuera', 'Lights out'),
+    l: [['both', 'La misma frase de siempre. El fin de semana también termina.', 'The same words as always. The weekend ends too.']],
+    say: L('El día terminó. Qué bonito fue.', 'The day is done. It was lovely.') },
+  { id: 'se2100', t: '21:00', ti: L('Cinco minutos de equipo', 'Five team minutes'),
+    l: [['both', 'Qué funcionó y qué ajustamos. El domingo: repasar la semana que empieza.', 'What worked and what we adjust. On Sunday: go over the week ahead.']] },
+];
+
 export const EVENING_MW = [
   { id: 'w1830', t: '18:30', ti: L('Isaac: baño y pijama', 'Isaac: bath and pajamas'),
     l: [['bath', 'Lunes: Isaac llega de judo y va directo al baño. Miércoles: baño a la misma hora.', 'Monday: Isaac comes home from judo, straight to the bath. Wednesday: bath at the same time.'], ['dinner', 'Calienta la cena que se dejó preparada.', 'Warms up the dinner prepared in advance.']] },
