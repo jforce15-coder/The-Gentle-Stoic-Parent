@@ -1,16 +1,20 @@
-ACTUALIZACIÓN v9 — Calendario en hora de España + fin de semana
+ACTUALIZACIÓN COMPLETA (v9 + v10)
 
 Qué trae:
-- Google Calendar: los bloques salían 8 horas tarde (a las 3 pm) porque se habían creado con la hora de otro país.
-  Ahora el calendario se fuerza a la zona de la familia (España) y, al abrir la app con Google conectado,
-  se vuelve a sincronizar solo una vez: borra los eventos viejos y crea los nuevos a la hora correcta.
-- «¿Qué sigue?» ya no muestra el lunes durante el fin de semana: sábado y domingo tienen su propio ritmo.
-- Ritmo de fin de semana: el mismo de la semana con más holgura (adultos 7:45, despertar 8:15, desayuno 8:45,
-  mañana en familia, comida 1:30, rato tranquilo, cena 7:00, cuentos 8:25, luces fuera 8:45, equipo 9:00).
+v9 — Google Calendar en hora de España (se vuelve a sincronizar solo una vez); «¿Qué sigue?» respeta el fin de semana; ritmo de sábado y domingo.
+v10 — 21 recetas de desayuno con ilustración propia, ingredientes, pasos para niños y tabla nutricional.
+      Menú de la semana editable por día + botón «Al azar» (5 recetas + plan B). Menú compartido entre los dos.
 
-GitHub (raíz): reemplaza
+GitHub (raíz del sitio): sube / reemplaza
   - index.html
   - kb.js
   - google.js
+  - img/  → los 15 archivos bf-*.png van dentro de la carpeta img/ que ya existe
 
-Si después de abrir la app el calendario sigue mostrando las 3 pm: Cuenta / Recordatorios → «Sincronizar ahora».
+Apps Script (versión 7):
+  1. Abre el proyecto de Apps Script y pega apps-script/Code.gs completo.
+  2. Implementar → Gestionar implementaciones → editar (lápiz) → Versión: Nueva versión → Implementar.
+  3. La hoja «Menus» se crea sola la primera vez.
+
+Después: abre la app, ve a Ritmo → Desayunos y prueba «Al azar».
+Si el calendario sigue en otra hora: Cuenta / Recordatorios → «Sincronizar ahora».

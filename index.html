@@ -985,13 +985,67 @@
             <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #5E5D57;">* {{ t.weekNote }}</p>
           </sc-if>
           <sc-if value="{{ rh.showBreakfast }}" hint-placeholder-val="{{ false }}">
+            <div style="background: #FFFDF8; border: 1px solid #ECE6DB; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+              <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between;">
+                <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 280px;">
+                  <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 24px; line-height: 1.2;">{{ bw.title }}</span>
+                  <span style="font-size: 14px; line-height: 1.5; color: #5E5D57; text-wrap: pretty;">{{ bw.sub }}</span>
+                </div>
+                <button type="button" onClick="{{ bw.random }}" style="min-height: 44px; padding: 0 20px; border-radius: 999px; border: 1px solid var(--acc, #AD5528); background: var(--accSoft, #FDEFE4); color: var(--acc2, #8C6A55); font-family: 'Figtree', sans-serif; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; cursor: pointer; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);" style-active="transform: scale(0.97);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h3.5c2 0 3.2 1 4.3 2.6l2.4 3.8C14.3 15 15.5 16 17.5 16H21"></path><path d="M3 16h3.5c1.3 0 2.3-.5 3.1-1.3"></path><path d="M14.4 8.3c.8-.8 1.8-1.3 3.1-1.3H21"></path><path d="M18.5 4.5 21 7l-2.5 2.5"></path><path d="M18.5 13.5 21 16l-2.5 2.5"></path></svg>
+                  <span>{{ bw.randomLbl }}</span>
+                </button>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 2px;">
+                <sc-for list="{{ bw.days }}" as="d" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ d.go }}" style="display: grid; grid-template-columns: 84px 56px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 64px; padding: 8px 12px; border: none; border-radius: 16px; background: {{ d.bg }}; text-align: left; cursor: pointer; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: background 200ms ease;" style-hover="background: #F8F4EC;">
+                    <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 20px; color: {{ d.tone }}; text-transform: capitalize;">{{ d.day }}</span>
+                    <div role="img" aria-hidden="true" style="width: 56px; height: 48px; background-image: url({{ d.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
+                    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+                      <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 16px; line-height: 1.3;">{{ d.dish }}</span>
+                      <span style="font-size: 12.5px; color: #5E5D57;">{{ d.meta }}</span>
+                    </div>
+                    <span style="font-size: 13px; font-weight: 600; color: var(--acc, #AD5528);">{{ d.action }}</span>
+                  </button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ bw.pickOpen }}" hint-placeholder-val="{{ false }}">
+                <div style="background: #F8F4EC; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 14px; animation: gspRise 280ms cubic-bezier(0.23, 1, 0.32, 1) both;">
+                  <div style="display: flex; gap: 12px; align-items: flex-start; justify-content: space-between;">
+                    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
+                      <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 20px; text-transform: capitalize;">{{ bw.pickTitle }}</span>
+                      <span style="font-size: 13px; color: #5E5D57;">{{ bw.pickSub }}</span>
+                    </div>
+                    <button type="button" onClick="{{ bw.closePick }}" style="min-height: 44px; padding: 0 14px; border: none; background: none; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; color: #5E5D57;">{{ bw.closeLbl }}</button>
+                  </div>
+                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px;">
+                    <sc-for list="{{ bw.options }}" as="o" hint-placeholder-count="6">
+                      <div style="display: flex; flex-direction: column; background: {{ o.bg }}; border: 1.5px solid {{ o.bd }}; border-radius: 18px; overflow: hidden;">
+                        <button type="button" onClick="{{ o.choose }}" style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 10px; border: none; background: transparent; cursor: pointer; text-align: center; color: #2A2F2B; font-family: 'Figtree', sans-serif;">
+                          <div role="img" aria-hidden="true" style="width: 72px; height: 60px; background-image: url({{ o.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
+                          <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 14.5px; line-height: 1.3;">{{ o.name }}</span>
+                          <span style="font-size: 12px; color: #5E5D57;">{{ o.meta }}</span>
+                          <sc-if value="{{ o.hasUsed }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 13px; color: var(--acc2, #8C6A55); text-transform: capitalize;">{{ o.used }}</span></sc-if>
+                        </button>
+                        <button type="button" onClick="{{ o.view }}" style="min-height: 40px; border: none; border-top: 1px solid #ECE6DB; background: transparent; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 12.5px; color: #5E5D57;">{{ bw.viewLbl }}</button>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 8px;">
+              <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 24px;">{{ bw.bookTitle }}</span>
+              <span style="font-size: 14px; color: #5E5D57;">{{ bw.bookSub }}</span>
+            </div>
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 16px;">
-              <sc-for list="{{ rh.breakfast }}" as="e" hint-placeholder-count="7">
+              <sc-for list="{{ rh.breakfast }}" as="e" hint-placeholder-count="8">
                 <button type="button" onClick="{{ e.open }}" style="text-align: center; background: #FFFDF8; border: 1px solid #ECE6DB; border-radius: 24px; padding: 20px 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.98);" style-hover="box-shadow: 0 8px 22px rgba(80,64,44,0.10);">
-                  <div role="img" aria-hidden="true" style="width: 120px; height: 100px; object-fit: contain; background-image: url({{ e.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
-                  <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 22px; color: var(--acc, #AD5528);">{{ e.kicker }}</span>
+                  <div role="img" aria-hidden="true" style="width: 120px; height: 100px; background-image: url({{ e.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
+                  <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: {{ e.kickColor }}; text-transform: capitalize;">{{ e.kicker }}</span>
                   <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 16px; line-height: 1.3;">{{ e.title }}</span>
                   <span style="font-size: 12.5px; line-height: 1.5; color: #5E5D57;">{{ e.sum }}</span>
+                  <span style="font-size: 12px; font-weight: 600; color: #5B7A5E;">{{ e.meta }}</span>
                 </button>
               </sc-for>
             </div>
@@ -1322,6 +1376,29 @@
           <sc-if value="{{ dt.hasSum }}" hint-placeholder-val="{{ true }}">
             <p style="margin: 0; font-size: 16px; line-height: 1.6; color: #5E5D57;">{{ dt.sum }}</p>
           </sc-if>
+          <sc-if value="{{ dt.isRecipe }}" hint-placeholder-val="{{ false }}">
+            <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: #5E5D57;">{{ dt.rMeta }}</span>
+            <div style="display: flex; flex-direction: column; gap: 8px;">
+              <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 20px;">{{ dt.ingTitle }}</span>
+              <div style="display: flex; flex-direction: column;">
+                <sc-for list="{{ dt.ing }}" as="g" hint-placeholder-count="4">
+                  <div style="display: flex; gap: 12px; align-items: baseline; padding: 8px 0; border-bottom: 1.5px dashed #ECE6DB; font-size: 15.5px; line-height: 1.45;"><span aria-hidden="true" style="flex: none; width: 7px; height: 7px; border-radius: 50%; background: var(--acc, #AD5528); transform: translateY(-2px);"></span><span>{{ g.text }}</span></div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 20px;">{{ dt.stepsTitle }}</span>
+              <sc-for list="{{ dt.rSteps }}" as="st" hint-placeholder-count="5">
+                <div style="display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 14px; align-items: start;">
+                  <span style="width: 40px; height: 40px; border-radius: 50%; background: {{ st.numBg }}; color: {{ st.numFg }}; display: flex; align-items: center; justify-content: center; font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 19px;">{{ st.n }}</span>
+                  <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 7px; min-width: 0;">
+                    <sc-if value="{{ st.adult }}" hint-placeholder-val="{{ false }}"><span style="align-self: flex-start; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #33466E; background: #E4EAF2; border-radius: 999px; padding: 3px 10px;">{{ st.tag }}</span></sc-if>
+                    <span style="font-size: 17px; line-height: 1.5; text-wrap: pretty;">{{ st.text }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
           <sc-for list="{{ dt.lines }}" as="ln" hint-placeholder-count="0">
             <div style="padding: 10px 0; border-bottom: 1.5px dashed #ECE6DB; font-size: 15px; line-height: 1.55;"><strong style="font-weight: 600; color: {{ ln.color }};">{{ ln.label }}:</strong> {{ ln.text }}</div>
           </sc-for>
@@ -1350,6 +1427,17 @@
           </sc-if>
           <sc-if value="{{ dt.hasSource }}" hint-placeholder-val="{{ false }}">
             <button type="button" onClick="{{ dt.openSource }}" style="align-self: flex-start; min-height: 44px; padding: 0; border: none; background: none; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 15px; font-weight: 600; color: var(--acc, #AD5528);">{{ dt.sourceLbl }} →</button>
+          </sc-if>
+          <sc-if value="{{ dt.isRecipe }}" hint-placeholder-val="{{ false }}">
+            <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px;">
+              <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 18px;">{{ dt.nutTitle }}</span>
+              <div style="border: 1px solid #ECE6DB; border-radius: 16px; overflow: hidden;">
+                <sc-for list="{{ dt.nut }}" as="nr" hint-placeholder-count="5">
+                  <div style="display: flex; justify-content: space-between; gap: 12px; padding: 9px 16px; background: {{ nr.bg }}; font-size: 14px;"><span style="color: #4A4A45;">{{ nr.k }}</span><span style="font-weight: {{ nr.w }}; font-variant-numeric: tabular-nums;">{{ nr.v }}</span></div>
+                </sc-for>
+              </div>
+              <span style="font-size: 12px; color: #6B6A63;">{{ dt.nutNote }}</span>
+            </div>
           </sc-if>
         </sc-if>
 
@@ -1628,7 +1716,8 @@ const IMG = n => 'img/' + n + '.png';
 const STEP_IMG = { m0655: 'fox-cup', m0700: 'hero', m0710: 'BF', m0725: 'isaac-basket', m0730: 'teddy', m0745: 'BF', m0800: 'cereal-rings', m0805: 'backpacks', m0815: 'sun',
   e1800: 'toys', e1830: 'fox-couple', e1900: 'teddy', e1910: 'bath', e1930: 'moon', e1940: 'toothbrush', e1950: 'backpacks', e1955: 'bunny-books', e2015: 'moon', e2030: 'family-reading',
   a1610: 'backpacks', a1630: 'cereal-banana', a1710: 'sun', a1730: 'toys', p1610: 'backpacks', p1630: 'cereal-banana', p1710: 'sun', w1830: 'bath', w1900: 'fox-cup', w1905: 'fox-couple', w1930: 'toothbrush', w1945: 'teddy', w1955: 'bunny-books', w2015: 'moon', w2030: 'family-reading' };
-const BF_IMG = { b1: 'oatmeal', b2: 'eggs', b3: 'yogurt', b4: 'toast', b5: 'pancakes', 'b-planb': 'cereal-banana', 'b-steps': 'cereal-rings' };
+const BF_IMG = { b1: 'oatmeal', b2: 'eggs', b3: 'yogurt', b4: 'toast', b5: 'pancakes', 'b-planb': 'cereal-banana', 'b-steps': 'cereal-rings',
+  b6: 'bf-skyr', b7: 'bf-banana-pancakes', b8: 'bf-soft-egg', b9: 'bf-quark', b10: 'bf-omelette', b11: 'bf-overnight-oats', b12: 'bf-smoothie', b13: 'bf-ricotta-toast', b14: 'bf-egg-muffins', b15: 'bf-pb-toast', b16: 'bf-burrito', b17: 'bf-ricotta-pancakes', b18: 'bf-pan-tomate', b19: 'bf-french-toast', b20: 'bf-sandwich' };
 const CAT_COLOR = { principle: SAGE, agreement: OCHRE, routine: NAVY, situation: OCHRE, phrase: SAGE, story: NAVY, breakfast: OCHRE, note: NAVY };
 const T = {
   es: {
@@ -1846,6 +1935,14 @@ Object.assign(AT.es, { invitedQueued: to => 'Enviando la invitación a ' + to + 
 Object.assign(AT.en, { invitedQueued: to => 'Sending the invitation to ' + to + '…', invitedDone: to => 'Invitation sent to ' + to + '.', savingFam: 'Saving your family…', savedTitle: f => 'Your family is saved' + (f ? ' · ' + f : ''), savedSub: r => "You're in as " + r + '. You can sign in with your email and password.', retry: 'Try again', calLater: 'Connect later', calLaterHint: 'Find it in Account → Google Calendar.' });
 Object.assign(AT.es, { profileTitle: 'Cuéntanos de ti', profileSub: 'Estos datos se guardan en su hoja familiar y solo los ve tu familia.', fullName: 'Nombre completo', fullNamePh: 'Juan Pablo Morales', emailLbl: 'Correo electrónico', emailPh: 'tu@gmail.com', emailHint: 'Usa el mismo correo de tu cuenta de Google: con él conectamos tu calendario.', nick: '¿Cómo te gusta que te digan?', nickPh: 'Juanpa', nickHint: 'Así te saludaremos en la app y en tus recordatorios.', errFullName: 'Escribe tu nombre y apellido.', assignedRole: 'Tu rol en la familia', assignedAuto: 'Asignado automáticamente: es el rol que queda libre.' });
 Object.assign(AT.en, { profileTitle: 'Tell us about you', profileSub: 'Saved in your family sheet and only visible to your family.', fullName: 'Full name', fullNamePh: 'Christine Morales', emailLbl: 'Email', emailPh: 'you@gmail.com', emailHint: 'Use the same email as your Google account: we connect your calendar with it.', nick: 'What do you like to be called?', nickPh: 'Chris', nickHint: "That's how we'll greet you in the app and your reminders.", errFullName: 'Enter your first and last name.', assignedRole: 'Your role in the family', assignedAuto: "Assigned automatically: it's the role that's left." });
+Object.assign(T.es, { bfm: { title: 'Menú de esta semana', sub: 'Toca un día para cambiar su receta, o deja que el azar elija cinco y un plan B.', random: 'Al azar', planB: 'Plan B', change: 'Cambiar', close: 'Cerrar', view: 'Ver receta', prot: 'proteína',
+  pickDay: d => 'Desayuno del ' + d, pickSub: n => 'Elige entre las ' + n + ' recetas.', pickB: 'Plan B', pickBSub: 'Solo recetas rápidas y sin complicaciones: es la red de seguridad.', alsoOn: x => 'También: ' + x, free: 'Sin día',
+  book: 'Recetario', bookSub: n => n + ' recetas · toca una para ver ingredientes y pasos.', ing: 'Ingredientes', steps: 'Paso a paso', adult: 'Con un adulto', nut: 'Valor nutricional', nutNote: 'Por ración infantil · valores aproximados.',
+  kcal: 'Energía', protein: 'Proteína', carbs: 'Hidratos', fat: 'Grasas', fiber: 'Fibra', portion: '1 ración infantil', quick: 'rápida' } });
+Object.assign(T.en, { bfm: { title: "This week's menu", sub: 'Tap a day to change its recipe, or let chance pick five plus a Plan B.', random: 'Shuffle', planB: 'Plan B', change: 'Change', close: 'Close', view: 'See recipe', prot: 'protein',
+  pickDay: d => d + ' breakfast', pickSub: n => 'Choose from all ' + n + ' recipes.', pickB: 'Plan B', pickBSub: 'Quick, no-fuss recipes only: it’s the safety net.', alsoOn: x => 'Also: ' + x, free: 'No day',
+  book: 'Recipe book', bookSub: n => n + ' recipes · tap one for ingredients and steps.', ing: 'Ingredients', steps: 'Step by step', adult: 'With a grown-up', nut: 'Nutrition', nutNote: 'Per child portion · approximate values.',
+  kcal: 'Energy', protein: 'Protein', carbs: 'Carbohydrates', fat: 'Fat', fiber: 'Fibre', portion: '1 child portion', quick: 'quick' } });
 Object.assign(T.es, { coreKicker: 'El núcleo de nuestro sistema', coreRead: 'Leer el manifiesto' });
 Object.assign(T.en, { coreKicker: 'The core of our system', coreRead: 'Read the manifesto' });
 Object.assign(T.es, { docsTitle: 'Nuestros documentos', docOpen: 'Abrir', docDownload: 'Descargar', docAlt: 'Descargar en inglés', docs: { manual: { kicker: 'Manual · 12 páginas', title: 'Nuestro ritmo familiar', meta: 'Mañana y noche, roles, reglas del equipo, desayunos e imprevistos.' }, poster: { kicker: 'Póster · A3', title: 'Nuestro ritmo, para la pared', meta: 'Mañana y noche de un vistazo. Imprímelo para la cocina o el pasillo.' } } });
@@ -2040,7 +2137,7 @@ class Component extends DCLogic {
       skip: end };
   }
   componentDidMount() {
-    import(new URL('kb.js', document.baseURI).href).then(kb => this.setState({ kb }));
+    import(new URL('kb.js', document.baseURI).href).then(kb => { try { this.applyBf && this.applyBf(kb, this.bfPlan()); } catch (e) {} this.setState({ kb }); });
     try { const s = JSON.parse(localStorage.getItem(LS) || '{}'); const p = {}; ['me', 'lang', 'notes', 'remOff', 'google'].forEach(k => { if (s[k] != null) p[k] = s[k]; }); this.setState(p); } catch (e) {}
     setTimeout(() => this.tutAuto(), 1400);
     this.timer = setInterval(() => this.setState(s => ({ tick: s.tick + 1 })), 30000);
@@ -2255,7 +2352,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   };
   variant() { return 'x'; }
   componentDidMount() {
-    import(new URL('kb.js', document.baseURI).href).then(kb => this.setState({ kb }));
+    import(new URL('kb.js', document.baseURI).href).then(kb => { try { this.applyBf && this.applyBf(kb, this.bfPlan()); } catch (e) {} this.setState({ kb }); });
     const p = {};
     try { const s = JSON.parse(localStorage.getItem(LS) || '{}'); ['notes', 'remOff', 'google'].forEach(k => { if (s[k] != null) p[k] = s[k]; }); } catch (e) {}
     const nav = (navigator.language || 'es').slice(0, 2) === 'en' ? 'en' : 'es';
@@ -2385,7 +2482,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     w: typeof window !== 'undefined' ? window.innerWidth : 1200,
   };
   componentDidMount() {
-    import(new URL('kb.js', document.baseURI).href).then(kb => this.setState({ kb }));
+    import(new URL('kb.js', document.baseURI).href).then(kb => { try { this.applyBf && this.applyBf(kb, this.bfPlan()); } catch (e) {} this.setState({ kb }); });
     import(new URL('google.js', document.baseURI).href).then(G => {
       this.setState({ G }, () => { if (this.state.session) this.pullApi(); });
       const r = G.consumeRedirect(); if (!r) return;
@@ -2418,6 +2515,46 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   }
   persist(patch) {
     this.setState(patch, () => { const { notes, remOff, google, files } = this.state; try { localStorage.setItem(LS, JSON.stringify({ notes, remOff, google, files })); } catch (e) {} });
+  }
+  bfPlan() {
+    if (this.state.bfPlan) return this.state.bfPlan;
+    if (!this._bfLs) { try { this._bfLs = JSON.parse(localStorage.getItem('gsp:bfplan') || 'null'); } catch (e) {} this._bfLs = this._bfLs || {}; }
+    const K = this.state.kb; return { ...((K && K.BF_DEFAULT) || { 1: 'b1', 2: 'b2', 3: 'b3', 4: 'b4', 5: 'b5', b: 'b-planb' }), ...this._bfLs };
+  }
+  applyBf(K, p) { if (!K || !K.WEEK) return; [1, 2, 3, 4, 5].forEach(d => { if (K.WEEK[d] && p[d]) K.WEEK[d].bf = p[d]; }); }
+  bfSave(p, remote) {
+    this._bfLs = p; try { localStorage.setItem('gsp:bfplan', JSON.stringify(p)); } catch (e) {}
+    this.applyBf(this.state.kb, p); this.setState({ bfPlan: p, bfPick: null });
+    if (remote !== false) { const G = this.state.G, api = this.apiUrl(); if (G && api && !this.devMode() && this.state.session) G.callApi(api, 'setMenu', { plan: p }).catch(() => {}); }
+  }
+  bfSet(k, id) { this.bfSave({ ...this.bfPlan(), [k]: id }); }
+  bfRandom() {
+    const R = this.state.kb.RECIPES, sh = a => a.map(x => [Math.random(), x]).sort((x, y) => x[0] - y[0]).map(x => x[1]);
+    const five = sh(R).slice(0, 5), rest = sh(R.filter(r => r.q && !five.includes(r)));
+    const p = { b: (rest[0] || R.find(r => r.id === 'b-planb')).id }; five.forEach((r, i) => { p[i + 1] = r.id; });
+    this.bfSave(p);
+  }
+  bfVals(K, t, dow) {
+    const B = t.bfm, R = K.RECIPES || [], plan = this.bfPlan(), pick = this.state.bfPick;
+    const rec = id => R.find(r => r.id === id) || R[0], slots = [1, 2, 3, 4, 5, 'b'];
+    const slotName = k => k === 'b' ? B.planB : t.days[k], meta = r => r.n[1] + ' g ' + B.prot + ' · ' + r.m + ' min';
+    const days = slots.map(k => { const r = rec(plan[k]), on = pick === k;
+      return { day: slotName(k), dish: this.tx(r.dish), img: IMG(r.img), meta: meta(r), action: on ? B.close : B.change, tone: k === 'b' ? SAGE : 'var(--acc, #AD5528)', bg: on ? 'var(--accSoft, #FDEFE4)' : k === dow ? '#FBF1E4' : 'transparent', go: () => this.setState({ bfPick: on ? null : k }) }; });
+    const options = pick == null ? [] : (pick === 'b' ? R.filter(r => r.q) : R).map(r => { const cur = plan[pick] === r.id, used = slots.filter(k => k !== pick && plan[k] === r.id).map(slotName);
+      return { name: this.tx(r.dish), img: IMG(r.img), meta: meta(r), bg: cur ? 'var(--accSoft, #FDEFE4)' : '#FFFDF8', bd: cur ? 'var(--acc, #AD5528)' : '#ECE6DB', used: used.length ? B.alsoOn(used.join(', ')) : '', hasUsed: !!used.length, choose: () => this.bfSet(pick, r.id), view: () => this.setState({ detail: r.id }) }; });
+    const cards = [...R, ...K.ENTRIES.filter(e => e.id === 'b-steps')].map(r => { const e = K.ENTRIES.find(x => x.id === r.id) || r, c = this.card(e), on = slots.filter(k => plan[k] === r.id).map(slotName);
+      return { ...c, kicker: r.n ? (on.length ? on.join(' · ') : B.free) : t.cats.breakfast, kickColor: on.length ? 'var(--acc, #AD5528)' : '#8A877E', meta: r.n ? meta(r) : '' }; });
+    return { title: B.title, sub: B.sub, randomLbl: B.random, random: () => this.bfRandom(), days, pickOpen: pick != null, pickTitle: pick == null ? '' : pick === 'b' ? B.pickB : B.pickDay(t.days[pick]), pickSub: pick === 'b' ? B.pickBSub : B.pickSub(R.length),
+      options, closePick: () => this.setState({ bfPick: null }), closeLbl: B.close, viewLbl: B.view, bookTitle: B.book, bookSub: B.bookSub(R.length), cards };
+  }
+  recipeVals(de, K, t, lang) {
+    const r = de.cat === 'breakfast' && K.RECIPES ? K.RECIPES.find(x => x.id === de.id) : null, B = t.bfm;
+    if (!r) return { isRecipe: false };
+    const nl = [[B.kcal, r.n[0] + ' kcal'], [B.protein, r.n[1] + ' g'], [B.carbs, r.n[2] + ' g'], [B.fat, r.n[3] + ' g'], [B.fiber, r.n[4] + ' g']];
+    return { isRecipe: true, rMeta: r.m + ' min · ' + B.portion + (r.q ? ' · ' + B.quick : ''), ingTitle: B.ing, stepsTitle: B.steps, nutTitle: B.nut, nutNote: B.nutNote,
+      ing: r.i[lang].map(x => ({ text: x })),
+      rSteps: r.p[lang].map((x, i) => { const adult = x.includes('*'); return { n: String(i + 1), text: x.replace('*', ''), adult, tag: B.adult, numBg: adult ? '#E4EAF2' : 'var(--accSoft, #FDEFE4)', numFg: adult ? '#33466E' : 'var(--acc2, #8C6A55)' }; }),
+      nut: nl.map(([k, v], i) => ({ k, v, bg: i % 2 ? 'transparent' : '#F5F1EA', w: i === 1 ? '700' : '500' })) };
   }
   apiUrl() { try { return localStorage.getItem('gsp:apiUrl') || this.props.appsScriptUrl || (window.GSP_CONFIG && window.GSP_CONFIG.appsScriptUrl) || ''; } catch (e) { return ''; } }
   clientId() { try { return localStorage.getItem('gsp:clientId') || this.props.googleClientId || ''; } catch (e) { return this.props.googleClientId || ''; } }
@@ -2857,6 +2994,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const dateLbl = new Intl.DateTimeFormat(t.locale, { weekday: 'long', day: 'numeric', month: 'long' }).format(date);
     const quote = this.quote();
     const W = K.WEEK[dow];
+    this.applyBf(K, this.bfPlan());
     const bf = W ? K.ENTRIES.find(e => e.id === W.bf) : null;
     const roles = r ? [
       { k: t.morning, d: ICON.sunrise, iconBg: '#FBF1E4', iconFg: OCHRE, v: t.roleMorning[r.am], sub: t.partnerDoes(r.partner, t.roles[r.am === 'take' ? 'stay' : 'take']), color: PC(me) },
@@ -2931,6 +3069,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const rv = this.state.rhythmView;
     const mw = rDay === 1 || rDay === 3;
     const rSteps = rv === 'morning' ? K.MORNING : [...((mw ? K.AFTERNOON_MW : K.AFTERNOON) || []), ...(mw ? K.EVENING_MW : K.EVENING)];
+    const bwv = this.bfVals(K, t, dow);
     const rh = {
       showDays: rv === 'morning' || rv === 'evening', showSteps: rv === 'morning' || rv === 'evening', showWeek: rv === 'week', showBreakfast: rv === 'breakfast',
       bg: rv === 'morning' ? PEACH : SKY, tone: rv === 'morning' ? OCHRE : NAVY, img: IMG(rv === 'morning' ? 'pancakes' : mw ? 'bath' : 'bunny-books'),
@@ -2941,7 +3080,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         const w = K.WEEK[d]; const e = K.ENTRIES.find(x => x.id === w.bf);
         return { name: t.days[d], bg: d === dow ? '#FBF1E4' : 'transparent', people: [w.take, w.stay, w.take, w.stay].map(nm => ({ name: nm, color: PC(nm) })), bf: this.tx(e.dish), pm: w.pm ? this.tx(w.pm) : '—' };
       }),
-      breakfast: K.ENTRIES.filter(e => e.cat === 'breakfast').map(e => { const c = this.card(e); const parts = c.title.split(' · '); return { ...c, kicker: parts.length > 1 ? parts[0] : t.cats.breakfast, title: parts.length > 1 ? parts.slice(1).join(' · ') : c.title }; }),
+      breakfast: bwv.cards,
     };
 
     const catKeys = ['principle', 'agreement', 'routine', 'situation', 'phrase', 'story', 'breakfast', 'note'];
@@ -2967,6 +3106,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         stuck: this.tx(de.steps && de.steps.stuck), hasStuck: !!(de.steps && de.steps.stuck),
         reflect: this.tx(de.reflect), hasReflect: !!de.reflect,
         hasSource: !!src, sourceLbl: src ? this.tx(src.t) : '', openSource: () => src && this.setState({ detail: src.id }),
+        ...this.recipeVals(de, K, t, lang),
       };
     }
 
@@ -3046,7 +3186,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         { key: 'poster', es: ['Poster_Nuestro_Ritmo_A3_ES.pdf', 'thumb-poster-es.png'], en: ['Poster_Family_Rhythm_A3_EN.pdf', 'thumb-poster-en.png'], bg: '#E4EAF2', tone: NAVY },
       ].map((d, i) => { const cur = d[lang], alt = d[lang === 'es' ? 'en' : 'es']; return { title: t.docs[d.key].title, kicker: t.docs[d.key].kicker, meta: t.docs[d.key].meta, bg: d.bg, tone: d.tone, delay: (i * 60) + 'ms',
         href: 'docs/' + cur[0], file: cur[0], thumb: 'docs/' + cur[1], altHref: 'docs/' + alt[0], altFile: alt[0], altLbl: t.docAlt }; }),
-      detailOpen: !!de, dt, gOpen: gOpen && !de, gf, md, anyModal, acctOpen: acctOpen && !de && !gOpen, acc,
+      detailOpen: !!de, dt, bw: bwv, gOpen: gOpen && !de, gf, md, anyModal, acctOpen: acctOpen && !de && !gOpen, acc,
       closeAll: () => { clearTimeout(this.gt); this.setState({ detail: null, gStep: null, relevo: false, acct: false }); },
       modalAlign: sheet ? 'flex-end' : 'center', modalPad: sheet ? '0' : '24px', modalRadius: sheet ? '28px 28px 0 0' : '28px', modalW: de ? '660px' : '480px',
       teamDate: dateLbl,
@@ -3193,6 +3333,10 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     try {
       const ns = await G.callApi(api, 'listNotes', {});
       if (Array.isArray(ns)) { const by = {}; [...(this.state.notes || []), ...ns].forEach(n => { by[n.id] = { ...(by[n.id] || {}), ...n }; }); this.persist({ notes: Object.values(by) }); }
+    } catch (e) {}
+    try {
+      const mn = await G.callApi(api, 'getMenu', {});
+      if (mn && mn.plan && typeof mn.plan === 'object') this.bfSave(mn.plan, false);
     } catch (e) {}
     try {
       const is = await G.callApi(api, 'listIdeas', {});
