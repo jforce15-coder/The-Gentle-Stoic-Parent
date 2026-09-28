@@ -1179,7 +1179,7 @@
               <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 24px; color: #33466E;">{{ t.history }}</span>
               <sc-if value="{{ noNotes }}" hint-placeholder-val="{{ true }}">
                 <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
-                  <img src="img/family-reading.png" alt="" style="width: 200px; height: auto;">
+                  <img src="img/team-evening.png" alt="" style="width: 240px; height: auto; mix-blend-mode: multiply;">
                   <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #5E5D57;">{{ t.noNotes }}</p>
                 </div>
               </sc-if>
@@ -1330,6 +1330,12 @@
         </section>
       </sc-if>
       </sc-if>
+      <div aria-hidden="true" data-scband="1" style="height: {{ scBand }};"></div>
+      <div aria-hidden="true" data-scatter="1" style="position: absolute; inset: 0; pointer-events: none; z-index: 0;">
+        <sc-for list="{{ scatter }}" as="sc" hint-placeholder-count="0">
+          <div style="position: absolute; left: {{ sc.x }}; top: {{ sc.y }}; width: {{ sc.w }}; height: {{ sc.w }}; background-image: url({{ sc.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; transform: {{ sc.rot }}; mix-blend-mode: multiply; animation: gspFade 500ms ease both;"></div>
+        </sc-for>
+      </div>
     </main>
     </div>
 
@@ -2585,6 +2591,65 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       rSteps: r.p[lang].map((x, i) => { const adult = x.includes('*'); return { n: String(i + 1), text: x.replace('*', ''), adult, tag: B.adult, numBg: adult ? '#E4EAF2' : 'var(--accSoft, #FDEFE4)', numFg: adult ? '#33466E' : 'var(--acc2, #8C6A55)' }; }),
       nut: nl.map(([k, v], i) => ({ k, v, bg: i % 2 ? 'transparent' : '#F5F1EA', w: i === 1 ? '700' : '500' })) };
   }
+  scatterVals(tab, view, rv, isDesktop) {
+    const POOL = {
+      home: ['toys', 'jam', 'sc-sneaker', 'sc-crayons', 'teddy', 'sc-milk', 'sc-puzzle'],
+      rhythm: ['backpacks', 'toothbrush', 'sc-sneaker', 'sc-ballet', 'teddy', 'toys'],
+      breakfast: ['sc-flour', 'jam', 'sc-milk', 'sc-ballet'],
+      library: ['bunny-books', 'sc-crayons', 'sc-puzzle', 'teddy', 'coffee-ring'],
+      team: ['sc-notebook', 'coffee-ring', 'sc-tools', 'sc-puzzle', 'sc-crayons'],
+      reminders: ['sc-notebook', 'backpacks', 'sc-ballet', 'coffee-ring', 'sc-sneaker'],
+      ask: ['sc-puzzle', 'sc-crayons', 'teddy', 'toys'] };
+    const key = tab === 'rhythm' && rv === 'breakfast' ? 'breakfast' : (POOL[tab] ? tab : 'home');
+    const sig = key + '|' + (tab === 'home' ? view : '');
+    if (this._scSig !== sig) {
+      this._scSig = sig;
+      this._scPick = POOL[key].slice().sort(() => Math.random() - 0.5).slice(0, 2).map(IMG);
+      this._scCorners = ['tl', 'tr', 'bl', 'br'].sort(() => Math.random() - 0.5);
+      this._scRot = [Math.random() * 20 - 10, Math.random() * 20 - 10];
+      this._sc = []; this._scBand = 0;
+      this.schedScatter(500);
+    }
+    return this._sc;
+  }
+  schedScatter(ms) { clearTimeout(this._scT); this._scT = setTimeout(() => this.placeScatter(), ms); }
+  placeScatter() {
+    const main = document.querySelector('main'); if (!main || !this._scPick) return;
+    if (!this._scRO && window.ResizeObserver) { let lh = 0, lw = 0; this._scRO = new ResizeObserver(() => { const r = main.getBoundingClientRect(); if (Math.abs(r.height - lh) > 40 || Math.abs(r.width - lw) > 40) { lh = r.height; lw = r.width; this.schedScatter(350); } }); this._scRO.observe(main); }
+    const sp = main.querySelector('[data-scband]'), mr = main.getBoundingClientRect(), MW = mr.width, limit = sp ? sp.getBoundingClientRect().top - mr.top : mr.height, MH = limit, W = this.state.w >= 1024 ? 170 : this.state.w >= 700 ? 140 : 104, PAD = 14;
+    const boxes = [];
+    const add = r => { if (r.width >= 2 && r.height >= 2) boxes.push([r.left - mr.left - PAD, r.top - mr.top - PAD, r.right - mr.left + PAD, r.bottom - mr.top + PAD]); };
+    const rng = document.createRange();
+    main.querySelectorAll('*').forEach(el => {
+      if (el.closest('[data-scatter]')) return;
+      const cs = getComputedStyle(el); if (cs.position === 'fixed' || cs.visibility === 'hidden') return;
+      for (const n of el.childNodes) if (n.nodeType === 3 && n.textContent.trim()) { rng.selectNodeContents(n); for (const r of rng.getClientRects()) add(r); }
+      const solid = /^(IMG|BUTTON|INPUT|TEXTAREA|SELECT|svg|SVG)$/.test(el.tagName) || el.getAttribute('role') === 'img'
+        || (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' && cs.backgroundColor !== 'transparent') || cs.backgroundImage !== 'none' || parseFloat(cs.borderTopWidth) > 0 || parseFloat(cs.borderBottomWidth) > 0;
+      if (solid) add(el.getBoundingClientRect());
+    });
+    const free = (x, y) => x >= 0 && y >= 0 && x + W <= MW && y + W <= MH && !boxes.some(b => x < b[2] && x + W > b[0] && y < b[3] && y + W > b[1]);
+    const find = c => {
+      const left = c[1] === 'l', top = c[0] === 't', xs = [], ys = [];
+      for (let dx = 0; dx <= Math.min(MW / 3, 260); dx += 20) xs.push(left ? dx : MW - W - dx);
+      for (let dy = 0; dy <= Math.min(MH / 3, 520); dy += 20) ys.push(top ? dy : MH - W - dy);
+      for (const y of ys) for (const x of xs) if (free(x, y)) return { x, y, c };
+      return null;
+    };
+    const spots = this._scCorners.map(find).filter(Boolean), out = [];
+    if (spots[0]) { out.push(spots[0]); const d = spots.slice(1).sort((p, q) => Math.hypot(q.x - out[0].x, q.y - out[0].y) - Math.hypot(p.x - out[0].x, p.y - out[0].y))[0]; if (d && Math.hypot(d.x - out[0].x, d.y - out[0].y) > W * 2.5) out.push(d); }
+    const need = out.length < 2 ? W + 24 : 0;
+    if (need) {
+      const yb = limit + 12, sides = [{ x: 0, y: yb, c: 'bl' }, { x: MW - W, y: yb, c: 'br' }];
+      const taken = out[0] ? (out[0].x + W / 2 < MW / 2 ? 'l' : 'r') : '';
+      for (const sp of sides) if (out.length < 2 && sp.c[1] !== taken) out.push(sp);
+      if (out.length < 2) out.push(sides.find(sp => !out.includes(sp)));
+    }
+    if (need !== (this._scBand || 0)) { this._scBand = need; this._sc = []; this.forceUpdate(); this.schedScatter(80); return; }
+    const sc = out.map((p, i) => ({ img: this._scPick[i], x: p.x + 'px', y: p.y + 'px', w: W + 'px', rot: 'rotate(' + this._scRot[i].toFixed(1) + 'deg)' }));
+    if (JSON.stringify(sc) !== JSON.stringify(this._sc)) { this._sc = sc; this.forceUpdate(); }
+    return this._sc;
+  }
   apiUrl() { try { return localStorage.getItem('gsp:apiUrl') || this.props.appsScriptUrl || (window.GSP_CONFIG && window.GSP_CONFIG.appsScriptUrl) || ''; } catch (e) { return ''; } }
   clientId() { try { return localStorage.getItem('gsp:clientId') || this.props.googleClientId || ''; } catch (e) { return this.props.googleClientId || ''; } }
   real() { return !!(this.clientId() && this.state.G); }
@@ -3006,6 +3071,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       goHome: () => goTab('home'), goReminders: () => goTab('reminders'), goTeam: () => goTab('team'), goRhythm: () => goTab('rhythm'),
       goAhora: () => { this.setState({ tab: 'home', view: 'ahora' }); window.scrollTo(0, 0); }, goHoy: () => { this.setState({ tab: 'home', view: 'hoy' }); window.scrollTo(0, 0); },
       goAsk: () => { this.setState({ tab: 'ask' }); window.scrollTo(0, 0); this.scrollToAsk(); },
+      scatter: this.scatterVals(tab, view, this.state.rhythmView, isDesktop), scBand: (this._scBand || 0) + 'px',
       shellPad: isDesktop ? '248px' : '0px', isDev: this.devMode(), askBtnBg: tab === 'ask' ? 'var(--accDark, #F0AE7C)' : 'var(--accBtn, #F7C49C)', acctNick: this.nick(ses), famLine: this.familyLine(), nx: this.nextUp(lang),
       sideNav: [['home', 'today'], ['rhythm', 'rhythm'], ['library', 'library'], ['team', 'team'], ['reminders', 'reminders']].map(([v, k]) => { const on = tab === v; return { d: NAV_ICON[v], label: t.nav[k], go: () => goTab(v), cur: on ? 'page' : 'false', bg: on ? 'var(--accSoft, #FDEFE4)' : 'transparent', sh: 'none', fg: on ? INK : MUTED, weight: on ? 600 : 500, icBg: on ? 'var(--accBtn, #F7C49C)' : 'transparent', icFg: on ? INK : MUTED, hasDot: v === 'reminders' && !!(this.state.google || {})[me] }; }),
       tabs: [['home', 'today'], ['rhythm', 'rhythm'], ['ask', 'ask'], ['library', 'library'], ['team', 'team']].map(([v, k]) => { const on = tab === v; return v === 'ask' ? { isAsk: true, isTab: false, label: t.nav.ask, go: () => { goTab('ask'); this.scrollToAsk(); }, bg: on ? 'var(--accDark, #F0AE7C)' : 'var(--accBtn, #F7C49C)' } : { isTab: true, isAsk: false, d: NAV_ICON[v], label: t.nav[k], go: () => goTab(v), cur: on ? 'page' : 'false', fg: on ? INK : '#6F6C64', pill: on ? 'var(--accBtn, #F7C49C)' : 'transparent', icFg: on ? INK : '#6F6C64' }; }),

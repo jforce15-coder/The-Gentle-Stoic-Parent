@@ -4,13 +4,15 @@ Qué trae:
 v9 — Google Calendar en hora de España (se vuelve a sincronizar solo una vez); «¿Qué sigue?» respeta el fin de semana; ritmo de sábado y domingo.
 v10 — 21 recetas de desayuno con ilustración propia, ingredientes, pasos para niños y tabla nutricional.
       Desayunos: banner «Sophia en la cocina», tarjetas por día + Plan B + tarjeta Recetario (asignar recetas a días).
+      Ilustraciones en la línea del Manual: nueva cocina con Sophia, nueva escena de Equipo y objetos sueltos
+      (juguetes, manchas, zapatos, herramientas) que cambian al azar según la sección.
       Menú de la semana editable por día + botón «Al azar» (5 recetas + plan B). Menú compartido entre los dos.
 
 GitHub (raíz del sitio): sube / reemplaza
   - index.html
   - kb.js
   - google.js
-  - img/  → los 16 archivos bf-*.png van dentro de la carpeta img/ que ya existe
+  - img/  → todos los archivos (bf-*, sc-*, team-evening) van dentro de la carpeta img/ que ya existe
 
 Apps Script (versión 7):
   1. Abre el proyecto de Apps Script y pega apps-script/Code.gs completo.
