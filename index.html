@@ -985,8 +985,17 @@
             <p style="margin: 0; font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: #5E5D57;">* {{ t.weekNote }}</p>
           </sc-if>
           <sc-if value="{{ rh.showBreakfast }}" hint-placeholder-val="{{ false }}">
-            <div style="background: #FFFDF8; border: 1px solid #ECE6DB; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 18px;">
-              <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between;">
+            <sc-if value="{{ bw.notBook }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ bw.openSteps }}" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 28px; text-align: left; background: #F8EFE4; border: none; border-radius: 28px; padding: 20px 28px; cursor: pointer; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.99);" style-hover="box-shadow: 0 10px 26px rgba(80,64,44,0.12);">
+                <div role="img" aria-hidden="true" style="flex: 0 1 300px; min-width: 200px; aspect-ratio: 3 / 2; background-image: url({{ bw.bnImg }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
+                <div style="flex: 1 1 260px; display: flex; flex-direction: column; gap: 8px; min-width: 0;">
+                  <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: var(--acc, #AD5528);">{{ bw.bnK }}</span>
+                  <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 26px; line-height: 1.2; text-wrap: pretty;">{{ bw.bnTitle }}</span>
+                  <span style="font-size: 15px; line-height: 1.55; color: #4A4A45; text-wrap: pretty;">{{ bw.bnSum }}</span>
+                  <span style="display: flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--acc, #AD5528); padding-top: 4px;">{{ bw.bnCta }} <span aria-hidden="true">→</span></span>
+                </div>
+              </button>
+              <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; padding-top: 8px;">
                 <div style="display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 280px;">
                   <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 24px; line-height: 1.2;">{{ bw.title }}</span>
                   <span style="font-size: 14px; line-height: 1.5; color: #5E5D57; text-wrap: pretty;">{{ bw.sub }}</span>
@@ -996,59 +1005,46 @@
                   <span>{{ bw.randomLbl }}</span>
                 </button>
               </div>
-              <div style="display: flex; flex-direction: column; gap: 2px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 16px;">
                 <sc-for list="{{ bw.days }}" as="d" hint-placeholder-count="6">
-                  <button type="button" onClick="{{ d.go }}" style="display: grid; grid-template-columns: 84px 56px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-height: 64px; padding: 8px 12px; border: none; border-radius: 16px; background: {{ d.bg }}; text-align: left; cursor: pointer; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: background 200ms ease;" style-hover="background: #F8F4EC;">
-                    <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 20px; color: {{ d.tone }}; text-transform: capitalize;">{{ d.day }}</span>
-                    <div role="img" aria-hidden="true" style="width: 56px; height: 48px; background-image: url({{ d.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
-                    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
-                      <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 16px; line-height: 1.3;">{{ d.dish }}</span>
-                      <span style="font-size: 12.5px; color: #5E5D57;">{{ d.meta }}</span>
-                    </div>
-                    <span style="font-size: 13px; font-weight: 600; color: var(--acc, #AD5528);">{{ d.action }}</span>
-                  </button>
+                  <button type="button" onClick="{{ d.go }}" style="text-align: center; background: #FFFDF8; border: 1.5px solid {{ d.bd }}; border-radius: 24px; padding: 20px 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.98);" style-hover="box-shadow: 0 8px 22px rgba(80,64,44,0.10);">
+                  <div role="img" aria-hidden="true" style="width: 120px; height: 100px; background-image: url({{ d.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
+                  <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: {{ d.tone }}; text-transform: capitalize;">{{ d.day }}</span>
+                  <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 16px; line-height: 1.3;">{{ d.dish }}</span>
+                  <span style="font-size: 12.5px; line-height: 1.5; color: #5E5D57;">{{ d.sum }}</span>
+                  <span style="font-size: 12px; font-weight: 600; color: #5B7A5E;">{{ d.meta }}</span>
+                </button>
                 </sc-for>
-              </div>
-              <sc-if value="{{ bw.pickOpen }}" hint-placeholder-val="{{ false }}">
-                <div style="background: #F8F4EC; border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 14px; animation: gspRise 280ms cubic-bezier(0.23, 1, 0.32, 1) both;">
-                  <div style="display: flex; gap: 12px; align-items: flex-start; justify-content: space-between;">
-                    <div style="display: flex; flex-direction: column; gap: 2px; min-width: 0;">
-                      <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 20px; text-transform: capitalize;">{{ bw.pickTitle }}</span>
-                      <span style="font-size: 13px; color: #5E5D57;">{{ bw.pickSub }}</span>
-                    </div>
-                    <button type="button" onClick="{{ bw.closePick }}" style="min-height: 44px; padding: 0 14px; border: none; background: none; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 13px; font-weight: 600; color: #5E5D57;">{{ bw.closeLbl }}</button>
-                  </div>
-                  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); gap: 10px;">
-                    <sc-for list="{{ bw.options }}" as="o" hint-placeholder-count="6">
-                      <div style="display: flex; flex-direction: column; background: {{ o.bg }}; border: 1.5px solid {{ o.bd }}; border-radius: 18px; overflow: hidden;">
-                        <button type="button" onClick="{{ o.choose }}" style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 10px; border: none; background: transparent; cursor: pointer; text-align: center; color: #2A2F2B; font-family: 'Figtree', sans-serif;">
-                          <div role="img" aria-hidden="true" style="width: 72px; height: 60px; background-image: url({{ o.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
-                          <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 14.5px; line-height: 1.3;">{{ o.name }}</span>
-                          <span style="font-size: 12px; color: #5E5D57;">{{ o.meta }}</span>
-                          <sc-if value="{{ o.hasUsed }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 13px; color: var(--acc2, #8C6A55); text-transform: capitalize;">{{ o.used }}</span></sc-if>
-                        </button>
-                        <button type="button" onClick="{{ o.view }}" style="min-height: 40px; border: none; border-top: 1px solid #ECE6DB; background: transparent; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 12.5px; color: #5E5D57;">{{ bw.viewLbl }}</button>
-                      </div>
+                <button type="button" onClick="{{ bw.openBook }}" style="text-align: center; background: #F3EEE6; border: 1.5px dashed #CFC5B5; border-radius: 24px; padding: 20px 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), background 200ms ease;" style-active="transform: scale(0.98);" style-hover="background: #EFE8DD;">
+                  <div aria-hidden="true" style="display: flex; justify-content: center; height: 100px; align-items: center;">
+                    <sc-for list="{{ bw.bookImgs }}" as="bi" hint-placeholder-count="3">
+                      <div style="width: 64px; height: 64px; margin: 0 -8px; background-image: url({{ bi.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
                     </sc-for>
                   </div>
-                </div>
-              </sc-if>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 8px;">
-              <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 24px;">{{ bw.bookTitle }}</span>
-              <span style="font-size: 14px; color: #5E5D57;">{{ bw.bookSub }}</span>
-            </div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 16px;">
-              <sc-for list="{{ rh.breakfast }}" as="e" hint-placeholder-count="8">
-                <button type="button" onClick="{{ e.open }}" style="text-align: center; background: #FFFDF8; border: 1px solid #ECE6DB; border-radius: 24px; padding: 20px 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.98);" style-hover="box-shadow: 0 8px 22px rgba(80,64,44,0.10);">
+                  <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 22px;">{{ bw.bookTitle }}</span>
+                  <span style="font-size: 12.5px; line-height: 1.5; color: #5E5D57; text-wrap: pretty;">{{ bw.bookCardSub }}</span>
+                  <span style="font-size: 13px; font-weight: 600; color: var(--acc, #AD5528);">→</span>
+                </button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ bw.book }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ bw.closeBook }}" style="align-self: flex-start; min-height: 44px; display: flex; align-items: center; gap: 8px; padding: 0 16px 0 10px; border-radius: 999px; border: 1px solid #ECE6DB; background: #FFFDF8; cursor: pointer; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; color: #4A4A45;"><span aria-hidden="true">←</span> {{ bw.backLbl }}</button>
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 28px;">{{ bw.bookTitle }}</span>
+                <span style="font-size: 14px; color: #5E5D57;">{{ bw.bookSub }}</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 16px;">
+                <sc-for list="{{ rh.breakfast }}" as="e" hint-placeholder-count="8">
+                  <button type="button" onClick="{{ e.open }}" style="text-align: center; background: #FFFDF8; border: 1.5px solid #ECE6DB; border-radius: 24px; padding: 20px 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; color: #2A2F2B; font-family: 'Figtree', sans-serif; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.98);" style-hover="box-shadow: 0 8px 22px rgba(80,64,44,0.10);">
                   <div role="img" aria-hidden="true" style="width: 120px; height: 100px; background-image: url({{ e.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
                   <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 19px; color: {{ e.kickColor }}; text-transform: capitalize;">{{ e.kicker }}</span>
                   <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 16px; line-height: 1.3;">{{ e.title }}</span>
                   <span style="font-size: 12.5px; line-height: 1.5; color: #5E5D57;">{{ e.sum }}</span>
                   <span style="font-size: 12px; font-weight: 600; color: #5B7A5E;">{{ e.meta }}</span>
                 </button>
-              </sc-for>
-            </div>
+                </sc-for>
+              </div>
+            </sc-if>
           </sc-if>
         </section>
       </sc-if>
@@ -1378,6 +1374,30 @@
           </sc-if>
           <sc-if value="{{ dt.isRecipe }}" hint-placeholder-val="{{ false }}">
             <span style="font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: #5E5D57;">{{ dt.rMeta }}</span>
+            <div style="display: flex; flex-direction: column; gap: 10px; background: #F8F4EC; border-radius: 20px; padding: 16px;">
+              <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #5E5D57;">{{ dt.assignLbl }}</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                <sc-for list="{{ dt.chips }}" as="c" hint-placeholder-count="6">
+                  <button type="button" onClick="{{ c.go }}" style="min-height: 40px; padding: 0 14px; border-radius: 999px; border: 1px solid {{ c.bd }}; background: {{ c.bg }}; color: {{ c.fg }}; font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; text-transform: capitalize; cursor: pointer; transition: background 200ms ease, color 200ms ease;">{{ c.lbl }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ dt.canSwap }}" hint-placeholder-val="{{ false }}">
+                <button type="button" onClick="{{ dt.swap }}" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--acc, #AD5528); background: var(--accSoft, #FDEFE4); color: var(--acc2, #8C6A55); font-family: 'Figtree', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;">{{ dt.swapLbl }}</button>
+              </sc-if>
+              <sc-if value="{{ dt.pickHere }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size: 13px; color: #5E5D57;">{{ bw.pickSub }}</span>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr)); gap: 8px; max-height: 360px; overflow-y: auto; padding: 2px;">
+                  <sc-for list="{{ bw.options }}" as="o" hint-placeholder-count="6">
+                    <button type="button" onClick="{{ o.choose }}" style="display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 10px 8px; border-radius: 16px; border: 1.5px solid {{ o.bd }}; background: {{ o.bg }}; cursor: pointer; text-align: center; color: #2A2F2B; font-family: 'Figtree', sans-serif;">
+                      <div role="img" aria-hidden="true" style="width: 60px; height: 50px; background-image: url({{ o.img }}); background-size: contain; background-repeat: no-repeat; background-position: center; mix-blend-mode: multiply;"></div>
+                      <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 13.5px; line-height: 1.3;">{{ o.name }}</span>
+                      <span style="font-size: 11.5px; color: #5E5D57;">{{ o.meta }}</span>
+                      <sc-if value="{{ o.hasUsed }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 12px; color: var(--acc2, #8C6A55); text-transform: capitalize;">{{ o.used }}</span></sc-if>
+                    </button>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
             <div style="display: flex; flex-direction: column; gap: 8px;">
               <span style="font-family: 'Literata', Georgia, serif; font-weight: 600; font-size: 20px;">{{ dt.ingTitle }}</span>
               <div style="display: flex; flex-direction: column;">
@@ -1716,7 +1736,7 @@ const IMG = n => 'img/' + n + '.png';
 const STEP_IMG = { m0655: 'fox-cup', m0700: 'hero', m0710: 'BF', m0725: 'isaac-basket', m0730: 'teddy', m0745: 'BF', m0800: 'cereal-rings', m0805: 'backpacks', m0815: 'sun',
   e1800: 'toys', e1830: 'fox-couple', e1900: 'teddy', e1910: 'bath', e1930: 'moon', e1940: 'toothbrush', e1950: 'backpacks', e1955: 'bunny-books', e2015: 'moon', e2030: 'family-reading',
   a1610: 'backpacks', a1630: 'cereal-banana', a1710: 'sun', a1730: 'toys', p1610: 'backpacks', p1630: 'cereal-banana', p1710: 'sun', w1830: 'bath', w1900: 'fox-cup', w1905: 'fox-couple', w1930: 'toothbrush', w1945: 'teddy', w1955: 'bunny-books', w2015: 'moon', w2030: 'family-reading' };
-const BF_IMG = { b1: 'oatmeal', b2: 'eggs', b3: 'yogurt', b4: 'toast', b5: 'pancakes', 'b-planb': 'cereal-banana', 'b-steps': 'cereal-rings',
+const BF_IMG = { b1: 'oatmeal', b2: 'eggs', b3: 'yogurt', b4: 'toast', b5: 'pancakes', 'b-planb': 'cereal-banana', 'b-steps': 'bf-family-kitchen',
   b6: 'bf-skyr', b7: 'bf-banana-pancakes', b8: 'bf-soft-egg', b9: 'bf-quark', b10: 'bf-omelette', b11: 'bf-overnight-oats', b12: 'bf-smoothie', b13: 'bf-ricotta-toast', b14: 'bf-egg-muffins', b15: 'bf-pb-toast', b16: 'bf-burrito', b17: 'bf-ricotta-pancakes', b18: 'bf-pan-tomate', b19: 'bf-french-toast', b20: 'bf-sandwich' };
 const CAT_COLOR = { principle: SAGE, agreement: OCHRE, routine: NAVY, situation: OCHRE, phrase: SAGE, story: NAVY, breakfast: OCHRE, note: NAVY };
 const T = {
@@ -1938,11 +1958,13 @@ Object.assign(AT.en, { profileTitle: 'Tell us about you', profileSub: 'Saved in 
 Object.assign(T.es, { bfm: { title: 'Menú de esta semana', sub: 'Toca un día para cambiar su receta, o deja que el azar elija cinco y un plan B.', random: 'Al azar', planB: 'Plan B', change: 'Cambiar', close: 'Cerrar', view: 'Ver receta', prot: 'proteína',
   pickDay: d => 'Desayuno del ' + d, pickSub: n => 'Elige entre las ' + n + ' recetas.', pickB: 'Plan B', pickBSub: 'Solo recetas rápidas y sin complicaciones: es la red de seguridad.', alsoOn: x => 'También: ' + x, free: 'Sin día',
   book: 'Recetario', bookSub: n => n + ' recetas · toca una para ver ingredientes y pasos.', ing: 'Ingredientes', steps: 'Paso a paso', adult: 'Con un adulto', nut: 'Valor nutricional', nutNote: 'Por ración infantil · valores aproximados.',
-  kcal: 'Energía', protein: 'Proteína', carbs: 'Hidratos', fat: 'Grasas', fiber: 'Fibra', portion: '1 ración infantil', quick: 'rápida' } });
+  kcal: 'Energía', protein: 'Proteína', carbs: 'Hidratos', fat: 'Grasas', fiber: 'Fibra', portion: '1 ración infantil', quick: 'rápida',
+  bannerK: 'Cómo cocinamos', bannerCta: 'Ver cómo lo hacemos', bookCard: n => n + ' recetas. Desde aquí también puedes asignar cualquiera a un día.', back: 'Menú de la semana', assign: 'Asignar a un día', swap: 'Cambiar por otra receta', swapClose: 'Cancelar', onlyQuick: 'El plan B solo admite recetas rápidas.' } });
 Object.assign(T.en, { bfm: { title: "This week's menu", sub: 'Tap a day to change its recipe, or let chance pick five plus a Plan B.', random: 'Shuffle', planB: 'Plan B', change: 'Change', close: 'Close', view: 'See recipe', prot: 'protein',
   pickDay: d => d + ' breakfast', pickSub: n => 'Choose from all ' + n + ' recipes.', pickB: 'Plan B', pickBSub: 'Quick, no-fuss recipes only: it’s the safety net.', alsoOn: x => 'Also: ' + x, free: 'No day',
   book: 'Recipe book', bookSub: n => n + ' recipes · tap one for ingredients and steps.', ing: 'Ingredients', steps: 'Step by step', adult: 'With a grown-up', nut: 'Nutrition', nutNote: 'Per child portion · approximate values.',
-  kcal: 'Energy', protein: 'Protein', carbs: 'Carbohydrates', fat: 'Fat', fiber: 'Fibre', portion: '1 child portion', quick: 'quick' } });
+  kcal: 'Energy', protein: 'Protein', carbs: 'Carbohydrates', fat: 'Fat', fiber: 'Fibre', portion: '1 child portion', quick: 'quick',
+  bannerK: 'How we cook', bannerCta: 'See how we do it', bookCard: n => n + ' recipes. You can also assign any of them to a day from here.', back: "This week's menu", assign: 'Assign to a day', swap: 'Swap for another recipe', swapClose: 'Cancel', onlyQuick: 'Plan B only takes quick recipes.' } });
 Object.assign(T.es, { coreKicker: 'El núcleo de nuestro sistema', coreRead: 'Leer el manifiesto' });
 Object.assign(T.en, { coreKicker: 'The core of our system', coreRead: 'Read the manifesto' });
 Object.assign(T.es, { docsTitle: 'Nuestros documentos', docOpen: 'Abrir', docDownload: 'Descargar', docAlt: 'Descargar en inglés', docs: { manual: { kicker: 'Manual · 12 páginas', title: 'Nuestro ritmo familiar', meta: 'Mañana y noche, roles, reglas del equipo, desayunos e imprevistos.' }, poster: { kicker: 'Póster · A3', title: 'Nuestro ritmo, para la pared', meta: 'Mañana y noche de un vistazo. Imprímelo para la cocina o el pasillo.' } } });
@@ -2538,20 +2560,27 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const B = t.bfm, R = K.RECIPES || [], plan = this.bfPlan(), pick = this.state.bfPick;
     const rec = id => R.find(r => r.id === id) || R[0], slots = [1, 2, 3, 4, 5, 'b'];
     const slotName = k => k === 'b' ? B.planB : t.days[k], meta = r => r.n[1] + ' g ' + B.prot + ' · ' + r.m + ' min';
-    const days = slots.map(k => { const r = rec(plan[k]), on = pick === k;
-      return { day: slotName(k), dish: this.tx(r.dish), img: IMG(r.img), meta: meta(r), action: on ? B.close : B.change, tone: k === 'b' ? SAGE : 'var(--acc, #AD5528)', bg: on ? 'var(--accSoft, #FDEFE4)' : k === dow ? '#FBF1E4' : 'transparent', go: () => this.setState({ bfPick: on ? null : k }) }; });
+    const days = slots.map(k => { const r = rec(plan[k]), today = k === dow;
+      return { day: slotName(k), dish: this.tx(r.dish), sum: this.tx(r.s), img: IMG(r.img), meta: meta(r), tone: k === 'b' ? SAGE : 'var(--acc, #AD5528)', bd: today ? 'var(--acc, #AD5528)' : '#ECE6DB', go: () => this.setState({ detail: r.id, detailSlot: k, bfPick: null }) }; });
+    const st = K.ENTRIES.find(e => e.id === 'b-steps');
     const options = pick == null ? [] : (pick === 'b' ? R.filter(r => r.q) : R).map(r => { const cur = plan[pick] === r.id, used = slots.filter(k => k !== pick && plan[k] === r.id).map(slotName);
-      return { name: this.tx(r.dish), img: IMG(r.img), meta: meta(r), bg: cur ? 'var(--accSoft, #FDEFE4)' : '#FFFDF8', bd: cur ? 'var(--acc, #AD5528)' : '#ECE6DB', used: used.length ? B.alsoOn(used.join(', ')) : '', hasUsed: !!used.length, choose: () => this.bfSet(pick, r.id), view: () => this.setState({ detail: r.id }) }; });
-    const cards = [...R, ...K.ENTRIES.filter(e => e.id === 'b-steps')].map(r => { const e = K.ENTRIES.find(x => x.id === r.id) || r, c = this.card(e), on = slots.filter(k => plan[k] === r.id).map(slotName);
-      return { ...c, kicker: r.n ? (on.length ? on.join(' · ') : B.free) : t.cats.breakfast, kickColor: on.length ? 'var(--acc, #AD5528)' : '#8A877E', meta: r.n ? meta(r) : '' }; });
+      return { name: this.tx(r.dish), img: IMG(r.img), meta: meta(r), bg: cur ? 'var(--accSoft, #FDEFE4)' : '#FFFDF8', bd: cur ? 'var(--acc, #AD5528)' : '#ECE6DB', used: used.length ? B.alsoOn(used.join(', ')) : '', hasUsed: !!used.length, choose: () => { this.bfSet(pick, r.id); this.setState({ detail: r.id, detailSlot: pick }); } }; });
+    const cards = R.map(r => { const e = K.ENTRIES.find(x => x.id === r.id) || r, c = this.card(e), on = slots.filter(k => plan[k] === r.id).map(slotName);
+      return { ...c, open: () => this.setState({ detail: r.id, detailSlot: null, bfPick: null }), kicker: on.length ? on.join(' · ') : B.free, kickColor: on.length ? 'var(--acc, #AD5528)' : '#8A877E', meta: meta(r) }; });
     return { title: B.title, sub: B.sub, randomLbl: B.random, random: () => this.bfRandom(), days, pickOpen: pick != null, pickTitle: pick == null ? '' : pick === 'b' ? B.pickB : B.pickDay(t.days[pick]), pickSub: pick === 'b' ? B.pickBSub : B.pickSub(R.length),
-      options, closePick: () => this.setState({ bfPick: null }), closeLbl: B.close, viewLbl: B.view, bookTitle: B.book, bookSub: B.bookSub(R.length), cards };
+      options, closePick: () => this.setState({ bfPick: null }), closeLbl: B.close, bookTitle: B.book, bookSub: B.bookSub(R.length), cards,
+      book: !!this.state.bfBook, notBook: !this.state.bfBook, openBook: () => { this.setState({ bfBook: true }); window.scrollTo(0, 0); }, closeBook: () => { this.setState({ bfBook: false }); window.scrollTo(0, 0); }, backLbl: B.back, bookCardSub: B.bookCard(R.length), bookImgs: ['bf-skyr', 'pancakes', 'eggs'].map(n => ({ img: IMG(n) })),
+      bnK: B.bannerK, bnTitle: st ? this.tx(st.t) : '', bnSum: st ? this.tx(st.s) : '', bnCta: B.bannerCta, bnImg: IMG('bf-family-kitchen'), openSteps: () => this.setState({ detail: 'b-steps', detailSlot: null }) };
   }
   recipeVals(de, K, t, lang) {
     const r = de.cat === 'breakfast' && K.RECIPES ? K.RECIPES.find(x => x.id === de.id) : null, B = t.bfm;
     if (!r) return { isRecipe: false };
     const nl = [[B.kcal, r.n[0] + ' kcal'], [B.protein, r.n[1] + ' g'], [B.carbs, r.n[2] + ' g'], [B.fat, r.n[3] + ' g'], [B.fiber, r.n[4] + ' g']];
-    return { isRecipe: true, rMeta: r.m + ' min · ' + B.portion + (r.q ? ' · ' + B.quick : ''), ingTitle: B.ing, stepsTitle: B.steps, nutTitle: B.nut, nutNote: B.nutNote,
+    const plan = this.bfPlan(), slot = this.state.detailSlot, canSwap = slot != null && plan[slot] === r.id;
+    const chips = [1, 2, 3, 4, 5, 'b'].filter(k => k !== 'b' || r.q).map(k => { const on = plan[k] === r.id;
+      return { lbl: k === 'b' ? B.planB : t.days[k], bg: on ? 'var(--acc, #AD5528)' : '#FFFDF8', fg: on ? '#FFFFFF' : '#2A2F2B', bd: on ? 'var(--acc, #AD5528)' : '#DDD5C8', go: () => this.bfSave({ ...plan, [k]: r.id }) }; });
+    return { isRecipe: true, rMeta: r.m + ' min · ' + B.portion + (r.q ? ' · ' + B.quick : ''),
+      assignLbl: B.assign, chips, canSwap, swapLbl: this.state.bfPick != null ? B.swapClose : B.swap, swap: () => this.setState(s => ({ bfPick: s.bfPick != null ? null : slot })), pickHere: canSwap && this.state.bfPick != null, ingTitle: B.ing, stepsTitle: B.steps, nutTitle: B.nut, nutNote: B.nutNote,
       ing: r.i[lang].map(x => ({ text: x })),
       rSteps: r.p[lang].map((x, i) => { const adult = x.includes('*'); return { n: String(i + 1), text: x.replace('*', ''), adult, tag: B.adult, numBg: adult ? '#E4EAF2' : 'var(--accSoft, #FDEFE4)', numFg: adult ? '#33466E' : 'var(--acc2, #8C6A55)' }; }),
       nut: nl.map(([k, v], i) => ({ k, v, bg: i % 2 ? 'transparent' : '#F5F1EA', w: i === 1 ? '700' : '500' })) };
@@ -3187,7 +3216,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       ].map((d, i) => { const cur = d[lang], alt = d[lang === 'es' ? 'en' : 'es']; return { title: t.docs[d.key].title, kicker: t.docs[d.key].kicker, meta: t.docs[d.key].meta, bg: d.bg, tone: d.tone, delay: (i * 60) + 'ms',
         href: 'docs/' + cur[0], file: cur[0], thumb: 'docs/' + cur[1], altHref: 'docs/' + alt[0], altFile: alt[0], altLbl: t.docAlt }; }),
       detailOpen: !!de, dt, bw: bwv, gOpen: gOpen && !de, gf, md, anyModal, acctOpen: acctOpen && !de && !gOpen, acc,
-      closeAll: () => { clearTimeout(this.gt); this.setState({ detail: null, gStep: null, relevo: false, acct: false }); },
+      closeAll: () => { clearTimeout(this.gt); this.setState({ detail: null, detailSlot: null, bfPick: null, gStep: null, relevo: false, acct: false }); },
       modalAlign: sheet ? 'flex-end' : 'center', modalPad: sheet ? '0' : '24px', modalRadius: sheet ? '28px 28px 0 0' : '28px', modalW: de ? '660px' : '480px',
       teamDate: dateLbl,
       fields: ['worked', 'stuck', 'tweak', 'idea'].map(k => ({ label: t.q[k], value: d[k] || '', onChange: e => setD(k, e.target.value) })),
