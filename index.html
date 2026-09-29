@@ -2835,7 +2835,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         const n = await G.syncEvents(cid, tz, this.buildEvents(me, lang));
         const fam = this.family(); if (fam) { fam.members = (fam.members || []).map(m => m.role === me ? { ...m, calendarId: cid } : m); this.saveFamily(fam); }
         if (this.apiUrl()) G.callApi(this.apiUrl(), 'setPrefs', { calendarId: cid }).catch(() => {});
-        try { localStorage.setItem('gsp:calTz:' + me, tz + '|w2'); } catch (e) {}
+        try { localStorage.setItem('gsp:calTz:' + me, tz + '|w3'); } catch (e) {}
         this.setState({ syncMsg: T0.synced(n) });
       } else { await new Promise(r => setTimeout(r, 700)); this.setState({ syncMsg: T0.synced(this.buildEvents(me, lang).length) }); }
     } catch (err) { this.setState({ syncMsg: String(err.message || err) }); }
@@ -3353,7 +3353,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
 
   // time zone (family setting, default Spain)
   tipsFor(id, lang) { return (TIPS[id] || []).map(([p, es, en]) => ({ p: PILLAR[p][lang], text: lang === 'es' ? es : en })); }
-  tz() { const f = this.family(); return (f && f.tz) || 'Europe/Madrid'; }
+  tz() { const f = this.family(); const z = (f && f.tz) || 'Europe/Madrid'; return z === 'America/Guatemala' && localStorage.getItem('gsp:tzfix1') !== 'user' ? 'Europe/Madrid' : z; }
   tzNow() {
     try {
       const P = {}; new Intl.DateTimeFormat('en-US', { timeZone: this.tz(), weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(new Date()).forEach(x => { P[x.type] = x.value; });
@@ -3369,6 +3369,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
   }
   setTz(v) {
     const f = this.family() || {}; this.saveFamily({ ...f, tz: v }); this.forceUpdate();
+    try { localStorage.setItem('gsp:tzfix1', v === 'America/Guatemala' ? 'user' : '1'); } catch (e) {}
     if (this.real() && this.apiUrl()) this.state.G.callApi(this.apiUrl(), 'setFamily', { tz: v }).catch(() => {});
   }
   stepsFor(dow) {
@@ -3415,14 +3416,16 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
 
   // Backend refresh (family, notes, ideas)
   async pullApi() {
-    setTimeout(() => { try { const G = this.state.G, me = this.state.session; if (this.real() && G && G.isConnected && G.isConnected() && (this.state.google || {})[me] && localStorage.getItem('gsp:calTz:' + me) !== this.tz() + '|w2') this.resync(); } catch (e) {} }, 2500);
+    setTimeout(() => { try { const G = this.state.G, me = this.state.session; if (this.real() && G && G.isConnected && G.isConnected() && (this.state.google || {})[me] && localStorage.getItem('gsp:calTz:' + me) !== this.tz() + '|w3') this.resync(); } catch (e) {} }, 2500);
     const G = this.state.G, api = this.apiUrl(); if (!G || !api || this.devMode() || !this.state.session) return;
     try {
       const pf = await G.callApi(api, 'me', {});
       if (pf && pf.members) {
         const old = this.family() || {};
         const members = pf.members.map(m => ({ ...((old.members || []).find(x => x.role === m.role) || {}), ...m }));
-        this.saveFamily({ ...old, id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, tz: pf.tz || old.tz, members }); this.forceUpdate();
+        let ztz = pf.tz || old.tz; const fixed = localStorage.getItem('gsp:tzfix1');
+        if (ztz === 'America/Guatemala' && fixed !== 'user') { ztz = 'Europe/Madrid'; if (!fixed) { localStorage.setItem('gsp:tzfix1', '1'); G.callApi(api, 'setFamily', { tz: ztz }).catch(() => {}); } }
+        this.saveFamily({ ...old, id: pf.id, name: pf.name, code: pf.code, createdBy: pf.createdBy, tz: ztz, members }); this.forceUpdate();
       }
     } catch (e) {}
     try {
