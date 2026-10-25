@@ -417,11 +417,25 @@ function weeklyDigest() {
   });
 }
 /** Recordatorio de la noche anterior (8:45 pm, dom–jue). */
+// ---------------- Avisos push (OneSignal) ----------------
+// Propiedades del script: ONESIGNAL_APP_ID y ONESIGNAL_KEY (REST API Key de la app «The Gentle Stoic Parent» en OneSignal).
+// Cada teléfono queda ligado al correo del miembro (lo hace instalar.js al activar las notificaciones).
+function pushA_(email, titulo, texto, url) {
+  const p = PropertiesService.getScriptProperties(), app = p.getProperty('ONESIGNAL_APP_ID'), key = p.getProperty('ONESIGNAL_KEY');
+  email = String(email || '').trim().toLowerCase();
+  if (!app || !key || !email) return { ok: false, error: 'sin configurar' };
+  const r = UrlFetchApp.fetch('https://api.onesignal.com/notifications?c=push', { method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+    headers: { Authorization: 'Key ' + key },
+    payload: JSON.stringify({ app_id: app, target_channel: 'push', include_aliases: { external_id: [email] },
+      headings: { en: titulo, es: titulo }, contents: { en: texto, es: texto }, url: url || CFG.APP_URL }) });
+  return { ok: r.getResponseCode() < 300, http: r.getResponseCode() };
+}
 function eveningPrep() {
   const d = new Date(); const dow = d.getDay(); if (dow === 5 || dow === 6) return;
   const TOMORROW_TAKE = { 0: 'Juan', 1: 'Christine', 2: 'Juan', 3: 'Christine', 4: 'Juan' }; // ajusta a tu semana
   rows_('Miembros').filter(m => m.avisosCorreo !== 'no').forEach(m => {
     const es = m.idioma !== 'en', take = TOMORROW_TAKE[dow] === m.rol;
+    try { pushA_(m.email, es ? 'Mañana empieza esta noche' : 'Tomorrow starts tonight', es ? (take ? 'Mañana llevas a los niños. ' : 'Mañana estás en casa. ') + 'Mochilas en la puerta, ropa elegida y desayuno pensado.' : (take ? "Tomorrow you're on the school run. " : "Tomorrow you're home. ") + 'Backpacks by the door, clothes chosen, breakfast planned.'); } catch (e) {}
     send_('noche', m.email, es ? 'Para mañana: ' + (take ? 'llevas a los niños' : 'mañana en casa') : 'Tomorrow: ' + (take ? 'school run' : 'home morning'), tpl_({
       lang: es ? 'es' : 'en', image: 'mail-evening.jpg', kicker: es ? 'Antes de dormir' : 'Before bed',
       title: es ? 'Mañana empieza esta noche.' : 'Tomorrow starts tonight.',
