@@ -36,7 +36,7 @@ function doPost(e) {
     if (body.action === 'passwordLogin') return json_({ ok: true, data: passwordLogin_(body.payload || {}) });
     const a = body.action, pl = body.payload || {};
     let user;
-    if (a === 'lookupInvite') user = null;
+    if (a === 'lookupInvite' || a === 'almaVerificar') user = null;   // almaVerificar: lo llama el Hub con un pase de un solo uso
     else if (a === 'createFamily' || a === 'joinFamily') user = (pl.method === 'google' && body.accessToken) ? verifyToken_(body.accessToken) : pwUser_(pl);
     else if (a === 'me' && body.accessToken) user = verifyToken_(body.accessToken);
     else if (body.session && body.session.key) user = verifySession_(body.session);
@@ -85,6 +85,20 @@ function uniqueCode_(want) {
   return k;
 }
 function code_() { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 6; i++) s += A[Math.floor(Math.random() * A.length)]; return s; }
+// Usuarios unificados con Spacio AM: si esta persona es administradora en el «Control de usuarios» (mismo correo o
+// correo alterno), el Hub firma su llamada y Alma puede pedirle cosas de trabajo a la secretaria en su nombre.
+const HUB_URL_ = 'https://script.google.com/macros/s/AKfycbzTdkEpRPgnwaUIHWbQmrysPEqGYqTqDKYwMaQlnun-OT7B2hIa6KdSNS-aedWN-I0cZQ/exec';
+function almaHub_(ctx) {
+  const m = ctx.me, c = CacheService.getScriptCache(), pase = Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '').slice(0, 8);
+  const emails = [m.email, m.correoContacto, m.googleEmail].map(e => String(e || '').trim().toLowerCase()).filter(Boolean);
+  c.put('almapase_' + pase, JSON.stringify({ emails, rol: m.rol, familia: ctx.family.id }), 120);
+  try {
+    const url = PropertiesService.getScriptProperties().getProperty('HUB_URL') || HUB_URL_;
+    const r = UrlFetchApp.fetch(url, { method: 'post', contentType: 'text/plain;charset=utf-8', payload: JSON.stringify({ gspPase: pase }), muteHttpExceptions: true, followRedirects: true });
+    const j = JSON.parse(r.getContentText() || '{}');
+    return j && j.ok ? j : { admin: false };
+  } finally { c.remove('almapase_' + pase); }
+}
 function almaPermitida_(ctx) {
   const ids = String(PropertiesService.getScriptProperties().getProperty('ALMA_FAMILIAS') || '').split(/[\s,;]+/).filter(Boolean);
   if (ids.indexOf(String(ctx.family.id)) >= 0) return true;
@@ -232,6 +246,7 @@ const ACTIONS = {
     const me = ctx.me, otros = ctx.members.filter(m => m.rol !== me.rol);
     const nom = m => (m.apodo || m.nombre || m.rol);
     const en = String(p.lang || me.idioma || 'es') === 'en';
+    let hub = { admin: false }; try { hub = almaHub_(ctx) || hub; } catch (e) { console.error('almaHub_: ' + e); }
     const ficha = [
       'Hablas con ' + nom(me) + (me.nombre && me.nombre !== nom(me) ? ' (' + me.nombre + ')' : '') + ', de la familia ' + (ctx.family.nombre || '') + '.',
       otros.length ? 'Su pareja y compañero de equipo: ' + otros.map(nom).join(', ') + '.' : '',
@@ -241,10 +256,17 @@ const ACTIONS = {
     return {
       ok: true,
       agent_id: props.getProperty('ALMA_AGENT_ID') || 'agent_7201m5sr6rhvfg9vsf7227s8verp',
-      dynamic_variables: { ficha },
+      dynamic_variables: { ficha: ficha + '\n' + (hub.admin ? 'Es ' + (hub.principal ? 'el administrador principal' : 'administrador') + ' de Spacio AM: la misma persona del Hub. Si te pide algo concreto de trabajo, puedes usar secretaria.' : 'No es administrador de Spacio AM: no uses secretaria.'), sa_web: hub.sa_web || '' },
       first_message: en ? 'Hi ' + nom(me) + '! I\'m here. How\'s everything going?' : '¡Hola, ' + nom(me) + '! Aquí estoy. ¿Cómo va todo?',
       language: en ? 'en' : 'es',
     };
+  },
+  // El Hub confirma un pase de almaFicha (un solo uso, 2 min): así sabe quién es sin compartir contraseñas ni sesiones.
+  almaVerificar(p) {
+    const c = CacheService.getScriptCache(), k = 'almapase_' + String(p.pase || '').slice(0, 80), v = c.get(k);
+    if (!v) throw new Error('Pase no válido');
+    c.remove(k);
+    return JSON.parse(v);
   },
   almaGuardar(p, u) {
     const ctx = familyOf_(u.email); if (!ctx) throw new Error('Sin familia');
