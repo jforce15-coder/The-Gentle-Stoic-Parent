@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="./support.js"></script>
+<script src="./llegada.js"></script>
 </head>
 <body>
 <x-dc>
@@ -3643,7 +3644,14 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       alma: this._almaOk ? this._alma : null,
       onNavigate: k => { this.setState({ tab: k, view: k === 'home' ? 'hoy' : this.state.view }); window.scrollTo(0, 0); if (k === 'ask') this.scrollToAsk(); },
     };
-    if (!this._navOn) { this._navOn = true; SANav.mount(c); } else SANav.update(c);
+    if (!this._navOn) { this._navOn = true; SANav.mount(c); this.instalarRevisar(); } else SANav.update(c);
+  }
+  // Tenerla como app (Safari / pantalla de inicio / Android) y activar las notificaciones, con Alma (instalar.js).
+  instalarRevisar() {
+    if (this.devMode()) return;
+    const ir = () => { try { const se = JSON.parse(localStorage.getItem('gsp:sess') || 'null') || {}; GSPInstalar.revisar({ lang: this.state.lang, email: se.email || '', appId: (window.GSP_CONFIG && GSP_CONFIG.oneSignalAppId) || '' }); } catch (e) {} };
+    if (window.GSPInstalar) { ir(); return; }
+    const s = document.createElement('script'); s.src = new URL('instalar.js', document.baseURI).href; s.onload = ir; document.head.appendChild(s);
   }
   almaProvider() {
     const G = this.state.G, api = this.apiUrl();
