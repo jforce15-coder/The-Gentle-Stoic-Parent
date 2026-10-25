@@ -3682,7 +3682,9 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     q = String(q || '').trim(); if (!q) return 'Dime qué buscar en la biblioteca.';
     if (!this.state.kb) return 'La biblioteca todavía está cargando; responde con los principios generales.';
     const ses = this.state.session;
-    const list = this.allEntries().filter(e => e.cat !== 'note' || (e.note && (e.note.vis === 'shared' || e.note.author === ses)));
+    // Recetas solo si se pregunta por comida; lo demás (principios, acuerdos, situaciones, cuentos) va primero.
+    const comida = /desayun|comida|comer|receta|cena|merienda|almuerzo|breakfast|food|eat|recipe|snack/i.test(q);
+    const list = this.allEntries().filter(e => (e.cat !== 'note' || (e.note && (e.note.vis === 'shared' || e.note.author === ses))) && (comida || e.cat !== 'breakfast'));
     const hits = this.search(q, list, 4);
     if (!hits.length) return 'No hay nada en la biblioteca sobre «' + q + '». Responde con los principios de la metodología y dilo con naturalidad.';
     const cat = { principle: 'principio', agreement: 'acuerdo de la familia', situation: 'situación', story: 'cuento', breakfast: 'receta', routine: 'rutina', phrase: 'frase', note: 'nota de equipo', idea: 'idea' };
