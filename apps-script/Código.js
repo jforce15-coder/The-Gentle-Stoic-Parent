@@ -23,6 +23,7 @@ const TABS = {
   Menus: ['familiaId', 'fecha', 'autor', 'json'],
   Archivos: ['familiaId', 'fecha', 'autor', 'nombre', 'driveId', 'enlace'],
   Correos: ['fecha', 'tipo', 'para', 'asunto', 'estado'],
+  Alma: ['familiaId', 'fecha', 'autor', 'conversacion', 'origen', 'texto'],   // conversaciones con Alma por voz (vida personal, aparte del trabajo)
 };
 
 // ---------------- HTTP ----------------
@@ -84,6 +85,12 @@ function uniqueCode_(want) {
   return k;
 }
 function code_() { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 6; i++) s += A[Math.floor(Math.random() * A.length)]; return s; }
+function almaPermitida_(ctx) {
+  const ids = String(PropertiesService.getScriptProperties().getProperty('ALMA_FAMILIAS') || '').split(/[\s,;]+/).filter(Boolean);
+  if (ids.indexOf(String(ctx.family.id)) >= 0) return true;
+  let duenio = ''; try { duenio = String(Session.getEffectiveUser().getEmail() || '').toLowerCase(); } catch (e) {}
+  return !!duenio && ctx.members.some(m => [m.email, m.correoContacto, m.googleEmail].some(e => String(e || '').toLowerCase() === duenio));
+}
 function familyOf_(email) {
   const m = rows_('Miembros').find(x => String(x.email).toLowerCase() === email || String(x.correoContacto).toLowerCase() === email || String(x.googleEmail || '').toLowerCase() === email);
   if (!m) return null;
@@ -214,6 +221,38 @@ const ACTIONS = {
     if (ctx.members.some(m => m.rol !== ctx.me.rol && String(m.color || '').toLowerCase() === c.toLowerCase())) throw new Error('Ese color ya lo usa tu pareja.');
     ctx.me.color = c; update_('Miembros', ctx.me.__row, ctx.me);
     return { saved: true };
+  },
+
+  // Alma por voz (el menú compartido del Hub de Spacio AM, con su agente familiar aparte).
+  // Disponible para la familia del dueño del script y para las que estén en la propiedad ALMA_FAMILIAS (ids separados por coma).
+  almaFicha(p, u) {
+    const ctx = familyOf_(u.email); if (!ctx) throw new Error('Sin familia');
+    if (!almaPermitida_(ctx)) throw new Error('Alma no está activada para esta familia');
+    const props = PropertiesService.getScriptProperties();
+    const me = ctx.me, otros = ctx.members.filter(m => m.rol !== me.rol);
+    const nom = m => (m.apodo || m.nombre || m.rol);
+    const en = String(p.lang || me.idioma || 'es') === 'en';
+    const ficha = [
+      'Hablas con ' + nom(me) + (me.nombre && me.nombre !== nom(me) ? ' (' + me.nombre + ')' : '') + ', de la familia ' + (ctx.family.nombre || '') + '.',
+      otros.length ? 'Su pareja y compañero de equipo: ' + otros.map(nom).join(', ') + '.' : '',
+      'Zona horaria de la familia: ' + (ctx.family.zona || CFG.TZ) + '.',
+      en ? 'Prefers English: answer in English unless they speak Spanish.' : ''
+    ].filter(Boolean).join('\n');
+    return {
+      ok: true,
+      agent_id: props.getProperty('ALMA_AGENT_ID') || 'agent_7201m5sr6rhvfg9vsf7227s8verp',
+      dynamic_variables: { ficha },
+      first_message: en ? 'Hi ' + nom(me) + '! I\'m here. How\'s everything going?' : '¡Hola, ' + nom(me) + '! Aquí estoy. ¿Cómo va todo?',
+      language: en ? 'en' : 'es',
+    };
+  },
+  almaGuardar(p, u) {
+    const ctx = familyOf_(u.email); if (!ctx) throw new Error('Sin familia');
+    if (!almaPermitida_(ctx)) throw new Error('Alma no está activada para esta familia');
+    const conv = String(p.conv || '').slice(0, 80), msgs = Array.isArray(p.msgs) ? p.msgs.slice(0, 200) : [];
+    const sh = sh_('Alma'), filas = msgs.filter(m => m && m.x).map(m => [ctx.family.id, new Date(Number(m.t) || Date.now()).toISOString(), ctx.me.rol, conv, m.o === 'ai' ? 'Alma' : ctx.me.rol, String(m.x).slice(0, 4000)]);
+    if (filas.length) sh.getRange(sh.getLastRow() + 1, 1, filas.length, TABS.Alma.length).setValues(filas);
+    return { saved: filas.length };
   },
 
   // Repositorio de ideas (notas de equipo convertidas en fichas de la biblioteca)
