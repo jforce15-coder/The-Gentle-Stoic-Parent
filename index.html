@@ -1339,7 +1339,7 @@
     </main>
     </div>
 
-  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+  <sc-if value="{{ oldNav }}" hint-placeholder-val="{{ false }}">
     <div style="position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; padding: 0 12px calc(10px + env(safe-area-inset-bottom)); display: flex; justify-content: center; pointer-events: none;">
       <nav aria-label="{{ t.menuLbl }}" data-glass="1" style="pointer-events: auto; width: 100%; max-width: 560px; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; padding: 6px 6px 8px; background: rgba(255,254,251,0.68); backdrop-filter: blur(26px) saturate(180%) brightness(1.06); -webkit-backdrop-filter: blur(26px) saturate(180%) brightness(1.06); border: 1px solid rgba(255,255,255,0.7); border-radius: 30px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(80,64,44,0.04), 0 1px 2px rgba(80,64,44,0.06), 0 16px 40px rgba(80,64,44,0.14);">
         <sc-for list="{{ tabs }}" as="n" hint-placeholder-count="5">
@@ -3040,6 +3040,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
 
   gRef = el => { this.gEl = el; if (el) this.mountGsi(); };
   componentDidUpdate() {
+    try { this.almaNav(); } catch (e) {}
     const au = this.state.au;
     if (!this.state.session && (au.step === 'invite' || au.step === 'calendar') && au.role && !au.saving && !au.saved && !au.saveErr) this.saveAccount();
   }
@@ -3061,7 +3062,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const navDefs = [['home', 'sun'], ['rhythm', 'pancakes'], ['library', 'bunny-books'], ['team', 'fox-couple'], ['reminders', 'backpacks']];
     const goTab = v => { this.setState({ tab: v, view: v === 'home' ? 'hoy' : this.state.view }); window.scrollTo(0, 0); };
     const base = {
-      ...baseAuth, th, t, lang, me, tab, isDesktop, isMobile: !isDesktop, meColor: PC(me),
+      ...baseAuth, th, t, lang, me, tab, isDesktop, isMobile: !isDesktop, oldNav: !isDesktop && !this._navOk, meColor: PC(me),
       brandA: this.state.w < 420 ? 'Gentle Stoic' : 'The Gentle Stoic',
       userColor: PC(ses), userInitial: ses[0], viewingOther: me !== ses, meTint: MIX(PC(me), 0.2), nxWho: this.nick(me),
       viewingText: t.viewing(me), backToMeLbl: t.backToMe, backToMe: () => this.setState({ me: ses }),
@@ -3593,6 +3594,68 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const members = (f.members || []).some(m => m.role === ses) ? f.members.map(m => m.role === ses ? { ...m, color: c } : m) : [...(f.members || []), { role: ses, color: c }];
     this.saveFamily({ ...f, members }); PCOL[ses] = c; this.forceUpdate();
     if (this.real() && this.apiUrl()) this.state.G.callApi(this.apiUrl(), 'setColor', { color: c }).catch(() => {});
+  }
+
+  // ---------- Menú compartido y Alma por voz ----------
+  // El menú (y Alma al centro) es el mismo objeto del Hub de Spacio AM: se carga desde hub.spacioam.com, así cada mejora
+  // del Hub llega sola. Aquí el halo toma el color de quien usa la app; en Equipo (y en reunión de los dos) vuelve al del Hub.
+  // Lo que se habla con Alma aquí se guarda en la pestaña «Alma» de la hoja familiar, aparte del trabajo.
+  almaNav() {
+    const ses = this.state.session;
+    if (!ses) { if (this._navOn && window.SANav) SANav.hide(true); return; }
+    if (!this._navLoad) {
+      this._navLoad = true;
+      const H = 'https://hub.spacioam.com/js/', ld = src => new Promise((ok, ko) => { const s = document.createElement('script'); s.src = src; s.async = false; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
+      ld(H + 'sa-nav.js').then(() => ld(H + 'alma-voz.js').catch(() => {})).then(() => { this._navOk = !!window.SANav; this.forceUpdate(); }).catch(() => { this._navLoad = false; });
+      return;
+    }
+    if (!this._navOk) return;
+    this.almaProvider();
+    const tab = this.state.tab, lang = this.state.lang, t = T[lang];
+    const tint = tab === 'team' || this._reunion ? null : PC(ses);
+    const key = [ses, tab, lang, tint, !!this._almaOk, this.state.me].join('|');
+    if (this._alma) { try { this._alma.setContexto({ vista: tab + '|' + this.state.me }); } catch (e) {} }
+    if (key === this._navKey && this._navOn) return; this._navKey = key;
+    const ic = d => '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d + '"/></svg>';
+    const c = {
+      app: 'gsp', home: { k: 'home', l: t.nav.home }, current: tab, apps: [], tint, hidden: false,
+      items: [['rhythm', ic(ICON.clock)], ['ask', 'chat'], ['library', ic(ICON.book)], ['team', ic(ICON.rings)], ['reminders', ic(ICON.bell)]].map(([k, icon]) => ({ k, l: t.nav[k], icon })),
+      alma: this._almaOk ? this._alma : null,
+      onNavigate: k => { this.setState({ tab: k, view: k === 'home' ? 'hoy' : this.state.view }); window.scrollTo(0, 0); if (k === 'ask') this.scrollToAsk(); },
+    };
+    if (!this._navOn) { this._navOn = true; SANav.mount(c); } else SANav.update(c);
+  }
+  almaProvider() {
+    const G = this.state.G, api = this.apiUrl();
+    if (this._alma || !window.SAAlmaVoz || !SAAlmaVoz.crear || !G || !api || !this.real()) return;
+    const call = (a, p) => G.callApi(api, a, p || {});
+    this._almaBuf = [];
+    const flush = () => { const m = this._almaBuf.splice(0); if (m.length) call('almaGuardar', { conv: this._almaConv || '', msgs: m }).catch(() => { this._almaBuf.unshift(...m); }); };
+    this._alma = SAAlmaVoz.crear({
+      clave: 'gsp_alma_ficha:' + this.state.session,
+      ficha: () => call('almaFicha', { lang: this.state.lang }).then(d => Object.assign({ ok: true }, d)),
+      vincular: id => { this._almaConv = id; return Promise.resolve({ ok: true }); },
+      campoContexto: 'en_pantalla',
+      contexto: () => this.almaCtx(),
+      herramientas: {
+        modo_reunion: p => { const on = !!(p && (p.activo === true || p.activo === 'true')); if (on !== !!this._reunion) { this._reunion = on; this.almaNav(); } return on ? 'Reunión de equipo' : 'Una persona'; },
+      },
+      alMensaje: (o, x) => { this._almaBuf.push({ t: Date.now(), o, x }); clearTimeout(this._almaT); this._almaT = setTimeout(flush, 6000); },
+      alTerminar: () => { clearTimeout(this._almaT); flush(); this._almaConv = ''; if (this._reunion) { this._reunion = false; this.almaNav(); } },
+    });
+    // ¿Alma está activada para esta familia? (la primera respuesta también deja lista la ficha)
+    call('almaFicha', { lang: this.state.lang }).then(() => { this._almaOk = true; this.almaNav(); }).catch(() => {});
+  }
+  almaCtx() {
+    const ses = this.state.session, me = this.state.me, t = T.es, tab = this.state.tab;
+    const sec = { home: 'Inicio (el día de hoy)', rhythm: 'Ritmo (rutinas de mañana y noche)', ask: 'Preguntar', library: 'Biblioteca', team: 'Equipo (notas y acuerdos de los dos)', reminders: 'Recordatorios' }[tab] || (t.nav[tab] || tab);
+    let r = null; try { const { dow } = this.clock(); r = this.state.kb && this.myRoles(dow); } catch (e) {}
+    const d = new Date(), hora = d.toLocaleString('es', { weekday: 'long', hour: '2-digit', minute: '2-digit' });
+    return [
+      this.nick(ses) + ' está en la sección «' + sec + '» de la app' + (me !== ses ? ', viendo el día de ' + this.nick(me) : '') + '. Ahora: ' + hora + '.',
+      r ? 'Hoy a ' + this.nick(me) + ' le toca por la mañana ' + (r.am === 'take' ? 'llevar a los niños al colegio' : 'quedarse en casa') + ' y por la noche ' + (r.pm === 'dinner' ? 'la cena' : 'baño y cuentos') + '; ' + this.nick(r.partner) + ' hace lo otro.' : 'Hoy es fin de semana.',
+      'Hijos: Sophia e Isaac.',
+    ].join(' ');
   }
 
 }
