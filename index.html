@@ -1144,6 +1144,24 @@
             <h1 style="font-family: 'Literata', Georgia, serif; font-weight: 400; font-size: clamp(40px, 5.6vw, 72px); line-height: 1.02; letter-spacing: -0.02em; margin: 0;">{{ t.teamA }} <em style="font-weight: 400; color: var(--acc2, #8C6A55);">{{ t.teamB }}</em></h1>
             <p style="margin: 4px 0 0; font-size: 17px; line-height: 1.6; color: #5E5D57;">{{ t.teamSub }}</p>
           </div>
+          <sc-if value="{{ almaEquipoOn }}" hint-placeholder-val="{{ true }}">
+            <div style="background: #F5F1EA; border-radius: 28px; padding: clamp(18px, 4vw, 28px); display: flex; flex-direction: column; gap: 18px; max-width: 980px;">
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; color: var(--acc2, #8C6A55);">{{ ae.eyebrow }}</span>
+                <span style="font-family: 'Literata', Georgia, serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.2;">{{ ae.title }}</span>
+                <span style="font-size: 14.5px; line-height: 1.55; color: #5E5D57; max-width: 620px;">{{ ae.sub }}</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 12px;">
+                <sc-for list="{{ ae.modos }}" as="m" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ m.go }}" style="display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-align: left; min-height: 112px; padding: 18px 18px 16px; border-radius: 22px; border: 1px solid #ECE6DB; background: #FFFDF8; cursor: pointer; font-family: 'Figtree', sans-serif; color: #2A2F2B; transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1), box-shadow 200ms ease;" style-active="transform: scale(0.97);" style-hover="box-shadow: 0 10px 24px rgba(80,64,44,0.08);">
+                    <span style="font-family: 'Literata', Georgia, serif; font-size: 19px; line-height: 1.2;">{{ m.label }}</span>
+                    <span style="font-size: 13.5px; line-height: 1.5; color: #5E5D57;">{{ m.desc }}</span>
+                    <span style="margin-top: auto; padding-top: 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acc2, #8C6A55);">{{ ae.start }} →</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
           <div style="display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start;">
             <div style="flex: 1.3 1 min(100%, 420px); min-width: 0; background: #FFFDF8; border: 1px solid #ECE6DB; border-radius: 28px; padding: clamp(18px, 4vw, 32px); display: flex; flex-direction: column; gap: 24px;">
               <span style="font-family: 'Literata', Georgia, serif; font-style: italic; font-size: 21px; color: #6B6A63; text-transform: lowercase;">{{ teamDate }}</span>
@@ -3071,7 +3089,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
       tu: this.tutorialVals(lang), lk: this.linkVals(),
       goHome: () => goTab('home'), goReminders: () => goTab('reminders'), goTeam: () => goTab('team'), goRhythm: () => goTab('rhythm'),
       goAhora: () => { this.setState({ tab: 'home', view: 'ahora' }); window.scrollTo(0, 0); }, goHoy: () => { this.setState({ tab: 'home', view: 'hoy' }); window.scrollTo(0, 0); },
-      goAsk: () => { this.setState({ tab: 'ask' }); window.scrollTo(0, 0); this.scrollToAsk(); },
+      goAsk: () => { if (this._almaOk) { this.almaAbrir('mentor'); return; } this.setState({ tab: 'ask' }); window.scrollTo(0, 0); this.scrollToAsk(); },
       scatter: this.scatterVals(tab, view, this.state.rhythmView, isDesktop), scBand: (this._scBand || 0) + 'px',
       shellPad: isDesktop ? '248px' : '0px', isDev: this.devMode(), askBtnBg: tab === 'ask' ? 'var(--accDark, #F0AE7C)' : 'var(--accBtn, #F7C49C)', acctNick: this.nick(ses), famLine: this.familyLine(), nx: this.nextUp(lang),
       sideNav: [['home', 'today'], ['rhythm', 'rhythm'], ['library', 'library'], ['team', 'team'], ['reminders', 'reminders']].map(([v, k]) => { const on = tab === v; return { d: NAV_ICON[v], label: t.nav[k], go: () => goTab(v), cur: on ? 'page' : 'false', bg: on ? 'var(--accSoft, #FDEFE4)' : 'transparent', sh: 'none', fg: on ? INK : MUTED, weight: on ? 600 : 500, icBg: on ? 'var(--accBtn, #F7C49C)' : 'transparent', icFg: on ? INK : MUTED, hasDot: v === 'reminders' && !!(this.state.google || {})[me] }; }),
@@ -3255,24 +3273,25 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
 
     return {
       ...base,
-      showB: tab === 'home' && view === 'hoy', showA: tab === 'home' && view === 'ahora', showAskPanel: tab === 'home' || tab === 'ask',
+      showB: tab === 'home' && view === 'hoy', showA: tab === 'home' && view === 'ahora', showAskPanel: tab === 'home' || (tab === 'ask' && !this._almaOk),
+      almaEquipoOn: !!this._almaOk, ae: this.almaEquipoVals(lang),
       showRhythm: tab === 'rhythm', showLibrary: tab === 'library', showTeam: tab === 'team', showReminders: tab === 'reminders',
       a, b, quote, roles, hasRoles: roles.length > 0,
       greeting: t.greet[hour < 720 ? 0 : hour < 1140 ? 1 : 2] + ', ' + this.nick(ses),
       startBreath: () => this.startBreath(), openRelevo: () => this.setState({ relevo: true }),
       relevoOpen, relevoBody: t.relevoB(this.partner()),
       askInput: this.state.askInput, onAskChange: e => this.setState({ askInput: e.target.value }), askQ: this.state.askQ, asking: this.state.asking,
-      askBtnLbl: this.state.asking ? t.askingBtn : t.askBtn,
-      onAskSubmit: e => { e.preventDefault(); this.ask(this.state.askInput); },
+      askBtnLbl: this.state.asking ? t.askingBtn : this._almaOk ? (lang === 'en' ? 'Talk to Alma' : 'Hablar con Alma') : t.askBtn,
+      onAskSubmit: e => { e.preventDefault(); this.almaAbrir('mentor', this.state.askInput); },
       showSugg: !res && !this.state.asking,
-      suggestions: t.sugg.slice(0, isDesktop ? 6 : 4).map(s => ({ label: s, go: () => this.ask(s) })),
+      suggestions: t.sugg.slice(0, isDesktop ? 6 : 4).map(s => ({ label: s, go: () => this.almaAbrir('mentor', s) })),
       hasAnswer: !!(res && res.answer), res: res ? { ...res, hasSay: !!res.say, hasQuestion: !!res.question, hasAvoid: !!res.avoid, hasWhy: !!res.why, hasPrinciple: !!res.principle, offline: !!res.offline, hasSteps: !!(res.steps && res.steps.length), steps: (res.steps || []).map((x, i) => ({ n: String(i + 1), title: x.title || '', text: x.text || '' })) } : {}, askErr: this.state.askErr,
       related, hasRelated: related.length > 0,
       clearAsk: () => { this.setState({ askRes: null, askQ: '', askInput: '', askErr: false }); this.scrollToAsk(); },
       rhythmSeg: seg(['morning', 'evening', 'week', 'breakfast'].map(v => ({ value: v, label: t.rv[v] })), rv, v => this.setState({ rhythmView: v })).map((o, i) => ({ ...o, d: [ICON.sunrise, ICON.moon, ICON.week, ICON.cup][i] })),
       rhythmDaySeg: seg([1, 2, 3, 4, 5].map(dd => ({ value: String(dd), label: t.letters[dd] })), String(rDay), v => this.setState({ rhythmDay: Number(v) })), rh,
       libQ: this.state.libQ, onLibChange: e => this.setState({ libQ: e.target.value }), hasLibQ: !!this.state.libQ.trim(),
-      askFromLib: () => { const q = this.state.libQ; this.setState({ tab: 'home', view: 'hoy' }); this.ask(q); this.scrollToAsk(); },
+      askFromLib: () => { const q = this.state.libQ; if (this._almaOk) { this.almaAbrir('mentor', q); return; } this.setState({ tab: 'home', view: 'hoy' }); this.ask(q); this.scrollToAsk(); },
       core: { kicker: t.coreKicker, name: this.tx(K.CORE.name), tagline: this.tx(K.CORE.tagline), within: this.tx(K.CORE.within), promise: this.tx(K.CORE.promise), practice: K.CORE.practice[lang], readLbl: t.coreRead,
         openManifesto: () => this.setState({ detail: 'p-invite' }),
         pillars: K.CORE.pillars.map((p, i) => ({ n: String(i + 1), t: this.tx(p.t), tone: [OCHRE, SAGE, NAVY, OCHRE][i], delay: (i * 50) + 'ms', open: () => this.setState({ detail: p.id }) })) },
@@ -3612,14 +3631,15 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     if (!this._navOk) return;
     this.almaProvider();
     const tab = this.state.tab, lang = this.state.lang, t = T[lang];
-    const tint = tab === 'team' || this._reunion ? null : PC(ses);
+    const tint = tab === 'team' || this._reunion || this.almaPareja() ? null : PC(ses);
     const key = [ses, tab, lang, tint, !!this._almaOk, this.state.me].join('|');
     if (this._alma) { try { this._alma.setContexto({ vista: tab + '|' + this.state.me }); } catch (e) {} }
     if (key === this._navKey && this._navOn) return; this._navKey = key;
     const ic = d => '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="' + d + '"/></svg>';
     const c = {
       app: 'gsp', pos: 'bc', home: { k: 'home', l: t.nav.home }, current: tab, apps: [], tint, hidden: false,
-      items: [['rhythm', ic(ICON.clock)], ['ask', 'chat'], ['library', ic(ICON.book)], ['team', ic(ICON.rings)], ['reminders', ic(ICON.bell)]].map(([k, icon]) => ({ k, l: t.nav[k], icon })),
+      masDesde: 3,   // Ritmo · Equipo · Recordatorios · Más (Biblioteca)
+      items: [['rhythm', ic(ICON.clock)], ['team', ic(ICON.rings)], ['reminders', ic(ICON.bell)], ['library', ic(ICON.book)]].map(([k, icon]) => ({ k, l: t.nav[k], icon })),
       alma: this._almaOk ? this._alma : null,
       onNavigate: k => { this.setState({ tab: k, view: k === 'home' ? 'hoy' : this.state.view }); window.scrollTo(0, 0); if (k === 'ask') this.scrollToAsk(); },
     };
@@ -3634,7 +3654,8 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     this._alma = SAAlmaVoz.crear({
       clave: 'gsp_alma_ficha:' + this.state.session,
       ficha: () => { const f = this._fichaPrimera; this._fichaPrimera = null; return (f || call('almaFicha', { lang: this.state.lang })).then(d => Object.assign({ ok: true }, d)); },
-      vincular: id => { this._almaConv = id; return Promise.resolve({ ok: true }); },
+      vincular: id => { this._almaConv = id; this._almaVivo = true; return Promise.resolve({ ok: true }); },
+      primerMensaje: () => this.almaSaludo(),
       campoContexto: 'en_pantalla',
       contexto: () => this.almaCtx(),
       herramientas: {
@@ -3643,7 +3664,7 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
         modo_reunion: p => { const on = !!(p && (p.activo === true || p.activo === 'true')); if (on !== !!this._reunion) { this._reunion = on; this.almaNav(); } return on ? 'Reunión de equipo' : 'Una persona'; },
       },
       alMensaje: (o, x) => { this._almaBuf.push({ t: Date.now(), o, x }); clearTimeout(this._almaT); this._almaT = setTimeout(flush, 6000); },
-      alTerminar: () => { clearTimeout(this._almaT); flush(); this._almaConv = ''; if (this._reunion) { this._reunion = false; this.almaNav(); } },
+      alTerminar: () => { clearTimeout(this._almaT); flush(); this._almaConv = ''; const p = this.almaPareja(); this._almaVivo = false; this._almaModo = null; this._almaTema = ''; if (this._reunion || p) { this._reunion = false; this._navKey = ''; this.almaNav(); } },
     });
     // ¿Alma está activada para esta familia? (la primera respuesta también deja lista la ficha)
     this._fichaPrimera = call('almaFicha', { lang: this.state.lang });
@@ -3659,12 +3680,54 @@ Return ONLY a JSON object: {"answer":"2–4 short sentences","say":"one phrase t
     const cat = { principle: 'principio', agreement: 'acuerdo de la familia', situation: 'situación', story: 'cuento', breakfast: 'receta', routine: 'rutina', phrase: 'frase', note: 'nota de equipo', idea: 'idea' };
     return hits.map(e => '[' + (cat[e.cat] || e.cat) + '] ' + this.entryText(e).replace(/\s+/g, ' ').slice(0, 1400)).join('\n\n');
   }
+  // Modo de la llamada: el del botón que la abrió (Preguntar, Equipo) o, al deslizar, según la pantalla. Queda fijo toda la llamada.
+  almaModoDe(tab) { return tab === 'home' || tab === 'rhythm' ? 'dia' : tab === 'team' ? 'reunion_equipo' : 'mentor'; }
+  almaModo() {
+    if (this._almaVivo && this._almaModo) return this._almaModo;
+    if (!(this._almaBotonT && Date.now() - this._almaBotonT < 20000)) { this._almaModo = null; this._almaTema = ''; }
+    return (this._almaModo = this._almaModo || this.almaModoDe(this.state.tab));
+  }
+  almaPareja() { return /^(pareja_|reunion_)/.test(this._almaModo || '') && (this._almaVivo || (this._almaBotonT && Date.now() - this._almaBotonT < 20000)); }
+  // Abre a Alma al centro desde un botón (Preguntar, sugerencias, Equipo). Sin Alma (otra familia), Preguntar sigue como antes.
+  almaAbrir(modo, tema) {
+    tema = String(tema || '').trim();
+    if (!this._almaOk || !window.SANav || !SANav.alma) { if (modo === 'mentor' && tema) { this.ask(tema); this.scrollToAsk(); } return; }
+    this._almaModo = modo; this._almaTema = tema; this._almaBotonT = Date.now();
+    this._navKey = ''; this.almaNav();
+    if (SANav.alma()) this.setState({ askInput: '' });
+  }
+  almaSaludo() {
+    const m = this.almaModo(), en = this.state.lang === 'en', n = this.nick(this.state.session), tema = this._almaTema;
+    const S = {
+      dia: en ? 'Hi ' + n + '! How is your day going?' : '¡Hola, ' + n + '! ¿Cómo va tu día?',
+      mentor: tema ? (en ? "Sure, let's talk about this: «" + tema + "». Tell me a bit more, what's happening?" : 'Claro, hablemos de esto: «' + tema + '». Cuéntame un poco más, ¿qué está pasando?') : (en ? "I'm here. What's going on?" : 'Aquí estoy. ¿Qué está pasando?'),
+      pareja_terapia: en ? "Hi, both of you. This is a calm space to talk, with no one to blame. What would you like to look at together today?" : 'Hola a los dos. Este es un espacio tranquilo para hablar, sin culpables. ¿Qué les gustaría mirar juntos hoy?',
+      pareja_mentoria: en ? 'Hi, both of you. Today we parent as a team. Which situation with the kids would you like to get aligned on?' : 'Hola a los dos. Hoy hablamos de crianza en equipo. ¿Qué situación con los niños quieren alinear?',
+      reunion_equipo: en ? 'Hi, team. Ten minutes together: what worked well today?' : 'Hola, equipo. Diez minutos juntos: ¿qué funcionó bien hoy?',
+    };
+    return S[m] || '';
+  }
+  almaEquipoVals(lang) {
+    const en = lang === 'en', go = m => () => this.almaAbrir(m);
+    return {
+      eyebrow: en ? 'With Alma' : 'Con Alma', title: en ? 'A space for the two of you' : 'Un espacio para los dos',
+      sub: en ? "Alma joins you by voice as a neutral guide: she doesn't take sides, she looks for what's best for the family." : 'Alma los acompaña por voz como guía neutral: no toma partido, busca lo mejor para la familia.',
+      start: en ? 'Start' : 'Empezar',
+      modos: [
+        { label: en ? 'Couples therapy' : 'Terapia de pareja', desc: en ? 'A safe space for what is hard: listen, understand and repair.' : 'Un espacio seguro para lo difícil: escucharse, entenderse y reparar.', go: go('pareja_terapia') },
+        { label: en ? 'Couples mentoring' : 'Mentoría de pareja', desc: en ? 'Parenting as a team: agree on how to respond to the kids.' : 'Crianza en equipo: acordar cómo responder a los niños.', go: go('pareja_mentoria') },
+        { label: en ? 'Team meeting' : 'Reunión de equipo', desc: en ? 'Ten minutes: what worked, what got stuck and one tweak.' : 'Diez minutos: qué funcionó, qué se atascó y un ajuste.', go: go('reunion_equipo') },
+      ],
+    };
+  }
   almaCtx() {
     const ses = this.state.session, me = this.state.me, t = T.es, tab = this.state.tab;
     const sec = { home: 'Inicio (el día de hoy)', rhythm: 'Ritmo (rutinas de mañana y noche)', ask: 'Preguntar', library: 'Biblioteca', team: 'Equipo (notas y acuerdos de los dos)', reminders: 'Recordatorios' }[tab] || (t.nav[tab] || tab);
     let r = null; try { const { dow } = this.clock(); r = this.state.kb && this.myRoles(dow); } catch (e) {}
     const d = new Date(), hora = d.toLocaleString('es', { weekday: 'long', hour: '2-digit', minute: '2-digit' });
+    const modo = this.almaModo(), tema = this._almaTema;
     return [
+      'MODO: ' + modo + (tema ? '. Lo que trae: «' + tema + '»' : '') + '.',
       this.nick(ses) + ' está en la sección «' + sec + '» de la app' + (me !== ses ? ', viendo el día de ' + this.nick(me) : '') + '. Ahora: ' + hora + '.',
       r ? 'Hoy a ' + this.nick(me) + ' le toca por la mañana ' + (r.am === 'take' ? 'llevar a los niños al colegio' : 'quedarse en casa') + ' y por la noche ' + (r.pm === 'dinner' ? 'la cena' : 'baño y cuentos') + '; ' + this.nick(r.partner) + ' hace lo otro.' : 'Hoy es fin de semana.',
       'Hijos: Sophia e Isaac.',
