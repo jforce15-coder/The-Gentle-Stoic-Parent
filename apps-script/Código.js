@@ -87,13 +87,15 @@ function uniqueCode_(want) {
 function code_() { const A = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s = ''; for (let i = 0; i < 6; i++) s += A[Math.floor(Math.random() * A.length)]; return s; }
 // Usuarios unificados con Spacio AM: si esta persona es administradora en el «Control de usuarios» (mismo correo o
 // correo alterno), el Hub firma su llamada y Alma puede pedirle cosas de trabajo a la secretaria en su nombre.
-const HUB_URL_ = 'https://script.google.com/macros/s/AKfycbzTdkEpRPgnwaUIHWbQmrysPEqGYqTqDKYwMaQlnun-OT7B2hIa6KdSNS-aedWN-I0cZQ/exec';
+const HUB_URL_ = 'https://script.google.com/macros/s/AKfycbycTV0MsPWym02-ZcbpBBtwg9-WLw8dK9SAEDBslPd_9mgmizPQJS4-B_Q4uEkTWFqQ/exec';   // Hub en alma@ (traslado)
+const HUB_URL_VIEJA_ = 'https://script.google.com/macros/s/AKfycbzTdkEpRPgnwaUIHWbQmrysPEqGYqTqDKYwMaQlnun-OT7B2hIa6KdSNS-aedWN-I0cZQ/exec';   // apagado
 function almaHub_(ctx) {
   const m = ctx.me, c = CacheService.getScriptCache(), pase = Utilities.getUuid().replace(/-/g, '') + Utilities.getUuid().replace(/-/g, '').slice(0, 8);
   const emails = [m.email, m.correoContacto, m.googleEmail].map(e => String(e || '').trim().toLowerCase()).filter(Boolean);
   c.put('almapase_' + pase, JSON.stringify({ emails, rol: m.rol, familia: ctx.family.id }), 120);
   try {
-    const url = PropertiesService.getScriptProperties().getProperty('HUB_URL') || HUB_URL_;
+    const prop = PropertiesService.getScriptProperties().getProperty('HUB_URL');
+    const url = prop && prop !== HUB_URL_VIEJA_ ? prop : HUB_URL_;   // la Propiedad manda, salvo que guarde la dirección vieja
     const r = UrlFetchApp.fetch(url, { method: 'post', contentType: 'text/plain;charset=utf-8', payload: JSON.stringify({ gspPase: pase }), muteHttpExceptions: true, followRedirects: true });
     const j = JSON.parse(r.getContentText() || '{}');
     return j && j.ok ? j : { admin: false };
